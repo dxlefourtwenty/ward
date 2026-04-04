@@ -38,7 +38,7 @@ public:
     void applyStyleSheet(const QString &styleSheet);
     void showAnimated(const QPoint &targetPosition, int stackOffset);
     void moveAnimated(const QPoint &targetPosition, int stackOffset);
-    void dismiss(uint reason, const QString &exitDirection = {});
+    void dismiss(uint reason, const QString &exitDirection = {}, bool forceSilent = false);
     int popupHeight() const;
 
 signals:
@@ -53,11 +53,14 @@ private:
     void refreshContent();
     void refreshGeometry();
     void syncCardGeometry();
+    void invalidateLayout();
+    void syncTextWidths();
     QSize contentSize() const;
     QSize surfaceSize() const;
     QPoint restingContentPosition() const;
     void restartTimeout();
     int effectiveTimeoutMs() const;
+    int effectiveMinimumHeight() const;
     int effectiveMaxIconSize() const;
     QPoint directionalOffset(const QString &direction) const;
     QString effectiveExitDirection(const QString &exitDirectionOverride) const;
@@ -93,6 +96,7 @@ private:
     QPointer<QVariantAnimation> fadeAnimation_;
     uint pendingCloseReason_ = 0;
     int currentStackOffset_ = 0;
+    QSize currentIconSize_;
     QPoint contentOffset_;
 #if WARD_HAS_LAYERSHELLQT
     LayerShellQt::Window *layerShellWindow_ = nullptr;

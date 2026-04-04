@@ -79,3 +79,12 @@ inline bool notificationSilentClose(const QVariantMap &hints)
                                  QStringLiteral("silent-close"),
                                  QStringLiteral("silent_close")});
 }
+
+inline bool notificationReplaceLast(const QVariantMap &hints)
+{
+    return notificationHintBool(hints,
+                                {QStringLiteral("x-ward-replace-last"),
+                                 QStringLiteral("x-ward-replace_last"),
+                                 QStringLiteral("replace-last"),
+                                 QStringLiteral("replace_last")});
+}

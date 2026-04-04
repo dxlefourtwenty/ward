@@ -1,13 +1,28 @@
 #include "WardConfig.h"
 
 #include <QDir>
+#include <QFileInfo>
 #include <QFile>
+#include <QHash>
+#include <QSet>
 #include <QRegularExpression>
 #include <QStandardPaths>
 #include <QStringList>
 #include <QTextStream>
 
 namespace {
+
+struct LoadedStyleSheet {
+    QString styleSheet;
+    QStringList dependencyFiles;
+    QStringList dependencyDirectories;
+};
+
+struct StyleLoadContext {
+    QSet<QString> activePaths;
+    QSet<QString> dependencyFiles;
+    QSet<QString> dependencyDirectories;
+};
 
 QString wardConfigDirectory()
 {
@@ -252,23 +267,206 @@ WardConfig loadWardConfig(const QString &path)
     return config;
 }
 
-QString loadStyleSheet(const QString &path)
+QString normalizedPath(const QString &path)
 {
-    QFile file(path);
-    if (!file.open(QIODevice::ReadOnly | QIODevice::Text)) {
-        return defaultStyleContents();
+    const QFileInfo fileInfo(path);
+    return fileInfo.exists() ? fileInfo.canonicalFilePath() : fileInfo.absoluteFilePath();
+}
+
+QString resolveCustomPropertyValue(const QString &name,
+                                   const QHash<QString, QString> &variables,
+                                   QSet<QString> *resolvingNames);
+
+QString substituteCustomProperties(const QString &input,
+                                   const QHash<QString, QString> &variables,
+                                   QSet<QString> *resolvingNames)
+{
+    static const QRegularExpression variablePattern(
+        R"(var\(\s*(--[A-Za-z0-9_-]+)\s*(?:,\s*([^)]+))?\))");
+
+    QString output;
+    output.reserve(input.size());
+
+    int currentIndex = 0;
+    auto matches = variablePattern.globalMatch(input);
+    while (matches.hasNext()) {
+        const auto match = matches.next();
+        output += input.mid(currentIndex, match.capturedStart() - currentIndex);
+
+        const QString variableName = match.captured(1).trimmed();
+        QString replacement = resolveCustomPropertyValue(variableName, variables, resolvingNames);
+        if (replacement.isEmpty() && match.lastCapturedIndex() >= 2) {
+            replacement = substituteCustomProperties(
+                match.captured(2).trimmed(),
+                variables,
+                resolvingNames);
+        }
+
+        output += replacement.isEmpty() ? match.captured(0) : replacement;
+        currentIndex = match.capturedEnd();
     }
 
-    QString styleSheet = QString::fromUtf8(file.readAll());
-    styleSheet += QStringLiteral(
+    output += input.mid(currentIndex);
+    return output;
+}
+
+QString resolveCustomPropertyValue(const QString &name,
+                                   const QHash<QString, QString> &variables,
+                                   QSet<QString> *resolvingNames)
+{
+    if (!variables.contains(name) || resolvingNames->contains(name)) {
+        return {};
+    }
+
+    resolvingNames->insert(name);
+    const QString value = substituteCustomProperties(variables.value(name), variables, resolvingNames);
+    resolvingNames->remove(name);
+    return value;
+}
+
+QString stripAndResolveCustomProperties(const QString &styleSheet)
+{
+    static const QRegularExpression blockPattern(R"(([^{}]+)\{([^{}]*)\})");
+
+    QHash<QString, QString> variables;
+    QString withoutVariables;
+    withoutVariables.reserve(styleSheet.size());
+
+    int currentIndex = 0;
+    auto matches = blockPattern.globalMatch(styleSheet);
+    while (matches.hasNext()) {
+        const auto match = matches.next();
+        withoutVariables += styleSheet.mid(currentIndex, match.capturedStart() - currentIndex);
+
+        const QString selector = match.captured(1).trimmed();
+        const QStringList declarations = match.captured(2).split(';', Qt::KeepEmptyParts);
+        QStringList keptDeclarations;
+
+        for (const QString &declaration : declarations) {
+            const QString trimmedDeclaration = declaration.trimmed();
+            if (trimmedDeclaration.isEmpty()) {
+                continue;
+            }
+
+            const int separatorIndex = trimmedDeclaration.indexOf(':');
+            if (separatorIndex <= 0) {
+                keptDeclarations.append(trimmedDeclaration);
+                continue;
+            }
+
+            const QString propertyName = trimmedDeclaration.left(separatorIndex).trimmed();
+            const QString propertyValue = trimmedDeclaration.mid(separatorIndex + 1).trimmed();
+            if (propertyName.startsWith("--")) {
+                variables.insert(propertyName, propertyValue);
+                continue;
+            }
+
+            keptDeclarations.append(QStringLiteral("%1: %2;").arg(propertyName, propertyValue));
+        }
+
+        if (!keptDeclarations.isEmpty()) {
+            withoutVariables +=
+                QStringLiteral("%1 {\n    %2\n}\n").arg(selector, keptDeclarations.join(QStringLiteral("\n    ")));
+        }
+
+        currentIndex = match.capturedEnd();
+    }
+
+    withoutVariables += styleSheet.mid(currentIndex);
+
+    QSet<QString> resolvingNames;
+    return substituteCustomProperties(withoutVariables, variables, &resolvingNames);
+}
+
+QString normalizeWardSelectors(const QString &styleSheet)
+{
+    QString normalized = styleSheet;
+    static const QRegularExpression popupSelectorPattern(
+        R"((^|[\n\r}]\s*)NotificationPopup(\s*\{))");
+    normalized.replace(popupSelectorPattern, QStringLiteral("\\1QWidget#notificationPopup\\2"));
+    return normalized;
+}
+
+QString loadStyleFile(const QString &path, bool isRootFile, StyleLoadContext *context);
+
+QString inlineImports(const QString &styleSheet, const QString &baseDirectory, StyleLoadContext *context)
+{
+    static const QRegularExpression importPattern(
+        R"(@import[ \t\f]+(?:url\([ \t\f]*(['"]?)([^'")\s]+)\1[ \t\f]*\)|(['"])([^'"]+)\3)[ \t\f]*[^;\n\r]*(?:;|(?=\r?\n)|$))");
+
+    QString output;
+    output.reserve(styleSheet.size());
+
+    int currentIndex = 0;
+    auto matches = importPattern.globalMatch(styleSheet);
+    while (matches.hasNext()) {
+        const auto match = matches.next();
+        output += styleSheet.mid(currentIndex, match.capturedStart() - currentIndex);
+
+        const QString importPath = match.captured(2).isEmpty()
+            ? match.captured(4).trimmed()
+            : match.captured(2).trimmed();
+
+        if (importPath.startsWith(QStringLiteral("http://")) ||
+            importPath.startsWith(QStringLiteral("https://"))) {
+            output += match.captured(0);
+        } else {
+            const QString resolvedPath = normalizedPath(QDir(baseDirectory).absoluteFilePath(importPath));
+            context->dependencyDirectories.insert(QFileInfo(resolvedPath).absolutePath());
+            output += loadStyleFile(resolvedPath, false, context);
+            output += '\n';
+        }
+
+        currentIndex = match.capturedEnd();
+    }
+
+    output += styleSheet.mid(currentIndex);
+    return output;
+}
+
+QString loadStyleFile(const QString &path, bool isRootFile, StyleLoadContext *context)
+{
+    const QString resolvedPath = normalizedPath(path);
+    if (context->activePaths.contains(resolvedPath)) {
+        return {};
+    }
+
+    context->activePaths.insert(resolvedPath);
+    context->dependencyDirectories.insert(QFileInfo(resolvedPath).absolutePath());
+
+    QFile file(resolvedPath);
+    if (!file.open(QIODevice::ReadOnly | QIODevice::Text)) {
+        context->activePaths.remove(resolvedPath);
+        return isRootFile ? defaultStyleContents() : QString{};
+    }
+
+    context->dependencyFiles.insert(resolvedPath);
+    const QString styleSheet = QString::fromUtf8(file.readAll());
+    const QString inlinedStyleSheet =
+        inlineImports(styleSheet, QFileInfo(resolvedPath).absolutePath(), context);
+
+    context->activePaths.remove(resolvedPath);
+    return inlinedStyleSheet;
+}
+
+LoadedStyleSheet loadStyleSheet(const QString &path)
+{
+    StyleLoadContext context;
+    const QString styleSheet = normalizeWardSelectors(
+        stripAndResolveCustomProperties(loadStyleFile(path, true, &context)));
+
+    LoadedStyleSheet loadedStyleSheet;
+    loadedStyleSheet.styleSheet = styleSheet + QStringLiteral(
         "\nQLabel#iconLabel {\n"
         "    min-width: 0px;\n"
         "    max-width: 16777215px;\n"
         "    min-height: 0px;\n"
         "    max-height: 16777215px;\n"
         "}\n");
+    loadedStyleSheet.dependencyFiles = context.dependencyFiles.values();
+    loadedStyleSheet.dependencyDirectories = context.dependencyDirectories.values();
 
-    return styleSheet;
+    return loadedStyleSheet;
 }
 
 } // namespace
@@ -304,10 +502,13 @@ QString WardConfigLoader::stylePath() const
 void WardConfigLoader::reload()
 {
     ensureConfigFiles();
-    refreshWatchers();
 
     config_ = loadWardConfig(configPath());
-    styleSheet_ = loadStyleSheet(stylePath());
+    const LoadedStyleSheet loadedStyleSheet = loadStyleSheet(stylePath());
+    styleSheet_ = loadedStyleSheet.styleSheet;
+    styleDependencyFiles_ = loadedStyleSheet.dependencyFiles;
+    styleDependencyDirectories_ = loadedStyleSheet.dependencyDirectories;
+    refreshWatchers();
 
     emit configChanged(config_);
     emit styleChanged(styleSheet_);
@@ -342,7 +543,25 @@ void WardConfigLoader::refreshWatchers()
         watcher_.removePaths(watcher_.directories());
     }
 
-    watcher_.addPath(wardConfigDirectory());
-    watcher_.addPath(configPath());
-    watcher_.addPath(stylePath());
+    QSet<QString> filePaths = {
+        normalizedPath(configPath()),
+        normalizedPath(stylePath()),
+    };
+    for (const QString &path : styleDependencyFiles_) {
+        if (QFileInfo::exists(path)) {
+            filePaths.insert(normalizedPath(path));
+        }
+    }
+
+    QSet<QString> directoryPaths = {
+        wardConfigDirectory(),
+    };
+    for (const QString &path : styleDependencyDirectories_) {
+        if (QDir(path).exists()) {
+            directoryPaths.insert(path);
+        }
+    }
+
+    watcher_.addPaths(QStringList(filePaths.begin(), filePaths.end()));
+    watcher_.addPaths(QStringList(directoryPaths.begin(), directoryPaths.end()));
 }

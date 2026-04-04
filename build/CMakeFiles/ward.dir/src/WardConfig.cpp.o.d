@@ -352,7 +352,9 @@ CMakeFiles/ward.dir/src/WardConfig.cpp.o: \
  /usr/include/qt6/QtCore/qalloc.h /usr/include/qt6/QtCore/q23utility.h \
  /usr/include/qt6/QtCore/q20utility.h /usr/include/qt6/QtCore/qfile.h \
  /usr/include/qt6/QtCore/qfileinfo.h /usr/include/qt6/QtCore/qtimezone.h \
- /usr/include/qt6/QtCore/QFile /usr/include/qt6/QtCore/QRegularExpression \
+ /usr/include/qt6/QtCore/QFileInfo /usr/include/qt6/QtCore/QFile \
+ /usr/include/qt6/QtCore/QHash /usr/include/qt6/QtCore/QSet \
+ /usr/include/qt6/QtCore/QRegularExpression \
  /usr/include/qt6/QtCore/qregularexpression.h \
  /usr/include/qt6/QtCore/QStandardPaths \
  /usr/include/qt6/QtCore/qstandardpaths.h \

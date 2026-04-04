@@ -1246,6 +1246,7 @@ CMakeFiles/ward.dir/src/NotificationCenter.cpp.o: /home/dxle/builds/ward/src/Not
   /usr/include/qt6/QtCore/QSize \
   /usr/include/qt6/QtCore/QSizeF \
   /usr/include/qt6/QtCore/QString \
+  /usr/include/qt6/QtCore/QStringList \
   /usr/include/qt6/QtCore/QTimer \
   /usr/include/qt6/QtCore/QVariant \
   /usr/include/qt6/QtCore/QVariantAnimation \
@@ -1776,6 +1777,7 @@ CMakeFiles/ward.dir/src/NotificationPopup.cpp.o: /home/dxle/builds/ward/src/Noti
   /usr/include/qt6/QtCore/QSize \
   /usr/include/qt6/QtCore/QSizeF \
   /usr/include/qt6/QtCore/QString \
+  /usr/include/qt6/QtCore/QStringList \
   /usr/include/qt6/QtCore/QTimer \
   /usr/include/qt6/QtCore/QUrl \
   /usr/include/qt6/QtCore/QVariant \
@@ -2767,9 +2769,12 @@ CMakeFiles/ward.dir/src/WardConfig.cpp.o: /home/dxle/builds/ward/src/WardConfig.
   /usr/include/pthread.h \
   /usr/include/qt6/QtCore/QDir \
   /usr/include/qt6/QtCore/QFile \
+  /usr/include/qt6/QtCore/QFileInfo \
   /usr/include/qt6/QtCore/QFileSystemWatcher \
+  /usr/include/qt6/QtCore/QHash \
   /usr/include/qt6/QtCore/QObject \
   /usr/include/qt6/QtCore/QRegularExpression \
+  /usr/include/qt6/QtCore/QSet \
   /usr/include/qt6/QtCore/QStandardPaths \
   /usr/include/qt6/QtCore/QString \
   /usr/include/qt6/QtCore/QStringList \
@@ -4123,6 +4128,10 @@ CMakeFiles/ward.dir/src/WardConfig.cpp.o:
 
 /usr/lib/libpcre2-16.so.0:
 
+/usr/lib/libmvec.so.1:
+
+/usr/lib/libmd4c.so.0:
+
 /usr/lib/cmake/Qt6/QtPublicCMakeEarlyPolicyHelpers.cmake:
 
 /usr/include/strings.h:
@@ -4518,8 +4527,6 @@ ward_autogen/moc_predefs.h:
 /usr/include/qt6/QtCore/QFileSystemWatcher:
 
 /usr/include/linux/stddef.h:
-
-/usr/lib/libmvec.so.1:
 
 /usr/include/linux/sched/types.h:
 
@@ -5635,6 +5642,8 @@ CMakeFiles/4.3.1/CMakeSystem.cmake:
 
 /usr/lib/cmake/Qt6Gui/Qt6QComposePlatformInputContextPluginConfig.cmake:
 
+/usr/include/qt6/QtCore/QSet:
+
 /usr/lib/cmake/Qt6Gui/Qt6QComposePlatformInputContextPluginTargets-relwithdebinfo.cmake:
 
 /usr/lib/cmake/Qt6Gui/Qt6QEglFSEmulatorIntegrationPluginAdditionalTargetInfo.cmake:
@@ -6271,6 +6280,8 @@ ward_autogen/UVLADIE3JM/moc_NotificationServer.cpp:
 
 /usr/include/c++/15.2.1/x86_64-pc-linux-gnu/bits/time_members.h:
 
+/usr/include/qt6/QtCore/QFileInfo:
+
 /usr/include/qt6/QtCore/qtypes.h:
 
 /usr/include/qt6/QtCore/QRegularExpression:
@@ -6322,8 +6333,6 @@ ward_autogen/UVLADIE3JM/moc_NotificationCenter.cpp:
 /usr/lib/libm.so:
 
 /usr/lib/libstdc++.so:
-
-/usr/lib/libmd4c.so.0:
 
 /usr/include/bits/typesizes.h:
 

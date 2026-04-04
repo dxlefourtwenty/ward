@@ -65,4 +65,6 @@ private:
     QFileSystemWatcher watcher_;
     WardConfig config_;
     QString styleSheet_;
+    QStringList styleDependencyFiles_;
+    QStringList styleDependencyDirectories_;
 };

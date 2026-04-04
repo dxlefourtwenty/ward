@@ -1248,6 +1248,7 @@ CMakeFiles/ward.dir/src/NotificationCenter.cpp.o
  /usr/include/qt6/QtCore/QSize
  /usr/include/qt6/QtCore/QSizeF
  /usr/include/qt6/QtCore/QString
+ /usr/include/qt6/QtCore/QStringList
  /usr/include/qt6/QtCore/QTimer
  /usr/include/qt6/QtCore/QVariant
  /usr/include/qt6/QtCore/QVariantAnimation
@@ -1779,6 +1780,7 @@ CMakeFiles/ward.dir/src/NotificationPopup.cpp.o
  /usr/include/qt6/QtCore/QSize
  /usr/include/qt6/QtCore/QSizeF
  /usr/include/qt6/QtCore/QString
+ /usr/include/qt6/QtCore/QStringList
  /usr/include/qt6/QtCore/QTimer
  /usr/include/qt6/QtCore/QUrl
  /usr/include/qt6/QtCore/QVariant
@@ -2772,9 +2774,12 @@ CMakeFiles/ward.dir/src/WardConfig.cpp.o
  /usr/include/pthread.h
  /usr/include/qt6/QtCore/QDir
  /usr/include/qt6/QtCore/QFile
+ /usr/include/qt6/QtCore/QFileInfo
  /usr/include/qt6/QtCore/QFileSystemWatcher
+ /usr/include/qt6/QtCore/QHash
  /usr/include/qt6/QtCore/QObject
  /usr/include/qt6/QtCore/QRegularExpression
+ /usr/include/qt6/QtCore/QSet
  /usr/include/qt6/QtCore/QStandardPaths
  /usr/include/qt6/QtCore/QString
  /usr/include/qt6/QtCore/QStringList

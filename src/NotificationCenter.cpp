@@ -51,6 +51,23 @@ void NotificationCenter::showNotification(uint id,
     request.timeoutMs = timeoutMs;
     request.hints = hints;
 
+    if (notificationReplaceLast(request.hints) && !popups_.isEmpty()) {
+        NotificationPopup *popup = popups_.first();
+        const uint replacedId = popup->id();
+
+        if (replacedId != id) {
+            popupById_.remove(replacedId);
+            emit notificationClosed(replacedId, 4);
+        }
+
+        popup->updateNotification(request, config_);
+        popupById_.insert(id, popup);
+        popups_.removeAll(popup);
+        popups_.prepend(popup);
+        relayout();
+        return;
+    }
+
     if (popupById_.contains(id)) {
         NotificationPopup *popup = popupById_.value(id);
         popup->updateNotification(request, config_);

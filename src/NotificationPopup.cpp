@@ -308,6 +308,56 @@ QPixmap pixmapFromPath(const QString &path)
     return QPixmap(path);
 }
 
+QRect nonTransparentBounds(const QImage &image)
+{
+    if (image.isNull() || !image.hasAlphaChannel()) {
+        return {};
+    }
+
+    int left = image.width();
+    int top = image.height();
+    int right = -1;
+    int bottom = -1;
+
+    for (int y = 0; y < image.height(); ++y) {
+        for (int x = 0; x < image.width(); ++x) {
+            if (qAlpha(image.pixel(x, y)) == 0) {
+                continue;
+            }
+
+            left = qMin(left, x);
+            top = qMin(top, y);
+            right = qMax(right, x);
+            bottom = qMax(bottom, y);
+        }
+    }
+
+    if (right < left || bottom < top) {
+        return {};
+    }
+
+    return QRect(QPoint(left, top), QPoint(right, bottom));
+}
+
+QPixmap trimmedPixmap(const QPixmap &pixmap)
+{
+    if (pixmap.isNull()) {
+        return {};
+    }
+
+    const QRect bounds = nonTransparentBounds(pixmap.toImage());
+    if (bounds.isNull()) {
+        return pixmap;
+    }
+
+    return pixmap.copy(bounds);
+}
+
+QSize pixmapDisplaySize(const QPixmap &pixmap)
+{
+    return pixmap.isNull() ? QSize() : pixmap.deviceIndependentSize().toSize();
+}
+
 } // namespace
 
 NotificationPopup::NotificationPopup(const NotificationRequest &request,
@@ -379,6 +429,7 @@ void NotificationPopup::applyStyleSheet(const QString &styleSheet)
 void NotificationPopup::showAnimated(const QPoint &targetPosition, int stackOffset)
 {
     stopAnimations();
+    refreshGeometry();
     currentStackOffset_ = stackOffset;
     timeoutTimer_.stop();
     const bool silentOpen = notificationSilentOpen(request_.hints);
@@ -486,7 +537,7 @@ void NotificationPopup::moveAnimated(const QPoint &targetPosition, int stackOffs
     moveAnimation_->start(QAbstractAnimation::DeleteWhenStopped);
 }
 
-void NotificationPopup::dismiss(uint reason, const QString &exitDirection)
+void NotificationPopup::dismiss(uint reason, const QString &exitDirection, bool forceSilent)
 {
     if (pendingCloseReason_ != 0) {
         return;
@@ -496,7 +547,7 @@ void NotificationPopup::dismiss(uint reason, const QString &exitDirection)
     timeoutTimer_.stop();
     stopAnimations();
     const QPoint exitOffset = directionalOffset(effectiveExitDirection(exitDirection));
-    const bool silentClose = notificationSilentClose(request_.hints);
+    const bool silentClose = forceSilent || notificationSilentClose(request_.hints);
 
     if (usesLayerShellPlacement()) {
         if (!config_.animation.enabled || silentClose) {
@@ -589,11 +640,11 @@ void NotificationPopup::buildUi()
 
     iconLabel_ = new QLabel(card_);
     iconLabel_->setObjectName("iconLabel");
-    iconLabel_->setAlignment(Qt::AlignTop | Qt::AlignLeft);
+    iconLabel_->setAlignment(Qt::AlignCenter);
     iconLabel_->setFixedSize(QSize(0, 0));
     iconLabel_->setMaximumSize(absoluteMaxIconSize, absoluteMaxIconSize);
     iconLabel_->setScaledContents(false);
-    cardLayout->addWidget(iconLabel_, 0, Qt::AlignTop);
+    cardLayout->addWidget(iconLabel_, 0, Qt::AlignVCenter);
 
     auto *textLayout = new QVBoxLayout();
     textLayout->setContentsMargins(0, 0, 0, 0);
@@ -631,7 +682,7 @@ void NotificationPopup::refreshContent()
     bodyLabel_->setVisible(!bodyText.isEmpty());
     bodyLabel_->setText(formatNotificationText(request_.body));
 
-    QPixmap pixmap = notificationPixmap();
+    QPixmap pixmap = trimmedPixmap(notificationPixmap());
     const int maxIconSize = effectiveMaxIconSize();
     if (!pixmap.isNull() &&
         (pixmap.width() > maxIconSize || pixmap.height() > maxIconSize)) {
@@ -640,14 +691,19 @@ void NotificationPopup::refreshContent()
                                Qt::KeepAspectRatio,
                                Qt::SmoothTransformation);
     }
+
+    currentIconSize_ = pixmapDisplaySize(pixmap);
     iconLabel_->setMaximumSize(maxIconSize, maxIconSize);
-    iconLabel_->setFixedSize(pixmap.isNull() ? QSize(0, 0) : pixmap.size());
+    iconLabel_->setFixedSize(currentIconSize_);
     iconLabel_->setVisible(!pixmap.isNull());
     iconLabel_->setPixmap(pixmap);
+    invalidateLayout();
 }
 
 void NotificationPopup::refreshGeometry()
 {
+    invalidateLayout();
+    syncTextWidths();
     const QSize popupSize = contentSize();
     const QSize shellSize = surfaceSize();
 
@@ -665,25 +721,70 @@ void NotificationPopup::syncCardGeometry()
     card_->move(restingContentPosition() + contentOffset_);
 }
 
+void NotificationPopup::invalidateLayout()
+{
+    if (!card_) {
+        return;
+    }
+
+    if (QLayout *layout = card_->layout()) {
+        layout->invalidate();
+        layout->activate();
+    }
+
+    iconLabel_->updateGeometry();
+    summaryLabel_->updateGeometry();
+    bodyLabel_->updateGeometry();
+    card_->updateGeometry();
+    updateGeometry();
+}
+
+void NotificationPopup::syncTextWidths()
+{
+    if (!card_) {
+        return;
+    }
+
+    const auto *layout = qobject_cast<QBoxLayout *>(card_->layout());
+    if (!layout) {
+        return;
+    }
+
+    const QMargins margins = layout->contentsMargins();
+    int textWidth = config_.layout.width - margins.left() - margins.right();
+    if (iconLabel_ && iconLabel_->isVisible()) {
+        textWidth -= currentIconSize_.width();
+        textWidth -= layout->spacing();
+    }
+
+    textWidth = qMax(textWidth, 1);
+    summaryLabel_->setFixedWidth(textWidth);
+    bodyLabel_->setFixedWidth(textWidth);
+}
+
 QSize NotificationPopup::contentSize() const
 {
     const int popupWidth = config_.layout.width;
-    int measuredHeight = sizeHint().height();
+    int measuredHeight = 0;
 
     if (card_) {
         card_->ensurePolished();
-        const QSize acceptableSize = QLayout::closestAcceptableSize(card_, QSize(popupWidth, 0));
-        if (acceptableSize.height() > 0) {
-            measuredHeight = acceptableSize.height();
-        } else if (QLayout *layout = card_->layout()) {
+        if (QLayout *layout = card_->layout()) {
+            layout->invalidate();
             layout->activate();
-            measuredHeight = card_->sizeHint().height();
+
+            if (layout->hasHeightForWidth()) {
+                measuredHeight = qMax(measuredHeight, layout->totalHeightForWidth(popupWidth));
+            }
+
+            measuredHeight = qMax(measuredHeight, layout->sizeHint().height());
+            measuredHeight = qMax(measuredHeight, layout->minimumSize().height());
         } else {
             measuredHeight = card_->sizeHint().height();
         }
     }
 
-    const int popupHeight = qMax(measuredHeight, config_.layout.minimumHeight);
+    const int popupHeight = qMax(measuredHeight, effectiveMinimumHeight());
     return QSize(popupWidth, popupHeight);
 }
 
@@ -740,6 +841,16 @@ int NotificationPopup::effectiveTimeoutMs() const
     }
 
     return config_.notifications.defaultTimeoutMs;
+}
+
+int NotificationPopup::effectiveMinimumHeight() const
+{
+    int minimumHeight = config_.layout.minimumHeight;
+    if (!currentIconSize_.isEmpty()) {
+        minimumHeight -= qMax(0, effectiveMaxIconSize() - currentIconSize_.height());
+    }
+
+    return qMax(minimumHeight, 1);
 }
 
 int NotificationPopup::effectiveMaxIconSize() const
