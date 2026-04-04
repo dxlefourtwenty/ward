@@ -607,6 +607,12 @@
 			"MU",
 			"UVLADIE3JM/moc_WardConfig.cpp",
 			null
+		],
+		[
+			"/home/dxle/builds/ward/src/WardControl.h",
+			"MU",
+			"UVLADIE3JM/moc_WardControl.cpp",
+			null
 		]
 	],
 	"HEADER_EXTENSIONS" : [ "h", "hh", "h++", "hm", "hpp", "hxx", "in", "txx" ],
@@ -681,6 +687,7 @@
 		[ "/home/dxle/builds/ward/src/NotificationPopup.cpp", "MU", null ],
 		[ "/home/dxle/builds/ward/src/NotificationServer.cpp", "MU", null ],
 		[ "/home/dxle/builds/ward/src/WardConfig.cpp", "MU", null ],
+		[ "/home/dxle/builds/ward/src/WardControl.cpp", "MU", null ],
 		[ "/home/dxle/builds/ward/src/main.cpp", "MU", null ]
 	],
 	"UIC_OPTIONS" : [],

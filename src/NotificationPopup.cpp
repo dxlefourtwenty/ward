@@ -646,24 +646,24 @@ void NotificationPopup::buildUi()
     iconLabel_->setScaledContents(false);
     cardLayout->addWidget(iconLabel_, 0, Qt::AlignVCenter);
 
-    auto *textLayout = new QVBoxLayout();
-    textLayout->setContentsMargins(0, 0, 0, 0);
-    textLayout->setSpacing(6);
-    cardLayout->addLayout(textLayout, 1);
+    textLayout_ = new QVBoxLayout();
+    textLayout_->setContentsMargins(0, 0, 0, 0);
+    textLayout_->setSpacing(effectiveTextGap());
+    cardLayout->addLayout(textLayout_, 1);
 
     summaryLabel_ = new QLabel(card_);
     summaryLabel_->setObjectName("summaryLabel");
     summaryLabel_->setWordWrap(true);
     summaryLabel_->setTextFormat(Qt::RichText);
     summaryLabel_->setTextInteractionFlags(Qt::NoTextInteraction);
-    textLayout->addWidget(summaryLabel_);
+    textLayout_->addWidget(summaryLabel_);
 
     bodyLabel_ = new QLabel(card_);
     bodyLabel_->setObjectName("bodyLabel");
     bodyLabel_->setWordWrap(true);
     bodyLabel_->setTextFormat(Qt::RichText);
     bodyLabel_->setTextInteractionFlags(Qt::NoTextInteraction);
-    textLayout->addWidget(bodyLabel_);
+    textLayout_->addWidget(bodyLabel_);
 
     opacityEffect_ = new QGraphicsOpacityEffect(card_);
     opacityEffect_->setOpacity(1.0);
@@ -673,6 +673,10 @@ void NotificationPopup::buildUi()
 
 void NotificationPopup::refreshContent()
 {
+    if (textLayout_) {
+        textLayout_->setSpacing(effectiveTextGap());
+    }
+
     const QString summaryText = request_.summary.trimmed();
     const QString bodyText = request_.body.trimmed();
     summaryLabel_->setVisible(!summaryText.isEmpty() || bodyText.isEmpty());
@@ -856,6 +860,11 @@ int NotificationPopup::effectiveMinimumHeight() const
 int NotificationPopup::effectiveMaxIconSize() const
 {
     return qBound(0, config_.notifications.maxIconSize, absoluteMaxIconSize);
+}
+
+int NotificationPopup::effectiveTextGap() const
+{
+    return qMax(notificationTextGap(request_.hints, config_.notifications.textGap), 0);
 }
 
 QPoint NotificationPopup::directionalOffset(const QString &direction) const

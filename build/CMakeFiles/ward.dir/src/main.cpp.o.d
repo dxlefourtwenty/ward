@@ -329,6 +329,10 @@ CMakeFiles/ward.dir/src/main.cpp.o: /home/dxle/builds/ward/src/main.cpp \
  /usr/include/qt6/QtDBus/qdbusreply.h \
  /usr/include/qt6/QtDBus/qdbuspendingreply.h \
  /usr/include/qt6/QtDBus/qdbusargument.h \
+ /usr/include/qt6/QtDBus/QDBusError \
+ /usr/include/qt6/QtDBus/QDBusInterface \
+ /usr/include/qt6/QtDBus/qdbusinterface.h \
+ /usr/include/qt6/QtDBus/QDBusReply \
  /usr/include/qt6/QtWidgets/QApplication \
  /usr/include/qt6/QtWidgets/qapplication.h \
  /usr/include/qt6/QtWidgets/qtwidgetsglobal.h \
@@ -359,7 +363,44 @@ CMakeFiles/ward.dir/src/main.cpp.o: /home/dxle/builds/ward/src/main.cpp \
  /usr/include/qt6/QtCore/qline.h /usr/include/qt6/QtGui/qguiapplication.h \
  /usr/include/qt6/QtGui/qinputmethod.h /usr/include/qt6/QtCore/qlocale.h \
  /usr/include/qt6/QtGui/qguiapplication_platform.h \
- /usr/include/qt6/QtCore/QDebug \
+ /usr/include/qt6/QtCore/QCommandLineParser \
+ /usr/include/qt6/QtCore/qcommandlineparser.h \
+ /usr/include/qt6/QtCore/qcommandlineoption.h \
+ /usr/include/qt6/QtCore/QDebug /usr/include/qt6/QtCore/QDir \
+ /usr/include/qt6/QtCore/qdir.h /usr/include/qt6/QtCore/qdirlisting.h \
+ /usr/include/qt6/QtCore/qfiledevice.h \
+ /usr/include/qt6/QtCore/qiodevice.h /usr/include/c++/15.2.1/filesystem \
+ /usr/include/c++/15.2.1/bits/fs_fwd.h \
+ /usr/include/c++/15.2.1/bits/fs_path.h /usr/include/c++/15.2.1/locale \
+ /usr/include/c++/15.2.1/bits/locale_facets.h \
+ /usr/include/c++/15.2.1/cwctype /usr/include/wctype.h \
+ /usr/include/bits/wctype-wchar.h \
+ /usr/include/c++/15.2.1/x86_64-pc-linux-gnu/bits/ctype_base.h \
+ /usr/include/c++/15.2.1/x86_64-pc-linux-gnu/bits/ctype_inline.h \
+ /usr/include/c++/15.2.1/bits/locale_facets.tcc \
+ /usr/include/c++/15.2.1/bits/locale_facets_nonio.h \
+ /usr/include/c++/15.2.1/x86_64-pc-linux-gnu/bits/time_members.h \
+ /usr/include/c++/15.2.1/x86_64-pc-linux-gnu/bits/messages_members.h \
+ /usr/include/libintl.h /usr/include/c++/15.2.1/bits/codecvt.h \
+ /usr/include/c++/15.2.1/bits/locale_facets_nonio.tcc \
+ /usr/include/c++/15.2.1/bits/locale_conv.h \
+ /usr/include/c++/15.2.1/iomanip \
+ /usr/include/c++/15.2.1/bits/quoted_string.h \
+ /usr/include/c++/15.2.1/sstream /usr/include/c++/15.2.1/istream \
+ /usr/include/c++/15.2.1/ios /usr/include/c++/15.2.1/bits/basic_ios.h \
+ /usr/include/c++/15.2.1/bits/basic_ios.tcc \
+ /usr/include/c++/15.2.1/ostream /usr/include/c++/15.2.1/bits/ostream.h \
+ /usr/include/c++/15.2.1/bits/ostream.tcc \
+ /usr/include/c++/15.2.1/bits/istream.tcc \
+ /usr/include/c++/15.2.1/bits/sstream.tcc /usr/include/c++/15.2.1/codecvt \
+ /usr/include/c++/15.2.1/bits/fs_dir.h \
+ /usr/include/c++/15.2.1/bits/fs_ops.h \
+ /usr/include/qt6/QtCore/qdatetime.h /usr/include/qt6/QtCore/qcalendar.h \
+ /usr/include/qt6/QtCore/qfile.h /usr/include/qt6/QtCore/qfileinfo.h \
+ /usr/include/qt6/QtCore/qtimezone.h /usr/include/qt6/QtCore/QLockFile \
+ /usr/include/qt6/QtCore/qlockfile.h \
+ /usr/include/qt6/QtCore/QStandardPaths \
+ /usr/include/qt6/QtCore/qstandardpaths.h \
  /home/dxle/builds/ward/src/NotificationCenter.h \
  /usr/include/qt6/QtCore/QHash /usr/include/qt6/QtCore/QList \
  /usr/include/qt6/QtCore/QObject /usr/include/qt6/QtCore/QString \
@@ -375,10 +416,10 @@ CMakeFiles/ward.dir/src/main.cpp.o: /home/dxle/builds/ward/src/main.cpp \
  /usr/include/qt6/QtWidgets/QGraphicsOpacityEffect \
  /usr/include/qt6/QtWidgets/qgraphicseffect.h \
  /usr/include/qt6/QtWidgets/QLabel /usr/include/qt6/QtWidgets/qlabel.h \
- /usr/include/qt6/QtGui/qpicture.h /usr/include/qt6/QtCore/qiodevice.h \
- /usr/include/qt6/QtGui/qtextdocument.h /usr/include/qt6/QtCore/qurl.h \
- /usr/include/qt6/QtGui/QPixmap /usr/include/qt6/QtCore/QMargins \
- /usr/include/qt6/QtCore/QPointer /usr/include/qt6/QtCore/qpointer.h \
+ /usr/include/qt6/QtGui/qpicture.h /usr/include/qt6/QtGui/qtextdocument.h \
+ /usr/include/qt6/QtCore/qurl.h /usr/include/qt6/QtGui/QPixmap \
+ /usr/include/qt6/QtCore/QMargins /usr/include/qt6/QtCore/QPointer \
+ /usr/include/qt6/QtCore/qpointer.h \
  /usr/include/qt6/QtCore/QPropertyAnimation \
  /usr/include/qt6/QtCore/qpropertyanimation.h \
  /usr/include/qt6/QtCore/qvariantanimation.h \
@@ -404,4 +445,5 @@ CMakeFiles/ward.dir/src/main.cpp.o: /home/dxle/builds/ward/src/main.cpp \
  /home/dxle/builds/ward/src/WardConfig.h \
  /usr/include/qt6/QtCore/QFileSystemWatcher \
  /usr/include/qt6/QtCore/qfilesystemwatcher.h \
- /home/dxle/builds/ward/src/NotificationServer.h
+ /home/dxle/builds/ward/src/NotificationServer.h \
+ /home/dxle/builds/ward/src/WardControl.h

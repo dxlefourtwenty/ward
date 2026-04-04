@@ -1,0 +1,3 @@
+# Hashes of file build rules.
+2e7aba9469c9c286d4ac10fac4956d98 CMakeFiles/ward_autogen
+2662e8f726f2ebc7d22a205ab0924188 ward_autogen/timestamp

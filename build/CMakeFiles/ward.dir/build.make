@@ -121,10 +121,24 @@ CMakeFiles/ward.dir/src/NotificationServer.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/ward.dir/src/NotificationServer.cpp.s"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/dxle/builds/ward/src/NotificationServer.cpp -o CMakeFiles/ward.dir/src/NotificationServer.cpp.s
 
+CMakeFiles/ward.dir/src/WardControl.cpp.o: CMakeFiles/ward.dir/flags.make
+CMakeFiles/ward.dir/src/WardControl.cpp.o: /home/dxle/builds/ward/src/WardControl.cpp
+CMakeFiles/ward.dir/src/WardControl.cpp.o: CMakeFiles/ward.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/dxle/builds/ward/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Building CXX object CMakeFiles/ward.dir/src/WardControl.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/ward.dir/src/WardControl.cpp.o -MF CMakeFiles/ward.dir/src/WardControl.cpp.o.d -o CMakeFiles/ward.dir/src/WardControl.cpp.o -c /home/dxle/builds/ward/src/WardControl.cpp
+
+CMakeFiles/ward.dir/src/WardControl.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/ward.dir/src/WardControl.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/dxle/builds/ward/src/WardControl.cpp > CMakeFiles/ward.dir/src/WardControl.cpp.i
+
+CMakeFiles/ward.dir/src/WardControl.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/ward.dir/src/WardControl.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/dxle/builds/ward/src/WardControl.cpp -o CMakeFiles/ward.dir/src/WardControl.cpp.s
+
 CMakeFiles/ward.dir/src/NotificationCenter.cpp.o: CMakeFiles/ward.dir/flags.make
 CMakeFiles/ward.dir/src/NotificationCenter.cpp.o: /home/dxle/builds/ward/src/NotificationCenter.cpp
 CMakeFiles/ward.dir/src/NotificationCenter.cpp.o: CMakeFiles/ward.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/dxle/builds/ward/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Building CXX object CMakeFiles/ward.dir/src/NotificationCenter.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/dxle/builds/ward/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_6) "Building CXX object CMakeFiles/ward.dir/src/NotificationCenter.cpp.o"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/ward.dir/src/NotificationCenter.cpp.o -MF CMakeFiles/ward.dir/src/NotificationCenter.cpp.o.d -o CMakeFiles/ward.dir/src/NotificationCenter.cpp.o -c /home/dxle/builds/ward/src/NotificationCenter.cpp
 
 CMakeFiles/ward.dir/src/NotificationCenter.cpp.i: cmake_force
@@ -138,7 +152,7 @@ CMakeFiles/ward.dir/src/NotificationCenter.cpp.s: cmake_force
 CMakeFiles/ward.dir/src/NotificationPopup.cpp.o: CMakeFiles/ward.dir/flags.make
 CMakeFiles/ward.dir/src/NotificationPopup.cpp.o: /home/dxle/builds/ward/src/NotificationPopup.cpp
 CMakeFiles/ward.dir/src/NotificationPopup.cpp.o: CMakeFiles/ward.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/dxle/builds/ward/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_6) "Building CXX object CMakeFiles/ward.dir/src/NotificationPopup.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/dxle/builds/ward/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_7) "Building CXX object CMakeFiles/ward.dir/src/NotificationPopup.cpp.o"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/ward.dir/src/NotificationPopup.cpp.o -MF CMakeFiles/ward.dir/src/NotificationPopup.cpp.o.d -o CMakeFiles/ward.dir/src/NotificationPopup.cpp.o -c /home/dxle/builds/ward/src/NotificationPopup.cpp
 
 CMakeFiles/ward.dir/src/NotificationPopup.cpp.i: cmake_force
@@ -152,7 +166,7 @@ CMakeFiles/ward.dir/src/NotificationPopup.cpp.s: cmake_force
 CMakeFiles/ward.dir/src/WardConfig.cpp.o: CMakeFiles/ward.dir/flags.make
 CMakeFiles/ward.dir/src/WardConfig.cpp.o: /home/dxle/builds/ward/src/WardConfig.cpp
 CMakeFiles/ward.dir/src/WardConfig.cpp.o: CMakeFiles/ward.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/dxle/builds/ward/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_7) "Building CXX object CMakeFiles/ward.dir/src/WardConfig.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/dxle/builds/ward/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_8) "Building CXX object CMakeFiles/ward.dir/src/WardConfig.cpp.o"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/ward.dir/src/WardConfig.cpp.o -MF CMakeFiles/ward.dir/src/WardConfig.cpp.o.d -o CMakeFiles/ward.dir/src/WardConfig.cpp.o -c /home/dxle/builds/ward/src/WardConfig.cpp
 
 CMakeFiles/ward.dir/src/WardConfig.cpp.i: cmake_force
@@ -168,6 +182,7 @@ ward_OBJECTS = \
 "CMakeFiles/ward.dir/ward_autogen/mocs_compilation.cpp.o" \
 "CMakeFiles/ward.dir/src/main.cpp.o" \
 "CMakeFiles/ward.dir/src/NotificationServer.cpp.o" \
+"CMakeFiles/ward.dir/src/WardControl.cpp.o" \
 "CMakeFiles/ward.dir/src/NotificationCenter.cpp.o" \
 "CMakeFiles/ward.dir/src/NotificationPopup.cpp.o" \
 "CMakeFiles/ward.dir/src/WardConfig.cpp.o"
@@ -178,6 +193,7 @@ ward_EXTERNAL_OBJECTS =
 ward: CMakeFiles/ward.dir/ward_autogen/mocs_compilation.cpp.o
 ward: CMakeFiles/ward.dir/src/main.cpp.o
 ward: CMakeFiles/ward.dir/src/NotificationServer.cpp.o
+ward: CMakeFiles/ward.dir/src/WardControl.cpp.o
 ward: CMakeFiles/ward.dir/src/NotificationCenter.cpp.o
 ward: CMakeFiles/ward.dir/src/NotificationPopup.cpp.o
 ward: CMakeFiles/ward.dir/src/WardConfig.cpp.o
@@ -191,7 +207,7 @@ ward: /usr/lib/libQt6Core.so.6.11.0
 ward: /usr/lib/libGLX.so
 ward: /usr/lib/libOpenGL.so
 ward: CMakeFiles/ward.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --bold --progress-dir=/home/dxle/builds/ward/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_8) "Linking CXX executable ward"
+	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --bold --progress-dir=/home/dxle/builds/ward/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_9) "Linking CXX executable ward"
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/ward.dir/link.txt --verbose=$(VERBOSE)
 
 # Rule to build all files generated by this target.

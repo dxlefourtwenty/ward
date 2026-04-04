@@ -13,6 +13,8 @@ ward_autogen/timestamp: \
 	/home/dxle/builds/ward/src/NotificationTypes.h \
 	/home/dxle/builds/ward/src/WardConfig.cpp \
 	/home/dxle/builds/ward/src/WardConfig.h \
+	/home/dxle/builds/ward/src/WardControl.cpp \
+	/home/dxle/builds/ward/src/WardControl.h \
 	/home/dxle/builds/ward/src/main.cpp \
 	/usr/include/alloca.h \
 	/usr/include/asm-generic/bitsperlong.h \

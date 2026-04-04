@@ -62,6 +62,30 @@ inline bool notificationHintBool(const QVariantMap &hints,
     return fallback;
 }
 
+inline int notificationHintInt(const QVariantMap &hints,
+                               const QStringList &keys,
+                               int fallback)
+{
+    for (const QString &key : keys) {
+        const QVariant value = unwrapHintValue(hints.value(key));
+        if (!value.isValid()) {
+            continue;
+        }
+
+        bool ok = false;
+        const int parsed = value.toString().trimmed().toInt(&ok);
+        if (ok) {
+            return parsed;
+        }
+
+        if (value.canConvert<int>()) {
+            return value.toInt();
+        }
+    }
+
+    return fallback;
+}
+
 inline bool notificationSilentOpen(const QVariantMap &hints)
 {
     return notificationHintBool(hints,
@@ -87,4 +111,14 @@ inline bool notificationReplaceLast(const QVariantMap &hints)
                                  QStringLiteral("x-ward-replace_last"),
                                  QStringLiteral("replace-last"),
                                  QStringLiteral("replace_last")});
+}
+
+inline int notificationTextGap(const QVariantMap &hints, int fallback)
+{
+    return notificationHintInt(hints,
+                               {QStringLiteral("x-ward-text-gap"),
+                                QStringLiteral("x-ward-text_gap"),
+                                QStringLiteral("text-gap"),
+                                QStringLiteral("text_gap")},
+                               fallback);
 }

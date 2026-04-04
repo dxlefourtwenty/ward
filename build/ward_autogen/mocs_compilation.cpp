@@ -3,3 +3,4 @@
 #include "UVLADIE3JM/moc_NotificationPopup.cpp"
 #include "UVLADIE3JM/moc_NotificationServer.cpp"
 #include "UVLADIE3JM/moc_WardConfig.cpp"
+#include "UVLADIE3JM/moc_WardControl.cpp"

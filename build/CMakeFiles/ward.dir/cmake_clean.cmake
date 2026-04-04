@@ -11,6 +11,8 @@ file(REMOVE_RECURSE
   "CMakeFiles/ward.dir/src/NotificationServer.cpp.o.d"
   "CMakeFiles/ward.dir/src/WardConfig.cpp.o"
   "CMakeFiles/ward.dir/src/WardConfig.cpp.o.d"
+  "CMakeFiles/ward.dir/src/WardControl.cpp.o"
+  "CMakeFiles/ward.dir/src/WardControl.cpp.o.d"
   "CMakeFiles/ward.dir/src/main.cpp.o"
   "CMakeFiles/ward.dir/src/main.cpp.o.d"
   "CMakeFiles/ward.dir/ward_autogen/mocs_compilation.cpp.o"

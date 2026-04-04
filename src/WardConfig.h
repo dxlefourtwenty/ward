@@ -20,6 +20,7 @@ struct WardNotificationConfig {
     int defaultTimeoutMs = 5000;
     int maxIconSize = 64;
     int maxNotifications = 4;
+    int textGap = 6;
 };
 
 struct WardAnimationConfig {

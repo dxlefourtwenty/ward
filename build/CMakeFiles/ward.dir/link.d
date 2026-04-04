@@ -5,6 +5,7 @@ ward: \
   CMakeFiles/ward.dir/ward_autogen/mocs_compilation.cpp.o \
   CMakeFiles/ward.dir/src/main.cpp.o \
   CMakeFiles/ward.dir/src/NotificationServer.cpp.o \
+  CMakeFiles/ward.dir/src/WardControl.cpp.o \
   CMakeFiles/ward.dir/src/NotificationCenter.cpp.o \
   CMakeFiles/ward.dir/src/NotificationPopup.cpp.o \
   CMakeFiles/ward.dir/src/WardConfig.cpp.o \
@@ -102,6 +103,8 @@ CMakeFiles/ward.dir/ward_autogen/mocs_compilation.cpp.o:
 CMakeFiles/ward.dir/src/main.cpp.o:
 
 CMakeFiles/ward.dir/src/NotificationServer.cpp.o:
+
+CMakeFiles/ward.dir/src/WardControl.cpp.o:
 
 CMakeFiles/ward.dir/src/NotificationCenter.cpp.o:
 

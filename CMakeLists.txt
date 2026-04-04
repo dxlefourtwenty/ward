@@ -12,6 +12,7 @@ find_package(LayerShellQt QUIET)
 qt_add_executable(ward
     src/main.cpp
     src/NotificationServer.cpp
+    src/WardControl.cpp
     src/NotificationCenter.cpp
     src/NotificationPopup.cpp
     src/WardConfig.cpp

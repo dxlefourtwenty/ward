@@ -405,4 +405,6 @@ CMakeFiles/ward.dir/ward_autogen/mocs_compilation.cpp.o: \
  /home/dxle/builds/ward/build/ward_autogen/UVLADIE3JM/moc_NotificationPopup.cpp \
  /home/dxle/builds/ward/build/ward_autogen/UVLADIE3JM/moc_NotificationServer.cpp \
  /home/dxle/builds/ward/build/ward_autogen/UVLADIE3JM/../../../src/NotificationServer.h \
- /home/dxle/builds/ward/build/ward_autogen/UVLADIE3JM/moc_WardConfig.cpp
+ /home/dxle/builds/ward/build/ward_autogen/UVLADIE3JM/moc_WardConfig.cpp \
+ /home/dxle/builds/ward/build/ward_autogen/UVLADIE3JM/moc_WardControl.cpp \
+ /home/dxle/builds/ward/build/ward_autogen/UVLADIE3JM/../../../src/WardControl.h

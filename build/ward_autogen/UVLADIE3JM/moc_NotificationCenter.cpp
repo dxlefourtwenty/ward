@@ -44,6 +44,7 @@ template <> constexpr inline auto NotificationCenter::qt_create_metaobjectdata<q
         "",
         "id",
         "reason",
+        "reloadConfiguration",
         "showNotification",
         "appName",
         "summary",
@@ -66,29 +67,31 @@ template <> constexpr inline auto NotificationCenter::qt_create_metaobjectdata<q
         QtMocHelpers::SignalData<void(uint, uint)>(1, 2, QMC::AccessPublic, QMetaType::Void, {{
             { QMetaType::UInt, 3 }, { QMetaType::UInt, 4 },
         }}),
+        // Slot 'reloadConfiguration'
+        QtMocHelpers::SlotData<void()>(5, 2, QMC::AccessPublic, QMetaType::Void),
         // Slot 'showNotification'
-        QtMocHelpers::SlotData<void(uint, const QString &, const QString &, const QString &, const QString &, int, const QVariantMap &)>(5, 2, QMC::AccessPublic, QMetaType::Void, {{
-            { QMetaType::UInt, 3 }, { QMetaType::QString, 6 }, { QMetaType::QString, 7 }, { QMetaType::QString, 8 },
-            { QMetaType::QString, 9 }, { QMetaType::Int, 10 }, { 0x80000000 | 11, 12 },
+        QtMocHelpers::SlotData<void(uint, const QString &, const QString &, const QString &, const QString &, int, const QVariantMap &)>(6, 2, QMC::AccessPublic, QMetaType::Void, {{
+            { QMetaType::UInt, 3 }, { QMetaType::QString, 7 }, { QMetaType::QString, 8 }, { QMetaType::QString, 9 },
+            { QMetaType::QString, 10 }, { QMetaType::Int, 11 }, { 0x80000000 | 12, 13 },
         }}),
         // Slot 'closeNotification'
-        QtMocHelpers::SlotData<void(uint, uint)>(13, 2, QMC::AccessPublic, QMetaType::Void, {{
+        QtMocHelpers::SlotData<void(uint, uint)>(14, 2, QMC::AccessPublic, QMetaType::Void, {{
             { QMetaType::UInt, 3 }, { QMetaType::UInt, 4 },
         }}),
         // Slot 'closeNotification'
-        QtMocHelpers::SlotData<void(uint)>(13, 2, QMC::AccessPublic | QMC::MethodCloned, QMetaType::Void, {{
+        QtMocHelpers::SlotData<void(uint)>(14, 2, QMC::AccessPublic | QMC::MethodCloned, QMetaType::Void, {{
             { QMetaType::UInt, 3 },
         }}),
         // Slot 'applyConfig'
-        QtMocHelpers::SlotData<void(const WardConfig &)>(14, 2, QMC::AccessPrivate, QMetaType::Void, {{
-            { 0x80000000 | 15, 16 },
+        QtMocHelpers::SlotData<void(const WardConfig &)>(15, 2, QMC::AccessPrivate, QMetaType::Void, {{
+            { 0x80000000 | 16, 17 },
         }}),
         // Slot 'applyStyle'
-        QtMocHelpers::SlotData<void(const QString &)>(17, 2, QMC::AccessPrivate, QMetaType::Void, {{
-            { QMetaType::QString, 18 },
+        QtMocHelpers::SlotData<void(const QString &)>(18, 2, QMC::AccessPrivate, QMetaType::Void, {{
+            { QMetaType::QString, 19 },
         }}),
         // Slot 'handlePopupDismissed'
-        QtMocHelpers::SlotData<void(uint, uint)>(19, 2, QMC::AccessPrivate, QMetaType::Void, {{
+        QtMocHelpers::SlotData<void(uint, uint)>(20, 2, QMC::AccessPrivate, QMetaType::Void, {{
             { QMetaType::UInt, 3 }, { QMetaType::UInt, 4 },
         }}),
     };
@@ -115,12 +118,13 @@ void NotificationCenter::qt_static_metacall(QObject *_o, QMetaObject::Call _c, i
     if (_c == QMetaObject::InvokeMetaMethod) {
         switch (_id) {
         case 0: _t->notificationClosed((*reinterpret_cast<std::add_pointer_t<uint>>(_a[1])),(*reinterpret_cast<std::add_pointer_t<uint>>(_a[2]))); break;
-        case 1: _t->showNotification((*reinterpret_cast<std::add_pointer_t<uint>>(_a[1])),(*reinterpret_cast<std::add_pointer_t<QString>>(_a[2])),(*reinterpret_cast<std::add_pointer_t<QString>>(_a[3])),(*reinterpret_cast<std::add_pointer_t<QString>>(_a[4])),(*reinterpret_cast<std::add_pointer_t<QString>>(_a[5])),(*reinterpret_cast<std::add_pointer_t<int>>(_a[6])),(*reinterpret_cast<std::add_pointer_t<QVariantMap>>(_a[7]))); break;
-        case 2: _t->closeNotification((*reinterpret_cast<std::add_pointer_t<uint>>(_a[1])),(*reinterpret_cast<std::add_pointer_t<uint>>(_a[2]))); break;
-        case 3: _t->closeNotification((*reinterpret_cast<std::add_pointer_t<uint>>(_a[1]))); break;
-        case 4: _t->applyConfig((*reinterpret_cast<std::add_pointer_t<WardConfig>>(_a[1]))); break;
-        case 5: _t->applyStyle((*reinterpret_cast<std::add_pointer_t<QString>>(_a[1]))); break;
-        case 6: _t->handlePopupDismissed((*reinterpret_cast<std::add_pointer_t<uint>>(_a[1])),(*reinterpret_cast<std::add_pointer_t<uint>>(_a[2]))); break;
+        case 1: _t->reloadConfiguration(); break;
+        case 2: _t->showNotification((*reinterpret_cast<std::add_pointer_t<uint>>(_a[1])),(*reinterpret_cast<std::add_pointer_t<QString>>(_a[2])),(*reinterpret_cast<std::add_pointer_t<QString>>(_a[3])),(*reinterpret_cast<std::add_pointer_t<QString>>(_a[4])),(*reinterpret_cast<std::add_pointer_t<QString>>(_a[5])),(*reinterpret_cast<std::add_pointer_t<int>>(_a[6])),(*reinterpret_cast<std::add_pointer_t<QVariantMap>>(_a[7]))); break;
+        case 3: _t->closeNotification((*reinterpret_cast<std::add_pointer_t<uint>>(_a[1])),(*reinterpret_cast<std::add_pointer_t<uint>>(_a[2]))); break;
+        case 4: _t->closeNotification((*reinterpret_cast<std::add_pointer_t<uint>>(_a[1]))); break;
+        case 5: _t->applyConfig((*reinterpret_cast<std::add_pointer_t<WardConfig>>(_a[1]))); break;
+        case 6: _t->applyStyle((*reinterpret_cast<std::add_pointer_t<QString>>(_a[1]))); break;
+        case 7: _t->handlePopupDismissed((*reinterpret_cast<std::add_pointer_t<uint>>(_a[1])),(*reinterpret_cast<std::add_pointer_t<uint>>(_a[2]))); break;
         default: ;
         }
     }
@@ -149,14 +153,14 @@ int NotificationCenter::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
     if (_id < 0)
         return _id;
     if (_c == QMetaObject::InvokeMetaMethod) {
-        if (_id < 7)
+        if (_id < 8)
             qt_static_metacall(this, _c, _id, _a);
-        _id -= 7;
+        _id -= 8;
     }
     if (_c == QMetaObject::RegisterMethodArgumentMetaType) {
-        if (_id < 7)
+        if (_id < 8)
             *reinterpret_cast<QMetaType *>(_a[0]) = QMetaType();
-        _id -= 7;
+        _id -= 8;
     }
     return _id;
 }

@@ -49,6 +49,7 @@ QString defaultConfigContents()
         "default_timeout_ms = 5000\n"
         "max_icon_size = 64\n"
         "max_notifications = 4\n"
+        "text_gap = 6\n"
         "\n"
         "[animation]\n"
         "enabled = true\n"
@@ -216,6 +217,9 @@ WardConfig loadWardConfig(const QString &path)
             } else if (key == "max_visible") {
                 config.notifications.maxNotifications =
                     parseInt(value, config.notifications.maxNotifications);
+            } else if (key == "text_gap") {
+                config.notifications.textGap =
+                    parseInt(value, config.notifications.textGap);
             }
         } else if (section == "animation") {
             if (key == "enabled") {
@@ -258,6 +262,7 @@ WardConfig loadWardConfig(const QString &path)
     config.notifications.defaultTimeoutMs = qMax(config.notifications.defaultTimeoutMs, 0);
     config.notifications.maxIconSize = qBound(0, config.notifications.maxIconSize, 128);
     config.notifications.maxNotifications = qMax(config.notifications.maxNotifications, 1);
+    config.notifications.textGap = qMax(config.notifications.textGap, 0);
     config.animation.enterDurationMs = qMax(config.animation.enterDurationMs, 0);
     config.animation.exitDurationMs = qMax(config.animation.exitDurationMs, 0);
     config.animation.moveDurationMs = qMax(config.animation.moveDurationMs, 0);

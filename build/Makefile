@@ -251,6 +251,30 @@ src/WardConfig.cpp.s:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/ward.dir/build.make CMakeFiles/ward.dir/src/WardConfig.cpp.s
 .PHONY : src/WardConfig.cpp.s
 
+src/WardControl.o: src/WardControl.cpp.o
+.PHONY : src/WardControl.o
+
+# target to build an object file
+src/WardControl.cpp.o:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/ward.dir/build.make CMakeFiles/ward.dir/src/WardControl.cpp.o
+.PHONY : src/WardControl.cpp.o
+
+src/WardControl.i: src/WardControl.cpp.i
+.PHONY : src/WardControl.i
+
+# target to preprocess a source file
+src/WardControl.cpp.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/ward.dir/build.make CMakeFiles/ward.dir/src/WardControl.cpp.i
+.PHONY : src/WardControl.cpp.i
+
+src/WardControl.s: src/WardControl.cpp.s
+.PHONY : src/WardControl.s
+
+# target to generate assembly for a file
+src/WardControl.cpp.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/ward.dir/build.make CMakeFiles/ward.dir/src/WardControl.cpp.s
+.PHONY : src/WardControl.cpp.s
+
 src/main.o: src/main.cpp.o
 .PHONY : src/main.o
 
@@ -322,6 +346,9 @@ help:
 	@echo "... src/WardConfig.o"
 	@echo "... src/WardConfig.i"
 	@echo "... src/WardConfig.s"
+	@echo "... src/WardControl.o"
+	@echo "... src/WardControl.i"
+	@echo "... src/WardControl.s"
 	@echo "... src/main.o"
 	@echo "... src/main.i"
 	@echo "... src/main.s"

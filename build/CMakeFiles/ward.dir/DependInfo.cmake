@@ -13,6 +13,7 @@ set(CMAKE_DEPENDS_DEPENDENCY_FILES
   "/home/dxle/builds/ward/src/NotificationPopup.cpp" "CMakeFiles/ward.dir/src/NotificationPopup.cpp.o" "gcc" "CMakeFiles/ward.dir/src/NotificationPopup.cpp.o.d"
   "/home/dxle/builds/ward/src/NotificationServer.cpp" "CMakeFiles/ward.dir/src/NotificationServer.cpp.o" "gcc" "CMakeFiles/ward.dir/src/NotificationServer.cpp.o.d"
   "/home/dxle/builds/ward/src/WardConfig.cpp" "CMakeFiles/ward.dir/src/WardConfig.cpp.o" "gcc" "CMakeFiles/ward.dir/src/WardConfig.cpp.o.d"
+  "/home/dxle/builds/ward/src/WardControl.cpp" "CMakeFiles/ward.dir/src/WardControl.cpp.o" "gcc" "CMakeFiles/ward.dir/src/WardControl.cpp.o.d"
   "/home/dxle/builds/ward/src/main.cpp" "CMakeFiles/ward.dir/src/main.cpp.o" "gcc" "CMakeFiles/ward.dir/src/main.cpp.o.d"
   "/home/dxle/builds/ward/build/ward_autogen/mocs_compilation.cpp" "CMakeFiles/ward.dir/ward_autogen/mocs_compilation.cpp.o" "gcc" "CMakeFiles/ward.dir/ward_autogen/mocs_compilation.cpp.o.d"
   "" "ward" "gcc" "CMakeFiles/ward.dir/link.d"

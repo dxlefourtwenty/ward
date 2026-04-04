@@ -55,6 +55,7 @@ private:
     void syncCardGeometry();
     void invalidateLayout();
     void syncTextWidths();
+    int effectiveTextGap() const;
     QSize contentSize() const;
     QSize surfaceSize() const;
     QPoint restingContentPosition() const;
@@ -87,6 +88,7 @@ private:
     NotificationRequest request_;
     WardConfig config_;
     QFrame *card_ = nullptr;
+    QLayout *textLayout_ = nullptr;
     QLabel *iconLabel_ = nullptr;
     QLabel *summaryLabel_ = nullptr;
     QLabel *bodyLabel_ = nullptr;

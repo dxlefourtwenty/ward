@@ -34,6 +34,11 @@ NotificationCenter::NotificationCenter(QObject *parent)
     connect(&configLoader_, &WardConfigLoader::styleChanged, this, &NotificationCenter::applyStyle);
 }
 
+void NotificationCenter::reloadConfiguration()
+{
+    configLoader_.reload();
+}
+
 void NotificationCenter::showNotification(uint id,
                                           const QString &appName,
                                           const QString &summary,

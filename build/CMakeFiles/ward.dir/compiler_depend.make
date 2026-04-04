@@ -15,6 +15,8 @@ ward_autogen/timestamp: /home/dxle/builds/ward/CMakeLists.txt \
   /home/dxle/builds/ward/src/NotificationTypes.h \
   /home/dxle/builds/ward/src/WardConfig.cpp \
   /home/dxle/builds/ward/src/WardConfig.h \
+  /home/dxle/builds/ward/src/WardControl.cpp \
+  /home/dxle/builds/ward/src/WardControl.h \
   /home/dxle/builds/ward/src/main.cpp \
   /usr/bin/cmake \
   /usr/include/alloca.h \
@@ -2940,6 +2942,7 @@ CMakeFiles/ward.dir/src/main.cpp.o: /home/dxle/builds/ward/src/main.cpp \
   /home/dxle/builds/ward/src/NotificationServer.h \
   /home/dxle/builds/ward/src/NotificationTypes.h \
   /home/dxle/builds/ward/src/WardConfig.h \
+  /home/dxle/builds/ward/src/WardControl.h \
   /usr/include/alloca.h \
   /usr/include/asm-generic/bitsperlong.h \
   /usr/include/asm-generic/errno-base.h \
@@ -3026,6 +3029,7 @@ CMakeFiles/ward.dir/src/main.cpp.o: /home/dxle/builds/ward/src/main.cpp \
   /usr/include/bits/waitflags.h \
   /usr/include/bits/waitstatus.h \
   /usr/include/bits/wchar.h \
+  /usr/include/bits/wctype-wchar.h \
   /usr/include/bits/wordsize.h \
   /usr/include/bits/xopen_lim.h \
   /usr/include/c++/15.2.1/algorithm \
@@ -3041,11 +3045,14 @@ CMakeFiles/ward.dir/src/main.cpp.o: /home/dxle/builds/ward/src/main.cpp \
   /usr/include/c++/15.2.1/bits/allocator.h \
   /usr/include/c++/15.2.1/bits/atomic_base.h \
   /usr/include/c++/15.2.1/bits/atomic_lockfree_defines.h \
+  /usr/include/c++/15.2.1/bits/basic_ios.h \
+  /usr/include/c++/15.2.1/bits/basic_ios.tcc \
   /usr/include/c++/15.2.1/bits/basic_string.h \
   /usr/include/c++/15.2.1/bits/basic_string.tcc \
   /usr/include/c++/15.2.1/bits/char_traits.h \
   /usr/include/c++/15.2.1/bits/charconv.h \
   /usr/include/c++/15.2.1/bits/chrono.h \
+  /usr/include/c++/15.2.1/bits/codecvt.h \
   /usr/include/c++/15.2.1/bits/concept_check.h \
   /usr/include/c++/15.2.1/bits/cpp_type_traits.h \
   /usr/include/c++/15.2.1/bits/cxxabi_forced.h \
@@ -3055,6 +3062,10 @@ CMakeFiles/ward.dir/src/main.cpp.o: /home/dxle/builds/ward/src/main.cpp \
   /usr/include/c++/15.2.1/bits/exception.h \
   /usr/include/c++/15.2.1/bits/exception_defines.h \
   /usr/include/c++/15.2.1/bits/exception_ptr.h \
+  /usr/include/c++/15.2.1/bits/fs_dir.h \
+  /usr/include/c++/15.2.1/bits/fs_fwd.h \
+  /usr/include/c++/15.2.1/bits/fs_ops.h \
+  /usr/include/c++/15.2.1/bits/fs_path.h \
   /usr/include/c++/15.2.1/bits/functexcept.h \
   /usr/include/c++/15.2.1/bits/functional_hash.h \
   /usr/include/c++/15.2.1/bits/hash_bytes.h \
@@ -3062,9 +3073,15 @@ CMakeFiles/ward.dir/src/main.cpp.o: /home/dxle/builds/ward/src/main.cpp \
   /usr/include/c++/15.2.1/bits/hashtable_policy.h \
   /usr/include/c++/15.2.1/bits/invoke.h \
   /usr/include/c++/15.2.1/bits/ios_base.h \
+  /usr/include/c++/15.2.1/bits/istream.tcc \
   /usr/include/c++/15.2.1/bits/list.tcc \
   /usr/include/c++/15.2.1/bits/locale_classes.h \
   /usr/include/c++/15.2.1/bits/locale_classes.tcc \
+  /usr/include/c++/15.2.1/bits/locale_conv.h \
+  /usr/include/c++/15.2.1/bits/locale_facets.h \
+  /usr/include/c++/15.2.1/bits/locale_facets.tcc \
+  /usr/include/c++/15.2.1/bits/locale_facets_nonio.h \
+  /usr/include/c++/15.2.1/bits/locale_facets_nonio.tcc \
   /usr/include/c++/15.2.1/bits/localefwd.h \
   /usr/include/c++/15.2.1/bits/memory_resource.h \
   /usr/include/c++/15.2.1/bits/memoryfwd.h \
@@ -3073,11 +3090,14 @@ CMakeFiles/ward.dir/src/main.cpp.o: /home/dxle/builds/ward/src/main.cpp \
   /usr/include/c++/15.2.1/bits/nested_exception.h \
   /usr/include/c++/15.2.1/bits/new_allocator.h \
   /usr/include/c++/15.2.1/bits/node_handle.h \
+  /usr/include/c++/15.2.1/bits/ostream.h \
+  /usr/include/c++/15.2.1/bits/ostream.tcc \
   /usr/include/c++/15.2.1/bits/ostream_insert.h \
   /usr/include/c++/15.2.1/bits/parse_numbers.h \
   /usr/include/c++/15.2.1/bits/postypes.h \
   /usr/include/c++/15.2.1/bits/predefined_ops.h \
   /usr/include/c++/15.2.1/bits/ptr_traits.h \
+  /usr/include/c++/15.2.1/bits/quoted_string.h \
   /usr/include/c++/15.2.1/bits/range_access.h \
   /usr/include/c++/15.2.1/bits/refwrap.h \
   /usr/include/c++/15.2.1/bits/requires_hosted.h \
@@ -3085,6 +3105,7 @@ CMakeFiles/ward.dir/src/main.cpp.o: /home/dxle/builds/ward/src/main.cpp \
   /usr/include/c++/15.2.1/bits/shared_ptr_atomic.h \
   /usr/include/c++/15.2.1/bits/shared_ptr_base.h \
   /usr/include/c++/15.2.1/bits/specfun.h \
+  /usr/include/c++/15.2.1/bits/sstream.tcc \
   /usr/include/c++/15.2.1/bits/std_abs.h \
   /usr/include/c++/15.2.1/bits/std_function.h \
   /usr/include/c++/15.2.1/bits/stl_algo.h \
@@ -3130,6 +3151,7 @@ CMakeFiles/ward.dir/src/main.cpp.o: /home/dxle/builds/ward/src/main.cpp \
   /usr/include/c++/15.2.1/climits \
   /usr/include/c++/15.2.1/clocale \
   /usr/include/c++/15.2.1/cmath \
+  /usr/include/c++/15.2.1/codecvt \
   /usr/include/c++/15.2.1/compare \
   /usr/include/c++/15.2.1/concepts \
   /usr/include/c++/15.2.1/cstddef \
@@ -3139,6 +3161,7 @@ CMakeFiles/ward.dir/src/main.cpp.o: /home/dxle/builds/ward/src/main.cpp \
   /usr/include/c++/15.2.1/cstring \
   /usr/include/c++/15.2.1/ctime \
   /usr/include/c++/15.2.1/cwchar \
+  /usr/include/c++/15.2.1/cwctype \
   /usr/include/c++/15.2.1/debug/assertions.h \
   /usr/include/c++/15.2.1/debug/debug.h \
   /usr/include/c++/15.2.1/exception \
@@ -3149,17 +3172,23 @@ CMakeFiles/ward.dir/src/main.cpp.o: /home/dxle/builds/ward/src/main.cpp \
   /usr/include/c++/15.2.1/ext/numeric_traits.h \
   /usr/include/c++/15.2.1/ext/string_conversions.h \
   /usr/include/c++/15.2.1/ext/type_traits.h \
+  /usr/include/c++/15.2.1/filesystem \
   /usr/include/c++/15.2.1/functional \
   /usr/include/c++/15.2.1/initializer_list \
+  /usr/include/c++/15.2.1/iomanip \
+  /usr/include/c++/15.2.1/ios \
   /usr/include/c++/15.2.1/iosfwd \
+  /usr/include/c++/15.2.1/istream \
   /usr/include/c++/15.2.1/iterator \
   /usr/include/c++/15.2.1/limits \
   /usr/include/c++/15.2.1/list \
+  /usr/include/c++/15.2.1/locale \
   /usr/include/c++/15.2.1/map \
   /usr/include/c++/15.2.1/memory \
   /usr/include/c++/15.2.1/new \
   /usr/include/c++/15.2.1/numeric \
   /usr/include/c++/15.2.1/optional \
+  /usr/include/c++/15.2.1/ostream \
   /usr/include/c++/15.2.1/pstl/execution_defs.h \
   /usr/include/c++/15.2.1/pstl/glue_algorithm_defs.h \
   /usr/include/c++/15.2.1/pstl/glue_memory_defs.h \
@@ -3167,6 +3196,7 @@ CMakeFiles/ward.dir/src/main.cpp.o: /home/dxle/builds/ward/src/main.cpp \
   /usr/include/c++/15.2.1/pstl/pstl_config.h \
   /usr/include/c++/15.2.1/ratio \
   /usr/include/c++/15.2.1/set \
+  /usr/include/c++/15.2.1/sstream \
   /usr/include/c++/15.2.1/stdexcept \
   /usr/include/c++/15.2.1/stdlib.h \
   /usr/include/c++/15.2.1/streambuf \
@@ -3199,10 +3229,14 @@ CMakeFiles/ward.dir/src/main.cpp.o: /home/dxle/builds/ward/src/main.cpp \
   /usr/include/c++/15.2.1/x86_64-pc-linux-gnu/bits/c++config.h \
   /usr/include/c++/15.2.1/x86_64-pc-linux-gnu/bits/c++locale.h \
   /usr/include/c++/15.2.1/x86_64-pc-linux-gnu/bits/cpu_defines.h \
+  /usr/include/c++/15.2.1/x86_64-pc-linux-gnu/bits/ctype_base.h \
+  /usr/include/c++/15.2.1/x86_64-pc-linux-gnu/bits/ctype_inline.h \
   /usr/include/c++/15.2.1/x86_64-pc-linux-gnu/bits/error_constants.h \
   /usr/include/c++/15.2.1/x86_64-pc-linux-gnu/bits/gthr-default.h \
   /usr/include/c++/15.2.1/x86_64-pc-linux-gnu/bits/gthr.h \
+  /usr/include/c++/15.2.1/x86_64-pc-linux-gnu/bits/messages_members.h \
   /usr/include/c++/15.2.1/x86_64-pc-linux-gnu/bits/os_defines.h \
+  /usr/include/c++/15.2.1/x86_64-pc-linux-gnu/bits/time_members.h \
   /usr/include/ctype.h \
   /usr/include/endian.h \
   /usr/include/errno.h \
@@ -3210,6 +3244,7 @@ CMakeFiles/ward.dir/src/main.cpp.o: /home/dxle/builds/ward/src/main.cpp \
   /usr/include/features.h \
   /usr/include/gnu/stubs-64.h \
   /usr/include/gnu/stubs.h \
+  /usr/include/libintl.h \
   /usr/include/limits.h \
   /usr/include/linux/errno.h \
   /usr/include/linux/limits.h \
@@ -3220,10 +3255,13 @@ CMakeFiles/ward.dir/src/main.cpp.o: /home/dxle/builds/ward/src/main.cpp \
   /usr/include/locale.h \
   /usr/include/math.h \
   /usr/include/pthread.h \
+  /usr/include/qt6/QtCore/QCommandLineParser \
   /usr/include/qt6/QtCore/QDebug \
+  /usr/include/qt6/QtCore/QDir \
   /usr/include/qt6/QtCore/QFileSystemWatcher \
   /usr/include/qt6/QtCore/QHash \
   /usr/include/qt6/QtCore/QList \
+  /usr/include/qt6/QtCore/QLockFile \
   /usr/include/qt6/QtCore/QMap \
   /usr/include/qt6/QtCore/QMargins \
   /usr/include/qt6/QtCore/QObject \
@@ -3232,6 +3270,7 @@ CMakeFiles/ward.dir/src/main.cpp.o: /home/dxle/builds/ward/src/main.cpp \
   /usr/include/qt6/QtCore/QRect \
   /usr/include/qt6/QtCore/QSize \
   /usr/include/qt6/QtCore/QSizeF \
+  /usr/include/qt6/QtCore/QStandardPaths \
   /usr/include/qt6/QtCore/QString \
   /usr/include/qt6/QtCore/QStringList \
   /usr/include/qt6/QtCore/QTimer \
@@ -3265,8 +3304,11 @@ CMakeFiles/ward.dir/src/main.cpp.o: /home/dxle/builds/ward/src/main.cpp \
   /usr/include/qt6/QtCore/qbytearrayalgorithms.h \
   /usr/include/qt6/QtCore/qbytearraylist.h \
   /usr/include/qt6/QtCore/qbytearrayview.h \
+  /usr/include/qt6/QtCore/qcalendar.h \
   /usr/include/qt6/QtCore/qchar.h \
   /usr/include/qt6/QtCore/qcheckedint_impl.h \
+  /usr/include/qt6/QtCore/qcommandlineoption.h \
+  /usr/include/qt6/QtCore/qcommandlineparser.h \
   /usr/include/qt6/QtCore/qcompare.h \
   /usr/include/qt6/QtCore/qcompare_impl.h \
   /usr/include/qt6/QtCore/qcomparehelpers.h \
@@ -3282,12 +3324,18 @@ CMakeFiles/ward.dir/src/main.cpp.o: /home/dxle/builds/ward/src/main.cpp \
   /usr/include/qt6/QtCore/qcoreevent.h \
   /usr/include/qt6/QtCore/qdarwinhelpers.h \
   /usr/include/qt6/QtCore/qdatastream.h \
+  /usr/include/qt6/QtCore/qdatetime.h \
   /usr/include/qt6/QtCore/qdeadlinetimer.h \
   /usr/include/qt6/QtCore/qdebug.h \
+  /usr/include/qt6/QtCore/qdir.h \
+  /usr/include/qt6/QtCore/qdirlisting.h \
   /usr/include/qt6/QtCore/qeasingcurve.h \
   /usr/include/qt6/QtCore/qendian.h \
   /usr/include/qt6/QtCore/qeventloop.h \
   /usr/include/qt6/QtCore/qexceptionhandling.h \
+  /usr/include/qt6/QtCore/qfile.h \
+  /usr/include/qt6/QtCore/qfiledevice.h \
+  /usr/include/qt6/QtCore/qfileinfo.h \
   /usr/include/qt6/QtCore/qfilesystemwatcher.h \
   /usr/include/qt6/QtCore/qflags.h \
   /usr/include/qt6/QtCore/qfloat16.h \
@@ -3307,6 +3355,7 @@ CMakeFiles/ward.dir/src/main.cpp.o: /home/dxle/builds/ward/src/main.cpp \
   /usr/include/qt6/QtCore/qline.h \
   /usr/include/qt6/QtCore/qlist.h \
   /usr/include/qt6/QtCore/qlocale.h \
+  /usr/include/qt6/QtCore/qlockfile.h \
   /usr/include/qt6/QtCore/qlogging.h \
   /usr/include/qt6/QtCore/qmalloc.h \
   /usr/include/qt6/QtCore/qmap.h \
@@ -3339,6 +3388,7 @@ CMakeFiles/ward.dir/src/main.cpp.o: /home/dxle/builds/ward/src/main.cpp \
   /usr/include/qt6/QtCore/qsharedpointer_impl.h \
   /usr/include/qt6/QtCore/qsize.h \
   /usr/include/qt6/QtCore/qspan.h \
+  /usr/include/qt6/QtCore/qstandardpaths.h \
   /usr/include/qt6/QtCore/qstdlibdetection.h \
   /usr/include/qt6/QtCore/qstring.h \
   /usr/include/qt6/QtCore/qstringalgorithms.h \
@@ -3366,6 +3416,7 @@ CMakeFiles/ward.dir/src/main.cpp.o: /home/dxle/builds/ward/src/main.cpp \
   /usr/include/qt6/QtCore/qtextstream.h \
   /usr/include/qt6/QtCore/qtformat_impl.h \
   /usr/include/qt6/QtCore/qtimer.h \
+  /usr/include/qt6/QtCore/qtimezone.h \
   /usr/include/qt6/QtCore/qtmetamacros.h \
   /usr/include/qt6/QtCore/qtnoop.h \
   /usr/include/qt6/QtCore/qtpreprocessorsupport.h \
@@ -3387,6 +3438,9 @@ CMakeFiles/ward.dir/src/main.cpp.o: /home/dxle/builds/ward/src/main.cpp \
   /usr/include/qt6/QtCore/qyieldcpu.h \
   /usr/include/qt6/QtDBus/QDBusConnection \
   /usr/include/qt6/QtDBus/QDBusConnectionInterface \
+  /usr/include/qt6/QtDBus/QDBusError \
+  /usr/include/qt6/QtDBus/QDBusInterface \
+  /usr/include/qt6/QtDBus/QDBusReply \
   /usr/include/qt6/QtDBus/QDBusVariant \
   /usr/include/qt6/QtDBus/qdbusabstractinterface.h \
   /usr/include/qt6/QtDBus/qdbusargument.h \
@@ -3394,6 +3448,7 @@ CMakeFiles/ward.dir/src/main.cpp.o: /home/dxle/builds/ward/src/main.cpp \
   /usr/include/qt6/QtDBus/qdbusconnectioninterface.h \
   /usr/include/qt6/QtDBus/qdbuserror.h \
   /usr/include/qt6/QtDBus/qdbusextratypes.h \
+  /usr/include/qt6/QtDBus/qdbusinterface.h \
   /usr/include/qt6/QtDBus/qdbusmessage.h \
   /usr/include/qt6/QtDBus/qdbuspendingcall.h \
   /usr/include/qt6/QtDBus/qdbuspendingreply.h \
@@ -3468,6 +3523,7 @@ CMakeFiles/ward.dir/src/main.cpp.o: /home/dxle/builds/ward/src/main.cpp \
   /usr/include/sys/types.h \
   /usr/include/time.h \
   /usr/include/wchar.h \
+  /usr/include/wctype.h \
   /usr/lib/gcc/x86_64-pc-linux-gnu/15.2.1/include/limits.h \
   /usr/lib/gcc/x86_64-pc-linux-gnu/15.2.1/include/stdarg.h \
   /usr/lib/gcc/x86_64-pc-linux-gnu/15.2.1/include/stdbool.h \
@@ -4132,6 +4188,22 @@ CMakeFiles/ward.dir/src/WardConfig.cpp.o:
 
 /usr/lib/libmd4c.so.0:
 
+/usr/lib/libicuuc.so.78:
+
+/usr/lib/libicui18n.so.78:
+
+CMakeFiles/ward.dir/src/NotificationServer.cpp.o:
+
+/usr/lib/libicudata.so.78:
+
+/usr/lib/libgraphite2.so.3:
+
+/usr/lib/libfreetype.so.6:
+
+/usr/lib/libfontconfig.so.1:
+
+/usr/lib/libffi.so.8:
+
 /usr/lib/cmake/Qt6/QtPublicCMakeEarlyPolicyHelpers.cmake:
 
 /usr/include/strings.h:
@@ -4304,9 +4376,9 @@ CMakeFiles/ward.dir/src/WardConfig.cpp.o:
 
 /usr/include/qt6/QtCore/qobjectdefs.h:
 
-/usr/include/qt6/QtCore/qglobalstatic.h:
-
 /usr/include/limits.h:
+
+/usr/include/qt6/QtCore/qglobalstatic.h:
 
 /usr/lib/cmake/Qt6Gui/Qt6QWaylandEglClientBufferPluginTargets-relwithdebinfo.cmake:
 
@@ -4480,8 +4552,6 @@ ward_autogen/moc_predefs.h:
 
 /usr/lib/cmake/Qt6CoreTools/Qt6CoreToolsVersionlessTargets.cmake:
 
-/usr/include/qt6/QtCore/q20iterator.h:
-
 /usr/include/features.h:
 
 /usr/include/c++/15.2.1/chrono:
@@ -4502,6 +4572,10 @@ ward_autogen/moc_predefs.h:
 
 /usr/lib/cmake/Qt6/QtPublicCMakeVersionHelpers.cmake:
 
+/usr/lib/libglib-2.0.so.0:
+
+/usr/include/qt6/QtCore/qfunctionpointer.h:
+
 /usr/include/qt6/QtCore/qfilesystemwatcher.h:
 
 /usr/include/qt6/QtCore/QStringList:
@@ -4511,10 +4585,6 @@ ward_autogen/moc_predefs.h:
 /usr/include/qt6/QtCore/QString:
 
 /usr/include/qt6/QtCore/QSizeF:
-
-/usr/include/qt6/QtCore/qtformat_impl.h:
-
-/usr/include/qt6/QtCore/QSize:
 
 /usr/include/qt6/QtCore/qvarlengtharray.h:
 
@@ -4546,13 +4616,15 @@ ward_autogen/moc_predefs.h:
 
 /usr/lib/cmake/Qt6Widgets/Qt6WidgetsConfigVersion.cmake:
 
-/usr/lib/cmake/Qt6/QtPublicAppleHelpers.cmake:
-
 /usr/include/qt6/QtCore/qtversionchecks.h:
 
 /usr/include/qt6/QtCore/q17memory.h:
 
 /usr/include/features-time64.h:
+
+/usr/lib/cmake/Qt6/QtPublicAppleHelpers.cmake:
+
+/usr/include/qt6/QtDBus/QDBusReply:
 
 /usr/include/c++/15.2.1/bits/ptr_traits.h:
 
@@ -4610,16 +4682,6 @@ ward_autogen/moc_predefs.h:
 
 /usr/include/c++/15.2.1/bits/postypes.h:
 
-/usr/include/c++/15.2.1/bits/algorithmfwd.h:
-
-/usr/lib/cmake/Qt6Gui/Qt6QEvdevTabletPluginTargets.cmake:
-
-/usr/include/c++/15.2.1/bits/memoryfwd.h:
-
-/usr/lib/cmake/Qt6/QtPublicFindPackageHelpers.cmake:
-
-/usr/include/bits/timesize.h:
-
 /usr/include/c++/15.2.1/stdexcept:
 
 /usr/lib/cmake/Qt6Gui/Qt6QWaylandIntegrationPluginTargets.cmake:
@@ -4629,6 +4691,14 @@ ward_autogen/moc_predefs.h:
 /usr/include/qt6/QtGui/qguiapplication.h:
 
 /usr/lib/cmake/Qt6DBus/Qt6DBusConfigVersion.cmake:
+
+/usr/lib/cmake/Qt6Gui/Qt6QEvdevTabletPluginTargets.cmake:
+
+/usr/include/c++/15.2.1/bits/memoryfwd.h:
+
+/usr/include/c++/15.2.1/bits/algorithmfwd.h:
+
+/usr/lib/cmake/Qt6/QtPublicFindPackageHelpers.cmake:
 
 /usr/lib/cmake/Qt6/FindWrapOpenGL.cmake:
 
@@ -4674,6 +4744,12 @@ CMakeFiles/ward.dir/src/NotificationPopup.cpp.o:
 
 /usr/lib/cmake/Qt6Core/Qt6CoreAdditionalTargetInfo.cmake:
 
+/usr/include/qt6/QtGui/qscreen.h:
+
+/usr/include/c++/15.2.1/x86_64-pc-linux-gnu/bits/atomic_word.h:
+
+/usr/lib/cmake/Qt6Gui/Qt6QVncIntegrationPluginConfig.cmake:
+
 /usr/include/bits/types/clock_t.h:
 
 /usr/include/qt6/QtGui/qvectornd.h:
@@ -4700,6 +4776,36 @@ ward_autogen/UVLADIE3JM/moc_NotificationPopup.cpp:
 
 /usr/lib/libX11.so.6:
 
+/usr/include/wchar.h:
+
+/usr/include/bits/wordsize.h:
+
+/usr/include/bits/posix1_lim.h:
+
+/usr/include/bits/stdio_lim.h:
+
+/usr/include/qt6/QtCore/qtimezone.h:
+
+/usr/include/c++/15.2.1/compare:
+
+/usr/include/bits/time.h:
+
+/usr/include/c++/15.2.1/bits/stl_vector.h:
+
+/usr/include/qt6/QtGui/qkeysequence.h:
+
+/usr/lib/cmake/Qt6Gui/Qt6QGtk3ThemePluginTargets-relwithdebinfo.cmake:
+
+/usr/include/qt6/QtCore/qtdeprecationdefinitions.h:
+
+/usr/include/bits/timesize.h:
+
+/home/dxle/builds/ward/src/WardControl.h:
+
+/usr/include/c++/15.2.1/tr1/special_function_util.h:
+
+/usr/include/c++/15.2.1/bits/std_abs.h:
+
 /usr/include/c++/15.2.1/bits/functexcept.h:
 
 /usr/include/qt6/QtCore/qscopeguard.h:
@@ -4711,6 +4817,10 @@ ward_autogen/UVLADIE3JM/moc_NotificationPopup.cpp:
 /usr/include/c++/15.2.1/bits/stl_function.h:
 
 /usr/include/sys/select.h:
+
+/usr/include/c++/15.2.1/bits/parse_numbers.h:
+
+/usr/include/bits/struct_rwlock.h:
 
 /usr/lib/libzstd.so.1:
 
@@ -4736,19 +4846,11 @@ ward_autogen/UVLADIE3JM/moc_NotificationPopup.cpp:
 
 /usr/include/c++/15.2.1/tr1/bessel_function.tcc:
 
-/usr/lib/cmake/Qt6Core/Qt6CoreConfig.cmake:
+/usr/include/qt6/QtCore/qcommandlineoption.h:
 
 /usr/lib/cmake/Qt6Gui/Qt6QTgaPluginAdditionalTargetInfo.cmake:
 
 /usr/include/bits/stdint-least.h:
-
-/usr/include/qt6/QtCore/QVariantAnimation:
-
-/usr/include/c++/15.2.1/bits/invoke.h:
-
-/usr/include/qt6/QtCore/qanystringview.h:
-
-/usr/include/bits/endian.h:
 
 /home/dxle/builds/ward/CMakeLists.txt:
 
@@ -4781,6 +4883,12 @@ ward_autogen/UVLADIE3JM/moc_NotificationPopup.cpp:
 /usr/include/bits/types/struct___jmp_buf_tag.h:
 
 /usr/share/cmake/Modules/FindOpenGL.cmake:
+
+/usr/include/qt6/QtCore/qtformat_impl.h:
+
+/usr/include/qt6/QtCore/QSize:
+
+/home/dxle/builds/ward/src/WardControl.cpp:
 
 /usr/include/bits/types/time_t.h:
 
@@ -4820,13 +4928,13 @@ ward_autogen/UVLADIE3JM/moc_NotificationPopup.cpp:
 
 /usr/include/c++/15.2.1/bits/ostream.tcc:
 
+/usr/include/qt6/QtCore/qcommandlineparser.h:
+
 /usr/lib/cmake/Qt6/Qt6Dependencies.cmake:
 
 /usr/include/bits/types/__sigset_t.h:
 
 /usr/share/cmake/Modules/CheckIncludeFile.cmake:
-
-/usr/include/qt6/QtCore/qtdeprecationdefinitions.h:
 
 CMakeFiles/4.3.1/CMakeCCompiler.cmake:
 
@@ -4840,6 +4948,10 @@ CMakeFiles/4.3.1/CMakeCCompiler.cmake:
 
 /usr/lib/cmake/Qt6Gui/Qt6QEglFSIntegrationPluginTargetsPrecheck.cmake:
 
+/usr/lib/libwayland-cursor.so.0:
+
+/usr/include/bits/time64.h:
+
 /usr/include/qt6/QtGui/qtransform.h:
 
 /usr/lib/cmake/Qt6Gui/Qt6QWaylandIntegrationPluginConfig.cmake:
@@ -4848,17 +4960,23 @@ CMakeFiles/4.3.1/CMakeCCompiler.cmake:
 
 /usr/lib/cmake/Qt6Core/Qt6CoreTargets.cmake:
 
-/usr/lib/libwayland-cursor.so.0:
+/home/dxle/builds/ward/src/NotificationPopup.cpp:
 
-/usr/include/bits/time64.h:
+/usr/include/qt6/QtCore/QRect:
 
-/usr/include/qt6/QtCore/qbytearray.h:
+/usr/include/qt6/QtGui/QResizeEvent:
 
-/usr/include/qt6/QtCore/qrefcount.h:
+/usr/lib/cmake/Qt6Gui/Qt6QWaylandQtShellIntegrationPluginAdditionalTargetInfo.cmake:
 
-/usr/lib/cmake/Qt6CoreTools/Qt6CoreToolsConfig.cmake:
+/usr/include/qt6/QtCore/qstringalgorithms.h:
 
-/usr/include/qt6/QtCore/qcalendar.h:
+/usr/include/bits/atomic_wide_counter.h:
+
+/usr/include/qt6/QtCore/qspan.h:
+
+/usr/include/c++/15.2.1/bits/enable_special_members.h:
+
+/usr/include/c++/15.2.1/pstl/execution_defs.h:
 
 /usr/include/c++/15.2.1/bits/stl_multimap.h:
 
@@ -4882,31 +5000,19 @@ CMakeFiles/4.3.1/CMakeCCompiler.cmake:
 
 /usr/include/c++/15.2.1/clocale:
 
+/usr/lib/cmake/Qt6Core/Qt6CoreConfig.cmake:
+
+/usr/include/qt6/QtCore/qbytearray.h:
+
+/usr/include/qt6/QtCore/qrefcount.h:
+
+/usr/lib/cmake/Qt6CoreTools/Qt6CoreToolsConfig.cmake:
+
+/usr/include/qt6/QtCore/qcalendar.h:
+
 /usr/include/errno.h:
 
 /usr/include/c++/15.2.1/tuple:
-
-/usr/include/qt6/QtGui/QResizeEvent:
-
-/usr/lib/cmake/Qt6Gui/Qt6QWaylandQtShellIntegrationPluginAdditionalTargetInfo.cmake:
-
-/usr/include/qt6/QtCore/qstringalgorithms.h:
-
-/usr/include/bits/atomic_wide_counter.h:
-
-/usr/include/qt6/QtCore/qspan.h:
-
-/usr/include/c++/15.2.1/bits/enable_special_members.h:
-
-/home/dxle/builds/ward/src/NotificationPopup.cpp:
-
-/usr/include/qt6/QtCore/QRect:
-
-/usr/include/c++/15.2.1/pstl/execution_defs.h:
-
-/usr/include/bits/stdio_lim.h:
-
-/usr/include/qt6/QtCore/qtimezone.h:
 
 /usr/include/qt6/QtCore/qtcoreexports.h:
 
@@ -4921,6 +5027,10 @@ CMakeFiles/4.3.1/CMakeCCompiler.cmake:
 /usr/include/c++/15.2.1/ext/numeric_traits.h:
 
 /usr/include/bits/xopen_lim.h:
+
+/usr/lib/libgomp.so.1:
+
+/usr/include/c++/15.2.1/map:
 
 /usr/include/qt6/QtCore/qeasingcurve.h:
 
@@ -4941,32 +5051,6 @@ CMakeFiles/4.3.1/CMakeCCompiler.cmake:
 /usr/include/asm-generic/posix_types.h:
 
 /usr/include/c++/15.2.1/bits/stl_map.h:
-
-/usr/include/c++/15.2.1/tr1/special_function_util.h:
-
-/usr/include/c++/15.2.1/bits/std_abs.h:
-
-/usr/include/wchar.h:
-
-/usr/include/bits/wordsize.h:
-
-/usr/include/bits/posix1_lim.h:
-
-/usr/lib/cmake/Qt6/QtPublicFinalizerHelpers.cmake:
-
-/usr/include/qt6/QtCore/QPointer:
-
-/usr/include/c++/15.2.1/compare:
-
-/usr/include/bits/time.h:
-
-/usr/include/c++/15.2.1/bits/stl_vector.h:
-
-/usr/include/qt6/QtGui/qkeysequence.h:
-
-/usr/lib/cmake/Qt6Gui/Qt6QGtk3ThemePluginTargets-relwithdebinfo.cmake:
-
-/usr/include/c++/15.2.1/bits/hashtable_policy.h:
 
 /usr/include/qt6/QtCore/qlist.h:
 
@@ -4990,17 +5074,15 @@ CMakeFiles/4.3.1/CMakeCXXCompiler.cmake:
 
 /usr/lib/cmake/Qt6Gui/Qt6QTiffPluginConfig.cmake:
 
+/usr/include/bits/endian.h:
+
+/usr/include/qt6/QtCore/QVariantAnimation:
+
+/usr/include/c++/15.2.1/bits/invoke.h:
+
+/usr/include/qt6/QtCore/qanystringview.h:
+
 /usr/include/bits/endianness.h:
-
-/usr/include/qt6/QtGui/qscreen.h:
-
-/usr/include/bits/struct_rwlock.h:
-
-/usr/include/c++/15.2.1/bits/parse_numbers.h:
-
-/usr/include/c++/15.2.1/x86_64-pc-linux-gnu/bits/atomic_word.h:
-
-/usr/lib/cmake/Qt6Gui/Qt6QVncIntegrationPluginConfig.cmake:
 
 /usr/include/qt6/QtCore/qhashfunctions.h:
 
@@ -5013,10 +5095,6 @@ CMakeFiles/4.3.1/CMakeCXXCompiler.cmake:
 /usr/include/qt6/QtCore/qsharedpointer.h:
 
 /usr/include/c++/15.2.1/atomic:
-
-/usr/include/c++/15.2.1/map:
-
-/usr/lib/libgomp.so.1:
 
 /usr/include/bits/floatn.h:
 
@@ -5031,6 +5109,8 @@ CMakeFiles/4.3.1/CMakeCXXCompiler.cmake:
 /usr/include/bits/types/wint_t.h:
 
 /usr/include/qt6/QtCore/qpointer.h:
+
+/usr/include/qt6/QtDBus/qdbusinterface.h:
 
 /usr/include/qt6/QtCore/qdebug.h:
 
@@ -5084,6 +5164,8 @@ CMakeFiles/4.3.1/CMakeCXXCompiler.cmake:
 
 /usr/include/c++/15.2.1/type_traits:
 
+/usr/include/c++/15.2.1/bits/hashtable_policy.h:
+
 /usr/include/qt6/QtCore/qline.h:
 
 /usr/lib/gcc/x86_64-pc-linux-gnu/15.2.1/include/stdarg.h:
@@ -5113,6 +5195,10 @@ CMakeFiles/4.3.1/CMakeCXXCompiler.cmake:
 /usr/lib/cmake/Qt6/Qt6Config.cmake:
 
 /usr/include/qt6/QtCore/qstringfwd.h:
+
+/usr/include/qt6/QtCore/QPointer:
+
+/usr/lib/cmake/Qt6/QtPublicFinalizerHelpers.cmake:
 
 /usr/include/c++/15.2.1/bits/nested_exception.h:
 
@@ -5290,8 +5376,6 @@ CMakeFiles/4.3.1/CMakeCXXCompiler.cmake:
 
 /usr/include/endian.h:
 
-/usr/lib/libicuuc.so.78:
-
 /usr/include/c++/15.2.1/concepts:
 
 /usr/lib/cmake/Qt6Gui/Qt6QEvdevTabletPluginTargetsPrecheck.cmake:
@@ -5352,12 +5436,6 @@ CMakeFiles/4.3.1/CMakeCXXCompiler.cmake:
 
 /usr/include/c++/15.2.1/ext/type_traits.h:
 
-/usr/include/qt6/QtCore/qbasicatomic.h:
-
-/usr/lib/cmake/Qt6/QtPublicExternalProjectHelpers.cmake:
-
-/usr/lib/cmake/Qt6Core/Qt6CoreConfigVersion.cmake:
-
 /usr/include/c++/15.2.1/x86_64-pc-linux-gnu/bits/c++locale.h:
 
 /usr/include/qt6/QtDBus/qdbusextratypes.h:
@@ -5365,6 +5443,12 @@ CMakeFiles/4.3.1/CMakeCXXCompiler.cmake:
 /usr/include/c++/15.2.1/functional:
 
 /usr/lib/cmake/Qt6Gui/Qt6QWaylandWlShellIntegrationPluginConfig.cmake:
+
+/usr/include/qt6/QtCore/qbasicatomic.h:
+
+/usr/lib/cmake/Qt6/QtPublicExternalProjectHelpers.cmake:
+
+/usr/lib/cmake/Qt6Core/Qt6CoreConfigVersion.cmake:
 
 /usr/include/c++/15.2.1/typeinfo:
 
@@ -5456,6 +5540,10 @@ CMakeFiles/ward.dir/src/NotificationCenter.cpp.o:
 
 /usr/lib/cmake/Qt6/QtPublicSbomPurlHelpers.cmake:
 
+/usr/lib/libm.so.6:
+
+/usr/lib/cmake/Qt6/QtPublicSbomQtEntityHelpers.cmake:
+
 /usr/include/qt6/QtCore/qstringmatcher.h:
 
 /usr/include/c++/15.2.1/bits/stl_tempbuf.h:
@@ -5483,8 +5571,6 @@ CMakeFiles/ward.dir/src/NotificationCenter.cpp.o:
 /usr/lib/cmake/Qt6/QtPublicWindowsHelpers.cmake:
 
 /usr/lib/cmake/Qt6Gui/Qt6QVkKhrDisplayIntegrationPluginTargets.cmake:
-
-/usr/lib/libgraphite2.so.3:
 
 /usr/include/gnu/stubs-64.h:
 
@@ -5527,10 +5613,6 @@ CMakeFiles/ward.dir/src/NotificationCenter.cpp.o:
 /usr/lib/cmake/Qt6DBus/Qt6DBusDependencies.cmake:
 
 /usr/lib/cmake/Qt6CoreTools/Qt6CoreToolsTargets.cmake:
-
-CMakeFiles/ward.dir/src/NotificationServer.cpp.o:
-
-/usr/lib/libicudata.so.78:
 
 /usr/lib/cmake/Qt6CoreTools/Qt6CoreToolsTargetsPrecheck.cmake:
 
@@ -5606,9 +5688,9 @@ CMakeFiles/4.3.1/CMakeSystem.cmake:
 
 /usr/lib/cmake/Qt6Gui/Qt6DrmEglServerBufferPluginTargetsPrecheck.cmake:
 
-/usr/lib/cmake/Qt6Gui/Qt6QSvgIconPluginTargets.cmake:
-
 /usr/include/c++/15.2.1/version:
+
+/usr/lib/cmake/Qt6Gui/Qt6QSvgIconPluginTargets.cmake:
 
 /usr/include/c++/15.2.1/cctype:
 
@@ -5853,6 +5935,8 @@ ward_autogen/UVLADIE3JM/moc_NotificationServer.cpp:
 /usr/include/c++/15.2.1/tr1/riemann_zeta.tcc:
 
 /usr/lib/cmake/Qt6Gui/Qt6QSvgIconPluginTargets-relwithdebinfo.cmake:
+
+/usr/include/qt6/QtCore/QLockFile:
 
 /usr/include/math.h:
 
@@ -6126,6 +6210,12 @@ ward_autogen/UVLADIE3JM/moc_NotificationServer.cpp:
 
 /usr/share/cmake/Modules/CheckCXXCompilerFlag.cmake:
 
+/usr/lib/libharfbuzz.so.0:
+
+/usr/lib/cmake/Qt6Gui/Qt6QVkKhrDisplayIntegrationPluginTargetsPrecheck.cmake:
+
+/usr/share/cmake/Modules/CheckCXXSourceCompiles.cmake:
+
 /usr/include/asm/types.h:
 
 /usr/share/cmake/Modules/CheckLibraryExists.cmake:
@@ -6238,10 +6328,6 @@ ward_autogen/UVLADIE3JM/moc_NotificationServer.cpp:
 
 /usr/include/qt6/QtCore/qxmlstream.h:
 
-/usr/lib/cmake/Qt6/QtPublicSbomQtEntityHelpers.cmake:
-
-/usr/lib/libm.so.6:
-
 /usr/include/qt6/QtDBus/qdbusargument.h:
 
 /usr/include/qt6/QtGui/QColor:
@@ -6308,6 +6394,16 @@ ward_autogen/UVLADIE3JM/moc_NotificationCenter.cpp:
 
 /usr/include/wctype.h:
 
+/usr/include/qt6/QtCore/QCommandLineParser:
+
+/usr/include/qt6/QtCore/qlockfile.h:
+
+/usr/include/qt6/QtCore/q20iterator.h:
+
+/usr/include/qt6/QtDBus/QDBusError:
+
+/usr/include/qt6/QtDBus/QDBusInterface:
+
 /usr/include/qt6/QtCore/qtcore-config.h:
 
 /usr/include/qt6/QtDBus/qdbusconnection.h:
@@ -6355,21 +6451,3 @@ ward_autogen/UVLADIE3JM/moc_NotificationCenter.cpp:
 /usr/lib/libbrotlidec.so.1:
 
 /usr/lib/libbz2.so.1.0:
-
-/usr/lib/libffi.so.8:
-
-/usr/lib/libfontconfig.so.1:
-
-/usr/lib/libfreetype.so.6:
-
-/usr/include/qt6/QtCore/qfunctionpointer.h:
-
-/usr/lib/libglib-2.0.so.0:
-
-/usr/lib/cmake/Qt6Gui/Qt6QVkKhrDisplayIntegrationPluginTargetsPrecheck.cmake:
-
-/usr/share/cmake/Modules/CheckCXXSourceCompiles.cmake:
-
-/usr/lib/libharfbuzz.so.0:
-
-/usr/lib/libicui18n.so.78:

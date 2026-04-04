@@ -20,6 +20,7 @@ signals:
     void notificationClosed(uint id, uint reason);
 
 public slots:
+    void reloadConfiguration();
     void showNotification(uint id,
                           const QString &appName,
                           const QString &summary,
