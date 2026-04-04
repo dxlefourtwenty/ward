@@ -1,0 +1,14 @@
+-rootPath
+/home/dxle/builds/ward
+-cmake-output
+-output-file
+/home/dxle/builds/ward/build/.qt/qml_imports/ward_conf.cmake
+-importPath
+/home/dxle/builds/ward/build
+-importPath
+/home/dxle/builds/ward/build/Ward
+-importPath
+/usr/lib/qt6/qml
+-qrcFiles
+/home/dxle/builds/ward/build/.qt/rcc/qmake_Ward.qrc
+/home/dxle/builds/ward/build/.qt/rcc/ward_raw_qml_0.qrc

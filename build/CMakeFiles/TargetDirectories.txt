@@ -1,0 +1,5 @@
+/home/dxle/builds/ward/build/CMakeFiles/ward.dir
+/home/dxle/builds/ward/build/CMakeFiles/edit_cache.dir
+/home/dxle/builds/ward/build/CMakeFiles/rebuild_cache.dir
+/home/dxle/builds/ward/build/CMakeFiles/ward_autogen_timestamp_deps.dir
+/home/dxle/builds/ward/build/CMakeFiles/ward_autogen.dir

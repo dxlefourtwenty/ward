@@ -1,0 +1,5 @@
+--resource
+/home/dxle/builds/ward/build/.qt/rcc/qmake_Ward.qrc
+--resource
+/home/dxle/builds/ward/build/.qt/rcc/ward_raw_qml_0.qrc
+/Ward/qml/Main.qml

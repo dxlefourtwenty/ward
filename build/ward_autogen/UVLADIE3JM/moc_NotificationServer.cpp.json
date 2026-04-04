@@ -1,0 +1,99 @@
+{
+    "classes": [
+        {
+            "classInfos": [
+                {
+                    "name": "D-Bus Interface",
+                    "value": "org.freedesktop.Notifications"
+                }
+            ],
+            "className": "NotificationServer",
+            "lineNumber": 4,
+            "object": true,
+            "qualifiedClassName": "NotificationServer",
+            "signals": [
+                {
+                    "access": "public",
+                    "arguments": [
+                        {
+                            "name": "summary",
+                            "type": "QString"
+                        },
+                        {
+                            "name": "body",
+                            "type": "QString"
+                        }
+                    ],
+                    "index": 0,
+                    "lineNumber": 12,
+                    "name": "newNotification",
+                    "returnType": "void"
+                }
+            ],
+            "slots": [
+                {
+                    "access": "public",
+                    "arguments": [
+                        {
+                            "name": "app_name",
+                            "type": "QString"
+                        },
+                        {
+                            "name": "replaces_id",
+                            "type": "uint"
+                        },
+                        {
+                            "name": "icon",
+                            "type": "QString"
+                        },
+                        {
+                            "name": "summary",
+                            "type": "QString"
+                        },
+                        {
+                            "name": "body",
+                            "type": "QString"
+                        },
+                        {
+                            "name": "actions",
+                            "type": "QStringList"
+                        },
+                        {
+                            "name": "hints",
+                            "type": "QVariantMap"
+                        },
+                        {
+                            "name": "timeout",
+                            "type": "int"
+                        }
+                    ],
+                    "index": 1,
+                    "lineNumber": 15,
+                    "name": "Notify",
+                    "returnType": "uint"
+                },
+                {
+                    "access": "public",
+                    "arguments": [
+                        {
+                            "name": "id",
+                            "type": "uint"
+                        }
+                    ],
+                    "index": 2,
+                    "lineNumber": 24,
+                    "name": "CloseNotification",
+                    "returnType": "void"
+                }
+            ],
+            "superClasses": [
+                {
+                    "access": "public",
+                    "name": "QObject"
+                }
+            ]
+        }
+    ],
+    "inputFile": "NotificationServer.h",
+    "outputRevision": 69
+}

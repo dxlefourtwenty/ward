@@ -1,0 +1,14 @@
+--bare
+-I
+/home/dxle/builds/ward/build
+-I
+/home/dxle/builds/ward/build/Ward
+-I
+/home/dxle/builds/ward/build
+-I
+/usr/lib/qt6/qml
+--resource
+/home/dxle/builds/ward/build/.qt/rcc/qmake_Ward.qrc
+--resource
+/home/dxle/builds/ward/build/.qt/rcc/ward_raw_qml_0.qrc
+/home/dxle/builds/ward/qml/Main.qml

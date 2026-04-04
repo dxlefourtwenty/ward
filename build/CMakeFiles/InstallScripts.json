@@ -1,0 +1,7 @@
+{
+	"InstallScripts" : 
+	[
+		"/home/dxle/builds/ward/build/cmake_install.cmake"
+	],
+	"Parallel" : false
+}

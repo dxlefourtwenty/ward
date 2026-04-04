@@ -1,0 +1,6 @@
+<RCC>
+  <qresource prefix="/Ward">
+    <file alias="qmldir">/home/dxle/builds/ward/build/Ward/qmldir</file>
+  </qresource>
+</RCC>
+

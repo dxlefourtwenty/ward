@@ -1,0 +1,15 @@
+# Hashes of file build rules.
+99eec47104f1bc7a09ef84f0c83d1703 .qt/.qmlls.build.ini
+2ab5921ca5d8850a8a5c085a15914e62 .qt/qml_imports/ward_build.cmake
+8304abec69c660515daa47c5aa952f30 .qt/rcc/qrc_qmake_Ward.cpp
+aa3c7a1663fdbfd4508c0da09b069fd8 .qt/rcc/qrc_ward_raw_qml_0.cpp
+99479d6e53a194833a4fa7f55b0aa9cd .qt/ward_qml.txt
+b19f75b43059f9eac43526bbb6bcb42e .qt/ward_res.txt
+5e14b9201a67296371f47a0707aa3c62 .rcc/qmlcache/ward_qml/Main_qml.cpp
+4f830ce45eab8a0576f308e11a089bc2 .rcc/qmlcache/ward_qmlcache_loader.cpp
+09244b5461e143a53b8e6028f6e86fcb CMakeFiles/ward_autogen
+47ed95710b2c4bddf27edcdd59f8c211 meta_types/qt6ward_metatypes.json
+0ac467fd66f6da1e0d4957bc7fb79fb9 meta_types/qt6ward_metatypes.json.gen
+39ec187cdde4afae52a6a261c67f96a4 meta_types/ward_json_file_list.txt
+fa6d98f1dde532abb0bf88e4072ffa4f ward_autogen/timestamp
+86d6e2739b3b8b2856a2154b2ef21a9b ward_qmltyperegistrations.cpp

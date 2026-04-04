@@ -1,0 +1,6 @@
+module Ward
+typeinfo ward.qmltypes
+prefer :/Ward/
+Main 1.0 qml/Main.qml
+depends QtQuick
+
