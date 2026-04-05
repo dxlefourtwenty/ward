@@ -1,5 +1,6 @@
 #include "WardConfig.h"
 
+#include <QDebug>
 #include <QDir>
 #include <QFileInfo>
 #include <QFile>
@@ -16,6 +17,18 @@ struct LoadedStyleSheet {
     QString styleSheet;
     QStringList dependencyFiles;
     QStringList dependencyDirectories;
+};
+
+struct ConfigLoadResult {
+    WardConfig config;
+    bool ok = false;
+    QString error;
+};
+
+struct StyleLoadResult {
+    LoadedStyleSheet styleSheet;
+    bool ok = false;
+    QString error;
 };
 
 struct StyleLoadContext {
@@ -112,164 +125,342 @@ QString stripInlineComment(const QString &line)
     return line.trimmed();
 }
 
-QString parseString(const QString &value, const QString &fallback)
+QString configErrorMessage(int lineNumber, const QString &message)
 {
-    const QString trimmed = value.trimmed();
-    if (trimmed.startsWith('"') && trimmed.endsWith('"') && trimmed.size() >= 2) {
-        return trimmed.mid(1, trimmed.size() - 2);
+    return QStringLiteral("config.toml:%1: %2").arg(lineNumber).arg(message);
+}
+
+QString styleErrorMessage(const QString &path, const QString &message)
+{
+    return QStringLiteral("%1: %2").arg(path, message);
+}
+
+bool parseStringValue(const QString &value, QString *parsed)
+{
+    const QString trimmed = stripInlineComment(value).trimmed();
+    if (trimmed.isEmpty()) {
+        return false;
     }
 
-    return trimmed.isEmpty() ? fallback : trimmed;
+    const bool startsWithQuote = trimmed.startsWith('"');
+    const bool endsWithQuote = trimmed.endsWith('"');
+    if (startsWithQuote != endsWithQuote || (startsWithQuote && trimmed.size() < 2)) {
+        return false;
+    }
+
+    *parsed = startsWithQuote ? trimmed.mid(1, trimmed.size() - 2) : trimmed;
+    return true;
 }
 
-int parseInt(const QString &value, int fallback)
+bool parseIntValue(const QString &value, int *parsed)
 {
     bool ok = false;
-    const int parsed = stripInlineComment(value).toInt(&ok);
-    return ok ? parsed : fallback;
+    const int parsedValue = stripInlineComment(value).trimmed().toInt(&ok);
+    if (!ok) {
+        return false;
+    }
+
+    *parsed = parsedValue;
+    return true;
 }
 
-bool parseBool(const QString &value, bool fallback)
+bool parseBoolValue(const QString &value, bool *parsed)
 {
     const QString lowered = stripInlineComment(value).trimmed().toLower();
 
     if (lowered == "true") {
+        *parsed = true;
         return true;
     }
 
     if (lowered == "false") {
-        return false;
+        *parsed = false;
+        return true;
     }
 
-    return fallback;
+    return false;
 }
 
-WardConfig loadWardConfig(const QString &path)
+bool applyLayoutEntry(const QString &key, const QString &value, WardConfig *config, QString *error)
 {
-    WardConfig config;
+    if (key == "anchor") {
+        QString parsed;
+        if (!parseStringValue(value, &parsed)) {
+            *error = QStringLiteral("invalid string for layout.anchor");
+            return false;
+        }
+        config->layout.anchor = parsed;
+        return true;
+    }
+
+    if (key == "screen") {
+        QString parsed;
+        if (!parseStringValue(value, &parsed)) {
+            *error = QStringLiteral("invalid string for layout.screen");
+            return false;
+        }
+        config->layout.screen = parsed;
+        return true;
+    }
+
+    if (key == "width") {
+        return parseIntValue(value, &config->layout.width)
+            ? true
+            : ((*error = QStringLiteral("invalid integer for layout.width")), false);
+    }
+
+    if (key == "gap" || key == "outer_margin") {
+        return parseIntValue(value, &config->layout.outerMargin)
+            ? true
+            : ((*error = QStringLiteral("invalid integer for layout.outer_margin")), false);
+    }
+
+    if (key == "margin_x") {
+        int parsed = 0;
+        if (!parseIntValue(value, &parsed)) {
+            *error = QStringLiteral("invalid integer for layout.margin_x");
+            return false;
+        }
+        config->layout.marginLeft = parsed;
+        config->layout.marginRight = parsed;
+        return true;
+    }
+
+    if (key == "margin_y") {
+        int parsed = 0;
+        if (!parseIntValue(value, &parsed)) {
+            *error = QStringLiteral("invalid integer for layout.margin_y");
+            return false;
+        }
+        config->layout.marginTop = parsed;
+        config->layout.marginBottom = parsed;
+        return true;
+    }
+
+    if (key == "top_margin") {
+        return parseIntValue(value, &config->layout.marginTop)
+            ? true
+            : ((*error = QStringLiteral("invalid integer for layout.top_margin")), false);
+    }
+
+    if (key == "right_margin") {
+        return parseIntValue(value, &config->layout.marginRight)
+            ? true
+            : ((*error = QStringLiteral("invalid integer for layout.right_margin")), false);
+    }
+
+    if (key == "bottom_margin") {
+        return parseIntValue(value, &config->layout.marginBottom)
+            ? true
+            : ((*error = QStringLiteral("invalid integer for layout.bottom_margin")), false);
+    }
+
+    if (key == "left_margin") {
+        return parseIntValue(value, &config->layout.marginLeft)
+            ? true
+            : ((*error = QStringLiteral("invalid integer for layout.left_margin")), false);
+    }
+
+    if (key == "minimum_height") {
+        return parseIntValue(value, &config->layout.minimumHeight)
+            ? true
+            : ((*error = QStringLiteral("invalid integer for layout.minimum_height")), false);
+    }
+
+    return true;
+}
+
+bool applyNotificationEntry(const QString &key,
+                            const QString &value,
+                            WardConfig *config,
+                            QString *error)
+{
+    if (key == "default_timeout_ms") {
+        return parseIntValue(value, &config->notifications.defaultTimeoutMs)
+            ? true
+            : ((*error = QStringLiteral("invalid integer for notifications.default_timeout_ms")),
+               false);
+    }
+
+    if (key == "max_icon_size") {
+        return parseIntValue(value, &config->notifications.maxIconSize)
+            ? true
+            : ((*error = QStringLiteral("invalid integer for notifications.max_icon_size")), false);
+    }
+
+    if (key == "max_notifications" || key == "max_visible") {
+        return parseIntValue(value, &config->notifications.maxNotifications)
+            ? true
+            : ((*error = QStringLiteral("invalid integer for notifications.max_notifications")),
+               false);
+    }
+
+    if (key == "text_gap") {
+        return parseIntValue(value, &config->notifications.textGap)
+            ? true
+            : ((*error = QStringLiteral("invalid integer for notifications.text_gap")), false);
+    }
+
+    return true;
+}
+
+bool applyAnimationEntry(const QString &key, const QString &value, WardConfig *config, QString *error)
+{
+    if (key == "enabled") {
+        return parseBoolValue(value, &config->animation.enabled)
+            ? true
+            : ((*error = QStringLiteral("invalid boolean for animation.enabled")), false);
+    }
+
+    if (key == "enter_duration_ms") {
+        return parseIntValue(value, &config->animation.enterDurationMs)
+            ? true
+            : ((*error = QStringLiteral("invalid integer for animation.enter_duration_ms")), false);
+    }
+
+    if (key == "exit_duration_ms") {
+        return parseIntValue(value, &config->animation.exitDurationMs)
+            ? true
+            : ((*error = QStringLiteral("invalid integer for animation.exit_duration_ms")), false);
+    }
+
+    if (key == "move_duration_ms") {
+        return parseIntValue(value, &config->animation.moveDurationMs)
+            ? true
+            : ((*error = QStringLiteral("invalid integer for animation.move_duration_ms")), false);
+    }
+
+    if (key == "fade_duration_ms") {
+        return parseIntValue(value, &config->animation.fadeDurationMs)
+            ? true
+            : ((*error = QStringLiteral("invalid integer for animation.fade_duration_ms")), false);
+    }
+
+    if (key == "slide_distance") {
+        return parseIntValue(value, &config->animation.slideDistance)
+            ? true
+            : ((*error = QStringLiteral("invalid integer for animation.slide_distance")), false);
+    }
+
+    if (key == "enter_from") {
+        QString parsed;
+        if (!parseStringValue(value, &parsed)) {
+            *error = QStringLiteral("invalid string for animation.enter_from");
+            return false;
+        }
+        config->animation.enterFrom = parsed.toLower();
+        return true;
+    }
+
+    if (key == "exit_to") {
+        QString parsed;
+        if (!parseStringValue(value, &parsed)) {
+            *error = QStringLiteral("invalid string for animation.exit_to");
+            return false;
+        }
+        config->animation.exitTo = parsed.toLower();
+        return true;
+    }
+
+    if (key == "easing") {
+        QString parsed;
+        if (!parseStringValue(value, &parsed)) {
+            *error = QStringLiteral("invalid string for animation.easing");
+            return false;
+        }
+        config->animation.easing = parsed.toLower();
+        return true;
+    }
+
+    return true;
+}
+
+ConfigLoadResult loadWardConfig(const QString &path)
+{
+    ConfigLoadResult result;
     QFile file(path);
 
     if (!file.open(QIODevice::ReadOnly | QIODevice::Text)) {
-        return config;
+        result.error = styleErrorMessage(path, QStringLiteral("failed to open config file"));
+        return result;
     }
 
     QTextStream stream(&file);
     QString section;
+    int lineNumber = 0;
 
     while (!stream.atEnd()) {
+        ++lineNumber;
         const QString rawLine = stream.readLine().trimmed();
 
         if (rawLine.isEmpty() || rawLine.startsWith('#')) {
             continue;
         }
 
-        if (rawLine.startsWith('[') && rawLine.endsWith(']')) {
+        if (rawLine.startsWith('[')) {
+            if (!rawLine.endsWith(']')) {
+                result.error = configErrorMessage(lineNumber, QStringLiteral("unterminated section header"));
+                return result;
+            }
             section = rawLine.mid(1, rawLine.size() - 2).trimmed().toLower();
             continue;
         }
 
         const int separatorIndex = rawLine.indexOf('=');
         if (separatorIndex <= 0) {
-            continue;
+            result.error = configErrorMessage(lineNumber, QStringLiteral("expected key = value"));
+            return result;
         }
 
         const QString key = rawLine.left(separatorIndex).trimmed().toLower();
         const QString value = rawLine.mid(separatorIndex + 1).trimmed();
+        QString error;
+
+        if (section.isEmpty()) {
+            result.error = configErrorMessage(lineNumber, QStringLiteral("key is outside a section"));
+            return result;
+        }
 
         if (section == "layout") {
-            if (key == "anchor") {
-                config.layout.anchor = parseString(value, config.layout.anchor);
-            } else if (key == "screen") {
-                config.layout.screen = parseString(value, config.layout.screen);
-            } else if (key == "width") {
-                config.layout.width = parseInt(value, config.layout.width);
-            } else if (key == "gap" || key == "outer_margin") {
-                config.layout.outerMargin = parseInt(value, config.layout.outerMargin);
-            } else if (key == "margin_x") {
-                const int margin = parseInt(value, config.layout.marginLeft);
-                config.layout.marginLeft = margin;
-                config.layout.marginRight = margin;
-            } else if (key == "margin_y") {
-                const int margin = parseInt(value, config.layout.marginTop);
-                config.layout.marginTop = margin;
-                config.layout.marginBottom = margin;
-            } else if (key == "top_margin") {
-                config.layout.marginTop = parseInt(value, config.layout.marginTop);
-            } else if (key == "right_margin") {
-                config.layout.marginRight = parseInt(value, config.layout.marginRight);
-            } else if (key == "bottom_margin") {
-                config.layout.marginBottom = parseInt(value, config.layout.marginBottom);
-            } else if (key == "left_margin") {
-                config.layout.marginLeft = parseInt(value, config.layout.marginLeft);
-            } else if (key == "minimum_height") {
-                config.layout.minimumHeight = parseInt(value, config.layout.minimumHeight);
+            if (!applyLayoutEntry(key, value, &result.config, &error)) {
+                result.error = configErrorMessage(lineNumber, error);
+                return result;
             }
         } else if (section == "notifications") {
-            if (key == "default_timeout_ms") {
-                config.notifications.defaultTimeoutMs =
-                    parseInt(value, config.notifications.defaultTimeoutMs);
-            } else if (key == "max_icon_size") {
-                config.notifications.maxIconSize =
-                    parseInt(value, config.notifications.maxIconSize);
-            } else if (key == "max_notifications") {
-                config.notifications.maxNotifications =
-                    parseInt(value, config.notifications.maxNotifications);
-            } else if (key == "max_visible") {
-                config.notifications.maxNotifications =
-                    parseInt(value, config.notifications.maxNotifications);
-            } else if (key == "text_gap") {
-                config.notifications.textGap =
-                    parseInt(value, config.notifications.textGap);
+            if (!applyNotificationEntry(key, value, &result.config, &error)) {
+                result.error = configErrorMessage(lineNumber, error);
+                return result;
             }
         } else if (section == "animation") {
-            if (key == "enabled") {
-                config.animation.enabled = parseBool(value, config.animation.enabled);
-            } else if (key == "enter_duration_ms") {
-                config.animation.enterDurationMs =
-                    parseInt(value, config.animation.enterDurationMs);
-            } else if (key == "exit_duration_ms") {
-                config.animation.exitDurationMs =
-                    parseInt(value, config.animation.exitDurationMs);
-            } else if (key == "move_duration_ms") {
-                config.animation.moveDurationMs =
-                    parseInt(value, config.animation.moveDurationMs);
-            } else if (key == "fade_duration_ms") {
-                config.animation.fadeDurationMs =
-                    parseInt(value, config.animation.fadeDurationMs);
-            } else if (key == "slide_distance") {
-                config.animation.slideDistance =
-                    parseInt(value, config.animation.slideDistance);
-            } else if (key == "enter_from") {
-                config.animation.enterFrom =
-                    parseString(value, config.animation.enterFrom).toLower();
-            } else if (key == "exit_to") {
-                config.animation.exitTo =
-                    parseString(value, config.animation.exitTo).toLower();
-            } else if (key == "easing") {
-                config.animation.easing =
-                    parseString(value, config.animation.easing).toLower();
+            if (!applyAnimationEntry(key, value, &result.config, &error)) {
+                result.error = configErrorMessage(lineNumber, error);
+                return result;
             }
         }
     }
 
-    config.layout.width = qMax(config.layout.width, 220);
-    config.layout.outerMargin = qMax(config.layout.outerMargin, 0);
-    config.layout.marginTop = qMax(config.layout.marginTop, 0);
-    config.layout.marginRight = qMax(config.layout.marginRight, 0);
-    config.layout.marginBottom = qMax(config.layout.marginBottom, 0);
-    config.layout.marginLeft = qMax(config.layout.marginLeft, 0);
-    config.layout.minimumHeight = qMax(config.layout.minimumHeight, 1);
-    config.notifications.defaultTimeoutMs = qMax(config.notifications.defaultTimeoutMs, 0);
-    config.notifications.maxIconSize = qBound(0, config.notifications.maxIconSize, 128);
-    config.notifications.maxNotifications = qMax(config.notifications.maxNotifications, 1);
-    config.notifications.textGap = qMax(config.notifications.textGap, 0);
-    config.animation.enterDurationMs = qMax(config.animation.enterDurationMs, 0);
-    config.animation.exitDurationMs = qMax(config.animation.exitDurationMs, 0);
-    config.animation.moveDurationMs = qMax(config.animation.moveDurationMs, 0);
-    config.animation.fadeDurationMs = qMax(config.animation.fadeDurationMs, 0);
-    config.animation.slideDistance = qMax(config.animation.slideDistance, 0);
+    result.config.layout.width = qMax(result.config.layout.width, 220);
+    result.config.layout.outerMargin = qMax(result.config.layout.outerMargin, 0);
+    result.config.layout.marginTop = qMax(result.config.layout.marginTop, 0);
+    result.config.layout.marginRight = qMax(result.config.layout.marginRight, 0);
+    result.config.layout.marginBottom = qMax(result.config.layout.marginBottom, 0);
+    result.config.layout.marginLeft = qMax(result.config.layout.marginLeft, 0);
+    result.config.layout.minimumHeight = qMax(result.config.layout.minimumHeight, 1);
+    result.config.notifications.defaultTimeoutMs =
+        qMax(result.config.notifications.defaultTimeoutMs, 0);
+    result.config.notifications.maxIconSize =
+        qBound(0, result.config.notifications.maxIconSize, 128);
+    result.config.notifications.maxNotifications =
+        qMax(result.config.notifications.maxNotifications, 1);
+    result.config.notifications.textGap = qMax(result.config.notifications.textGap, 0);
+    result.config.animation.enterDurationMs = qMax(result.config.animation.enterDurationMs, 0);
+    result.config.animation.exitDurationMs = qMax(result.config.animation.exitDurationMs, 0);
+    result.config.animation.moveDurationMs = qMax(result.config.animation.moveDurationMs, 0);
+    result.config.animation.fadeDurationMs = qMax(result.config.animation.fadeDurationMs, 0);
+    result.config.animation.slideDistance = qMax(result.config.animation.slideDistance, 0);
+    result.ok = true;
 
-    return config;
+    return result;
 }
 
 QString normalizedPath(const QString &path)
@@ -392,13 +583,99 @@ QString normalizeWardSelectors(const QString &styleSheet)
     return normalized;
 }
 
-QString loadStyleFile(const QString &path, bool isRootFile, StyleLoadContext *context);
+bool validateStyleSheetSyntax(const QString &styleSheet, QString *error)
+{
+    int braceDepth = 0;
+    bool insideSingleQuote = false;
+    bool insideDoubleQuote = false;
+    bool insideBlockComment = false;
 
-QString inlineImports(const QString &styleSheet, const QString &baseDirectory, StyleLoadContext *context)
+    for (int index = 0; index < styleSheet.size(); ++index) {
+        const QChar character = styleSheet.at(index);
+        const QChar nextCharacter = index + 1 < styleSheet.size() ? styleSheet.at(index + 1) : QChar();
+        const QChar previousCharacter = index > 0 ? styleSheet.at(index - 1) : QChar();
+
+        if (insideBlockComment) {
+            if (character == '*' && nextCharacter == '/') {
+                insideBlockComment = false;
+                ++index;
+            }
+            continue;
+        }
+
+        if (!insideSingleQuote && !insideDoubleQuote && character == '/' && nextCharacter == '*') {
+            insideBlockComment = true;
+            ++index;
+            continue;
+        }
+
+        if (!insideDoubleQuote && character == '\'' && previousCharacter != '\\') {
+            insideSingleQuote = !insideSingleQuote;
+            continue;
+        }
+
+        if (!insideSingleQuote && character == '"' && previousCharacter != '\\') {
+            insideDoubleQuote = !insideDoubleQuote;
+            continue;
+        }
+
+        if (insideSingleQuote || insideDoubleQuote) {
+            continue;
+        }
+
+        if (character == '{') {
+            ++braceDepth;
+            continue;
+        }
+
+        if (character == '}') {
+            if (braceDepth == 0) {
+                *error = QStringLiteral("unexpected closing brace");
+                return false;
+            }
+            --braceDepth;
+        }
+    }
+
+    if (insideSingleQuote || insideDoubleQuote) {
+        *error = QStringLiteral("unterminated string");
+        return false;
+    }
+
+    if (insideBlockComment) {
+        *error = QStringLiteral("unterminated block comment");
+        return false;
+    }
+
+    if (braceDepth != 0) {
+        *error = QStringLiteral("unterminated rule block");
+        return false;
+    }
+
+    return true;
+}
+
+QString finalizeStyleSheet(const QString &styleSheet)
+{
+    return normalizeWardSelectors(stripAndResolveCustomProperties(styleSheet)) + QStringLiteral(
+        "\nQLabel#iconLabel {\n"
+        "    min-width: 0px;\n"
+        "    max-width: 16777215px;\n"
+        "    min-height: 0px;\n"
+        "    max-height: 16777215px;\n"
+        "}\n");
+}
+
+StyleLoadResult loadStyleFile(const QString &path, bool isRootFile, StyleLoadContext *context);
+
+StyleLoadResult inlineImports(const QString &styleSheet,
+                              const QString &baseDirectory,
+                              StyleLoadContext *context)
 {
     static const QRegularExpression importPattern(
         R"(@import[ \t\f]+(?:url\([ \t\f]*(['"]?)([^'")\s]+)\1[ \t\f]*\)|(['"])([^'"]+)\3)[ \t\f]*[^;\n\r]*(?:;|(?=\r?\n)|$))");
 
+    StyleLoadResult result;
     QString output;
     output.reserve(styleSheet.size());
 
@@ -418,7 +695,11 @@ QString inlineImports(const QString &styleSheet, const QString &baseDirectory, S
         } else {
             const QString resolvedPath = normalizedPath(QDir(baseDirectory).absoluteFilePath(importPath));
             context->dependencyDirectories.insert(QFileInfo(resolvedPath).absolutePath());
-            output += loadStyleFile(resolvedPath, false, context);
+            const StyleLoadResult imported = loadStyleFile(resolvedPath, false, context);
+            if (!imported.ok) {
+                return imported;
+            }
+            output += imported.styleSheet.styleSheet;
             output += '\n';
         }
 
@@ -426,14 +707,18 @@ QString inlineImports(const QString &styleSheet, const QString &baseDirectory, S
     }
 
     output += styleSheet.mid(currentIndex);
-    return output;
+    result.styleSheet.styleSheet = output;
+    result.ok = true;
+    return result;
 }
 
-QString loadStyleFile(const QString &path, bool isRootFile, StyleLoadContext *context)
+StyleLoadResult loadStyleFile(const QString &path, bool isRootFile, StyleLoadContext *context)
 {
+    StyleLoadResult result;
     const QString resolvedPath = normalizedPath(path);
     if (context->activePaths.contains(resolvedPath)) {
-        return {};
+        result.ok = true;
+        return result;
     }
 
     context->activePaths.insert(resolvedPath);
@@ -442,36 +727,49 @@ QString loadStyleFile(const QString &path, bool isRootFile, StyleLoadContext *co
     QFile file(resolvedPath);
     if (!file.open(QIODevice::ReadOnly | QIODevice::Text)) {
         context->activePaths.remove(resolvedPath);
-        return isRootFile ? defaultStyleContents() : QString{};
+        result.error = styleErrorMessage(
+            resolvedPath,
+            isRootFile ? QStringLiteral("failed to open style.css")
+                       : QStringLiteral("failed to open imported stylesheet"));
+        return result;
     }
 
     context->dependencyFiles.insert(resolvedPath);
     const QString styleSheet = QString::fromUtf8(file.readAll());
-    const QString inlinedStyleSheet =
+    QString validationError;
+    if (!validateStyleSheetSyntax(styleSheet, &validationError)) {
+        context->activePaths.remove(resolvedPath);
+        result.error = styleErrorMessage(resolvedPath, validationError);
+        return result;
+    }
+
+    const StyleLoadResult inlinedStyleSheet =
         inlineImports(styleSheet, QFileInfo(resolvedPath).absolutePath(), context);
+    if (!inlinedStyleSheet.ok) {
+        context->activePaths.remove(resolvedPath);
+        return inlinedStyleSheet;
+    }
 
     context->activePaths.remove(resolvedPath);
-    return inlinedStyleSheet;
+    result.styleSheet.styleSheet = inlinedStyleSheet.styleSheet.styleSheet;
+    result.ok = true;
+    return result;
 }
 
-LoadedStyleSheet loadStyleSheet(const QString &path)
+StyleLoadResult loadStyleSheet(const QString &path)
 {
+    StyleLoadResult result;
     StyleLoadContext context;
-    const QString styleSheet = normalizeWardSelectors(
-        stripAndResolveCustomProperties(loadStyleFile(path, true, &context)));
+    const StyleLoadResult styleFile = loadStyleFile(path, true, &context);
+    if (!styleFile.ok) {
+        return styleFile;
+    }
 
-    LoadedStyleSheet loadedStyleSheet;
-    loadedStyleSheet.styleSheet = styleSheet + QStringLiteral(
-        "\nQLabel#iconLabel {\n"
-        "    min-width: 0px;\n"
-        "    max-width: 16777215px;\n"
-        "    min-height: 0px;\n"
-        "    max-height: 16777215px;\n"
-        "}\n");
-    loadedStyleSheet.dependencyFiles = context.dependencyFiles.values();
-    loadedStyleSheet.dependencyDirectories = context.dependencyDirectories.values();
-
-    return loadedStyleSheet;
+    result.styleSheet.styleSheet = finalizeStyleSheet(styleFile.styleSheet.styleSheet);
+    result.styleSheet.dependencyFiles = context.dependencyFiles.values();
+    result.styleSheet.dependencyDirectories = context.dependencyDirectories.values();
+    result.ok = true;
+    return result;
 }
 
 } // namespace
@@ -507,22 +805,47 @@ QString WardConfigLoader::stylePath() const
 
 void WardConfigLoader::reload()
 {
-    config_ = loadWardConfig(configPath());
-    const LoadedStyleSheet loadedStyleSheet = loadStyleSheet(stylePath());
-    styleSheet_ = loadedStyleSheet.styleSheet;
-    styleDependencyFiles_ = loadedStyleSheet.dependencyFiles;
-    styleDependencyDirectories_ = loadedStyleSheet.dependencyDirectories;
+    const ConfigLoadResult loadedConfig = loadWardConfig(configPath());
+    if (loadedConfig.ok) {
+        config_ = loadedConfig.config;
+    } else {
+        qWarning().noquote() << "ward:" << loadedConfig.error;
+    }
+
+    const StyleLoadResult loadedStyleSheet = loadStyleSheet(stylePath());
+    if (loadedStyleSheet.ok) {
+        styleSheet_ = loadedStyleSheet.styleSheet.styleSheet;
+        styleDependencyFiles_ = loadedStyleSheet.styleSheet.dependencyFiles;
+        styleDependencyDirectories_ = loadedStyleSheet.styleSheet.dependencyDirectories;
+    } else {
+        if (styleSheet_.isEmpty()) {
+            styleSheet_ = finalizeStyleSheet(defaultStyleContents());
+        }
+        qWarning().noquote() << "ward:" << loadedStyleSheet.error;
+    }
+
     refreshWatchers();
 
-    emit configChanged(config_);
-    emit styleChanged(styleSheet_);
+    if (loadedConfig.ok) {
+        emit configChanged(config_);
+    }
+
+    if (loadedStyleSheet.ok) {
+        emit styleChanged(styleSheet_);
+    }
 }
 
-void WardConfigLoader::ensureConfigFiles() const
+void WardConfigLoader::ensureConfigFiles()
 {
     QDir().mkpath(wardConfigDirectory());
 
-    if (!QFile::exists(configPath())) {
+    const bool configExists = QFile::exists(configPath());
+    const bool styleExists = QFile::exists(stylePath());
+    if (configExists || styleExists) {
+        return;
+    }
+
+    if (!configExists) {
         QFile file(configPath());
         if (file.open(QIODevice::WriteOnly | QIODevice::Text)) {
             file.write(defaultConfigContents().toUtf8());

@@ -30,3 +30,5 @@ if(LayerShellQt_FOUND)
 else()
     target_compile_definitions(ward PRIVATE WARD_HAS_LAYERSHELLQT=0)
 endif()
+
+install(TARGETS ward RUNTIME DESTINATION bin)

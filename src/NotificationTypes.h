@@ -113,6 +113,22 @@ inline bool notificationReplaceLast(const QVariantMap &hints)
                                  QStringLiteral("replace_last")});
 }
 
+inline QString notificationExecCommand(const QVariantMap &hints)
+{
+    const QStringList keys = {QStringLiteral("x-ward-exec"),
+                              QStringLiteral("x-ward_exec"),
+                              QStringLiteral("exec")};
+
+    for (const QString &key : keys) {
+        const QString value = unwrapHintValue(hints.value(key)).toString().trimmed();
+        if (!value.isEmpty()) {
+            return value;
+        }
+    }
+
+    return {};
+}
+
 inline QString notificationStackTag(const QVariantMap &hints)
 {
     const QStringList keys = {QStringLiteral("x-dunst-stack-tag"),

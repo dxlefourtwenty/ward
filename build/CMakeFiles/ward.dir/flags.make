@@ -6,5 +6,5 @@ CXX_DEFINES = -DQT_CORE_LIB -DQT_DBUS_LIB -DQT_GUI_LIB -DQT_NO_DEBUG -DQT_WIDGET
 
 CXX_INCLUDES = -I/home/dxle/builds/ward/build/ward_autogen/include -isystem /usr/include/qt6/QtCore -isystem /usr/include/qt6 -isystem /usr/lib/qt6/mkspecs/linux-g++ -isystem /usr/include/qt6/QtDBus -isystem /usr/include/qt6/QtWidgets -isystem /usr/include/qt6/QtGui
 
-CXX_FLAGS = -std=gnu++17 -mno-direct-extern-access
+CXX_FLAGS = -O3 -DNDEBUG -std=gnu++17 -mno-direct-extern-access
 

@@ -5,12 +5,14 @@
 #include <QDBusArgument>
 #include <QBoxLayout>
 #include <QColor>
+#include <QDir>
 #include <QFontInfo>
 #include <QGuiApplication>
 #include <QIcon>
 #include <QImage>
 #include <QMouseEvent>
 #include <QPixmap>
+#include <QProcess>
 #include <QScreen>
 #include <QUrl>
 #include <QWindow>
@@ -383,6 +385,47 @@ QSize pixmapDisplaySize(const QPixmap &pixmap)
     return pixmap.isNull() ? QSize() : pixmap.deviceIndependentSize().toSize();
 }
 
+QString expandHomePath(const QString &value)
+{
+    if (value == "~") {
+        return QDir::homePath();
+    }
+
+    if (value.startsWith("~/")) {
+        return QDir::homePath() + value.mid(1);
+    }
+
+    return value;
+}
+
+QStringList expandCommandPaths(const QStringList &arguments)
+{
+    QStringList expandedArguments;
+    expandedArguments.reserve(arguments.size());
+
+    for (const QString &argument : arguments) {
+        expandedArguments.append(expandHomePath(argument));
+    }
+
+    return expandedArguments;
+}
+
+void runNotificationCommand(const QString &command)
+{
+    const QString trimmedCommand = command.trimmed();
+    if (trimmedCommand.isEmpty()) {
+        return;
+    }
+
+    QStringList parsedCommand = QProcess::splitCommand(trimmedCommand);
+    if (parsedCommand.isEmpty()) {
+        return;
+    }
+
+    const QString program = expandHomePath(parsedCommand.takeFirst());
+    QProcess::startDetached(program, expandCommandPaths(parsedCommand));
+}
+
 } // namespace
 
 NotificationPopup::NotificationPopup(const NotificationRequest &request,
@@ -651,6 +694,7 @@ int NotificationPopup::popupHeight() const
 void NotificationPopup::mousePressEvent(QMouseEvent *event)
 {
     QWidget::mousePressEvent(event);
+    runNotificationCommand(notificationExecCommand(request_.hints));
     dismiss(2);
 }
 

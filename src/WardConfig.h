@@ -60,7 +60,7 @@ signals:
     void styleChanged(const QString &styleSheet);
 
 private:
-    void ensureConfigFiles() const;
+    void ensureConfigFiles();
     void refreshWatchers();
 
     QFileSystemWatcher watcher_;
