@@ -13,6 +13,7 @@
 #include <QMouseEvent>
 #include <QPixmap>
 #include <QProcess>
+#include <QRegularExpression>
 #include <QScreen>
 #include <QUrl>
 #include <QWindow>
@@ -25,6 +26,11 @@
 namespace {
 
 constexpr int absoluteMaxIconSize = 128;
+constexpr int defaultCardPaddingTop = 14;
+constexpr int defaultCardPaddingRight = 16;
+constexpr int defaultCardPaddingBottom = 16;
+constexpr int defaultCardPaddingLeft = 16;
+constexpr int defaultCardSpacing = 12;
 
 QEasingCurve::Type easingFromName(const QString &name)
 {
@@ -84,16 +90,273 @@ QString sizeStyle(const QString &value)
     return QStringLiteral("font-size: %1pt;").arg(numericSize);
 }
 
-QString spanStyle(const QXmlStreamAttributes &attributes)
+QString stripEnclosingQuotes(const QString &value)
+{
+    const QString trimmed = value.trimmed();
+    if (trimmed.size() < 2) {
+        return trimmed;
+    }
+
+    const QChar first = trimmed.front();
+    const QChar last = trimmed.back();
+    if ((first == '\'' && last == '\'') || (first == '"' && last == '"')) {
+        return trimmed.mid(1, trimmed.size() - 2);
+    }
+
+    return trimmed;
+}
+
+int matchingParenthesisIndex(const QString &value, int openIndex)
+{
+    int depth = 0;
+    QChar quote;
+
+    for (int index = openIndex; index < value.size(); ++index) {
+        const QChar character = value.at(index);
+
+        if (!quote.isNull()) {
+            if (character == quote && (index == 0 || value.at(index - 1) != '\\')) {
+                quote = QChar();
+            }
+            continue;
+        }
+
+        if (character == '\'' || character == '"') {
+            quote = character;
+            continue;
+        }
+
+        if (character == '(') {
+            ++depth;
+            continue;
+        }
+
+        if (character != ')') {
+            continue;
+        }
+
+        --depth;
+        if (depth == 0) {
+            return index;
+        }
+    }
+
+    return -1;
+}
+
+int topLevelCommaIndex(const QString &value)
+{
+    int depth = 0;
+    QChar quote;
+
+    for (int index = 0; index < value.size(); ++index) {
+        const QChar character = value.at(index);
+
+        if (!quote.isNull()) {
+            if (character == quote && (index == 0 || value.at(index - 1) != '\\')) {
+                quote = QChar();
+            }
+            continue;
+        }
+
+        if (character == '\'' || character == '"') {
+            quote = character;
+            continue;
+        }
+
+        if (character == '(') {
+            ++depth;
+            continue;
+        }
+
+        if (character == ')') {
+            depth = qMax(0, depth - 1);
+            continue;
+        }
+
+        if (character == ',' && depth == 0) {
+            return index;
+        }
+    }
+
+    return -1;
+}
+
+QString resolveStyleValue(const QString &value,
+                          const QHash<QString, QString> &styleVariables,
+                          int depth = 0)
+{
+    QString resolved = value;
+    if (depth > 16 || !resolved.contains(QStringLiteral("var("))) {
+        return resolved.trimmed();
+    }
+
+    int searchFrom = 0;
+    while (true) {
+        const int varIndex = resolved.indexOf(QStringLiteral("var("), searchFrom);
+        if (varIndex < 0) {
+            break;
+        }
+
+        const int openIndex = varIndex + 3;
+        const int closeIndex = matchingParenthesisIndex(resolved, openIndex);
+        if (closeIndex < 0) {
+            break;
+        }
+
+        const QString arguments = resolved.mid(openIndex + 1, closeIndex - openIndex - 1).trimmed();
+        const int commaIndex = topLevelCommaIndex(arguments);
+        const QString variableName =
+            (commaIndex < 0 ? arguments : arguments.left(commaIndex)).trimmed();
+        const QString fallback =
+            commaIndex < 0 ? QString() : arguments.mid(commaIndex + 1).trimmed();
+
+        QString replacement;
+        if (styleVariables.contains(variableName)) {
+            replacement = resolveStyleValue(styleVariables.value(variableName), styleVariables, depth + 1);
+        } else if (!fallback.isEmpty()) {
+            replacement = resolveStyleValue(fallback, styleVariables, depth + 1);
+        }
+
+        resolved.replace(varIndex, closeIndex - varIndex + 1, replacement);
+        searchFrom = varIndex + replacement.size();
+    }
+
+    return resolved.trimmed();
+}
+
+QColor colorFromStyleValue(const QString &value)
+{
+    return QColor(value.trimmed());
+}
+
+bool parseStyleLength(const QString &value, int *parsed)
+{
+    QString trimmed = value.trimmed().toLower();
+    if (trimmed.endsWith(QStringLiteral("px"))) {
+        trimmed.chop(2);
+        trimmed = trimmed.trimmed();
+    }
+
+    bool ok = false;
+    const int parsedValue = trimmed.toInt(&ok);
+    if (!ok) {
+        return false;
+    }
+
+    *parsed = parsedValue;
+    return true;
+}
+
+bool parsePaddingValue(const QString &value, QMargins *margins)
+{
+    const QStringList parts = value.split(QRegularExpression(QStringLiteral("\\s+")),
+                                          Qt::SkipEmptyParts);
+    if (parts.isEmpty() || parts.size() > 4) {
+        return false;
+    }
+
+    int top = 0;
+    int right = 0;
+    int bottom = 0;
+    int left = 0;
+    if (!parseStyleLength(parts.at(0), &top)) {
+        return false;
+    }
+
+    if (parts.size() == 1) {
+        right = top;
+        bottom = top;
+        left = top;
+    } else if (parts.size() == 2) {
+        if (!parseStyleLength(parts.at(1), &right)) {
+            return false;
+        }
+        bottom = top;
+        left = right;
+    } else if (parts.size() == 3) {
+        if (!parseStyleLength(parts.at(1), &right) ||
+            !parseStyleLength(parts.at(2), &bottom)) {
+            return false;
+        }
+        left = right;
+    } else {
+        if (!parseStyleLength(parts.at(1), &right) ||
+            !parseStyleLength(parts.at(2), &bottom) ||
+            !parseStyleLength(parts.at(3), &left)) {
+            return false;
+        }
+    }
+
+    *margins = QMargins(qMax(0, left), qMax(0, top), qMax(0, right), qMax(0, bottom));
+    return true;
+}
+
+int styleLengthValue(const QHash<QString, QString> &styleVariables,
+                     const QString &name,
+                     int fallback)
+{
+    if (!styleVariables.contains(name)) {
+        return fallback;
+    }
+
+    int parsed = 0;
+    if (!parseStyleLength(resolveStyleValue(styleVariables.value(name), styleVariables), &parsed)) {
+        return fallback;
+    }
+
+    return qMax(0, parsed);
+}
+
+QMargins notificationCardPadding(const QHash<QString, QString> &styleVariables)
+{
+    QMargins padding(defaultCardPaddingLeft,
+                     defaultCardPaddingTop,
+                     defaultCardPaddingRight,
+                     defaultCardPaddingBottom);
+
+    const QString shorthandName = QStringLiteral("--notification-card-padding");
+    if (styleVariables.contains(shorthandName)) {
+        QMargins parsedPadding;
+        if (parsePaddingValue(resolveStyleValue(styleVariables.value(shorthandName), styleVariables),
+                              &parsedPadding)) {
+            padding = parsedPadding;
+        }
+    }
+
+    padding.setTop(styleLengthValue(styleVariables,
+                                    QStringLiteral("--notification-card-padding-top"),
+                                    padding.top()));
+    padding.setRight(styleLengthValue(styleVariables,
+                                      QStringLiteral("--notification-card-padding-right"),
+                                      padding.right()));
+    padding.setBottom(styleLengthValue(styleVariables,
+                                       QStringLiteral("--notification-card-padding-bottom"),
+                                       padding.bottom()));
+    padding.setLeft(styleLengthValue(styleVariables,
+                                     QStringLiteral("--notification-card-padding-left"),
+                                     padding.left()));
+    return padding;
+}
+
+int notificationCardGap(const QHash<QString, QString> &styleVariables)
+{
+    return styleLengthValue(styleVariables,
+                            QStringLiteral("--notification-card-gap"),
+                            defaultCardSpacing);
+}
+
+QString spanStyle(const QXmlStreamAttributes &attributes, const QHash<QString, QString> &styleVariables)
 {
     QStringList styles;
 
-    const auto addColorStyle = [&styles, &attributes](const QString &key, const QString &cssKey) {
+    const auto addColorStyle = [&styles, &attributes, &styleVariables](const QString &key, const QString &cssKey) {
         if (!attributes.hasAttribute(key)) {
             return;
         }
 
-        const QColor color(attributes.value(key).toString().trimmed());
+        const QString resolvedValue = resolveStyleValue(attributes.value(key).toString(), styleVariables);
+        const QColor color = colorFromStyleValue(resolvedValue);
         if (color.isValid()) {
             styles.append(QStringLiteral("%1: %2;").arg(cssKey, color.name(QColor::HexArgb)));
         }
@@ -106,27 +369,47 @@ QString spanStyle(const QXmlStreamAttributes &attributes)
     addColorStyle(QStringLiteral("bgcolor"), QStringLiteral("background-color"));
 
     if (attributes.hasAttribute(QStringLiteral("font_family"))) {
-        styles.append(QStringLiteral("font-family: '%1';")
-                          .arg(attributes.value(QStringLiteral("font_family")).toString().toHtmlEscaped()));
+        const QString family = stripEnclosingQuotes(resolveStyleValue(
+            attributes.value(QStringLiteral("font_family")).toString(),
+            styleVariables));
+        if (!family.isEmpty()) {
+            styles.append(QStringLiteral("font-family: '%1';").arg(family.toHtmlEscaped()));
+        }
     } else if (attributes.hasAttribute(QStringLiteral("face"))) {
-        styles.append(QStringLiteral("font-family: '%1';")
-                          .arg(attributes.value(QStringLiteral("face")).toString().toHtmlEscaped()));
+        const QString family = stripEnclosingQuotes(resolveStyleValue(
+            attributes.value(QStringLiteral("face")).toString(),
+            styleVariables));
+        if (!family.isEmpty()) {
+            styles.append(QStringLiteral("font-family: '%1';").arg(family.toHtmlEscaped()));
+        }
     }
 
     if (attributes.hasAttribute(QStringLiteral("font_weight"))) {
-        styles.append(QStringLiteral("font-weight: %1;")
-                          .arg(attributes.value(QStringLiteral("font_weight")).toString().toHtmlEscaped()));
+        const QString fontWeight = resolveStyleValue(attributes.value(QStringLiteral("font_weight")).toString(),
+                                                     styleVariables);
+        if (!fontWeight.isEmpty()) {
+            styles.append(QStringLiteral("font-weight: %1;").arg(fontWeight.toHtmlEscaped()));
+        }
     } else if (attributes.hasAttribute(QStringLiteral("weight"))) {
-        styles.append(QStringLiteral("font-weight: %1;")
-                          .arg(attributes.value(QStringLiteral("weight")).toString().toHtmlEscaped()));
+        const QString fontWeight = resolveStyleValue(attributes.value(QStringLiteral("weight")).toString(),
+                                                     styleVariables);
+        if (!fontWeight.isEmpty()) {
+            styles.append(QStringLiteral("font-weight: %1;").arg(fontWeight.toHtmlEscaped()));
+        }
     }
 
     if (attributes.hasAttribute(QStringLiteral("font_style"))) {
-        styles.append(QStringLiteral("font-style: %1;")
-                          .arg(attributes.value(QStringLiteral("font_style")).toString().toHtmlEscaped()));
+        const QString fontStyle = resolveStyleValue(attributes.value(QStringLiteral("font_style")).toString(),
+                                                    styleVariables);
+        if (!fontStyle.isEmpty()) {
+            styles.append(QStringLiteral("font-style: %1;").arg(fontStyle.toHtmlEscaped()));
+        }
     } else if (attributes.hasAttribute(QStringLiteral("style"))) {
-        styles.append(QStringLiteral("font-style: %1;")
-                          .arg(attributes.value(QStringLiteral("style")).toString().toHtmlEscaped()));
+        const QString fontStyle = resolveStyleValue(attributes.value(QStringLiteral("style")).toString(),
+                                                    styleVariables);
+        if (!fontStyle.isEmpty()) {
+            styles.append(QStringLiteral("font-style: %1;").arg(fontStyle.toHtmlEscaped()));
+        }
     }
 
     if (attributes.hasAttribute(QStringLiteral("underline"))) {
@@ -146,12 +429,15 @@ QString spanStyle(const QXmlStreamAttributes &attributes)
     }
 
     if (attributes.hasAttribute(QStringLiteral("size"))) {
-        const QString style = sizeStyle(attributes.value(QStringLiteral("size")).toString());
+        const QString style = sizeStyle(resolveStyleValue(attributes.value(QStringLiteral("size")).toString(),
+                                                          styleVariables));
         if (!style.isEmpty()) {
             styles.append(style);
         }
     } else if (attributes.hasAttribute(QStringLiteral("font_size"))) {
-        const QString style = sizeStyle(attributes.value(QStringLiteral("font_size")).toString());
+        const QString style = sizeStyle(resolveStyleValue(
+            attributes.value(QStringLiteral("font_size")).toString(),
+            styleVariables));
         if (!style.isEmpty()) {
             styles.append(style);
         }
@@ -160,7 +446,7 @@ QString spanStyle(const QXmlStreamAttributes &attributes)
     return styles.join(' ');
 }
 
-QString richTextFromMarkup(const QString &text)
+QString richTextFromMarkup(const QString &text, const QHash<QString, QString> &styleVariables)
 {
     if (text.trimmed().isEmpty()) {
         return {};
@@ -207,7 +493,7 @@ QString richTextFromMarkup(const QString &text)
             }
 
             if (name == QStringLiteral("span")) {
-                const QString style = spanStyle(xml.attributes()).toHtmlEscaped();
+                const QString style = spanStyle(xml.attributes(), styleVariables).toHtmlEscaped();
                 if (style.isEmpty()) {
                     html += QStringLiteral("<span>");
                 } else {
@@ -493,9 +779,12 @@ void NotificationPopup::applyConfig(const WardConfig &config)
     restartTimeout();
 }
 
-void NotificationPopup::applyStyleSheet(const QString &styleSheet)
+void NotificationPopup::applyStyleSheet(const QString &styleSheet,
+                                        const QHash<QString, QString> &styleVariables)
 {
+    styleVariables_ = styleVariables;
     setStyleSheet(styleSheet);
+    applyCardLayoutStyle();
     refreshContent();
     refreshGeometry();
 }
@@ -710,8 +999,8 @@ void NotificationPopup::buildUi()
     card_->setObjectName("notificationCard");
 
     auto *cardLayout = new QHBoxLayout(card_);
-    cardLayout->setContentsMargins(16, 14, 16, 16);
-    cardLayout->setSpacing(12);
+    cardLayout->setContentsMargins(notificationCardPadding(styleVariables_));
+    cardLayout->setSpacing(notificationCardGap(styleVariables_));
 
     iconLabel_ = new QLabel(card_);
     iconLabel_->setObjectName("iconLabel");
@@ -744,6 +1033,17 @@ void NotificationPopup::buildUi()
     opacityEffect_->setOpacity(1.0);
     card_->setGraphicsEffect(opacityEffect_);
     syncCardGeometry();
+}
+
+void NotificationPopup::applyCardLayoutStyle()
+{
+    auto *layout = qobject_cast<QBoxLayout *>(card_ ? card_->layout() : nullptr);
+    if (!layout) {
+        return;
+    }
+
+    layout->setContentsMargins(notificationCardPadding(styleVariables_));
+    layout->setSpacing(notificationCardGap(styleVariables_));
 }
 
 void NotificationPopup::refreshContent()
@@ -1029,7 +1329,7 @@ QPixmap NotificationPopup::notificationPixmap() const
 
 QString NotificationPopup::formatNotificationText(const QString &text, const QLabel *label) const
 {
-    return applyLabelFontFamily(richTextFromMarkup(text), label);
+    return applyLabelFontFamily(richTextFromMarkup(text, styleVariables_), label);
 }
 
 void NotificationPopup::setContentOffset(const QPoint &offset)

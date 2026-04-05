@@ -2,6 +2,7 @@
 
 #include <QObject>
 #include <QFileSystemWatcher>
+#include <QHash>
 #include <QString>
 
 struct WardLayoutConfig {
@@ -49,6 +50,7 @@ public:
 
     const WardConfig &config() const;
     const QString &styleSheet() const;
+    const QHash<QString, QString> &styleVariables() const;
     QString configPath() const;
     QString stylePath() const;
 
@@ -57,7 +59,7 @@ public slots:
 
 signals:
     void configChanged(const WardConfig &config);
-    void styleChanged(const QString &styleSheet);
+    void styleChanged(const QString &styleSheet, const QHash<QString, QString> &styleVariables);
 
 private:
     void ensureConfigFiles();
@@ -66,6 +68,7 @@ private:
     QFileSystemWatcher watcher_;
     WardConfig config_;
     QString styleSheet_;
+    QHash<QString, QString> styleVariables_;
     QStringList styleDependencyFiles_;
     QStringList styleDependencyDirectories_;
 };

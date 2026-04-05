@@ -15,6 +15,7 @@ namespace {
 
 struct LoadedStyleSheet {
     QString styleSheet;
+    QHash<QString, QString> variables;
     QStringList dependencyFiles;
     QStringList dependencyDirectories;
 };
@@ -80,6 +81,8 @@ QString defaultStyleContents()
 {
     return QStringLiteral(
         "NotificationPopup {\n"
+        "    --notification-card-padding: 14px 16px 16px 16px;\n"
+        "    --notification-card-gap: 12px;\n"
         "    background: transparent;\n"
         "}\n"
         "\n"
@@ -520,8 +523,9 @@ QString resolveCustomPropertyValue(const QString &name,
     return value;
 }
 
-QString stripAndResolveCustomProperties(const QString &styleSheet)
+LoadedStyleSheet stripAndResolveCustomProperties(const QString &styleSheet)
 {
+    LoadedStyleSheet result;
     static const QRegularExpression blockPattern(R"(([^{}]+)\{([^{}]*)\})");
 
     QHash<QString, QString> variables;
@@ -571,7 +575,12 @@ QString stripAndResolveCustomProperties(const QString &styleSheet)
     withoutVariables += styleSheet.mid(currentIndex);
 
     QSet<QString> resolvingNames;
-    return substituteCustomProperties(withoutVariables, variables, &resolvingNames);
+    for (auto it = variables.cbegin(); it != variables.cend(); ++it) {
+        result.variables.insert(it.key(), resolveCustomPropertyValue(it.key(), variables, &resolvingNames));
+    }
+
+    result.styleSheet = substituteCustomProperties(withoutVariables, result.variables, &resolvingNames);
+    return result;
 }
 
 QString normalizeWardSelectors(const QString &styleSheet)
@@ -655,15 +664,17 @@ bool validateStyleSheetSyntax(const QString &styleSheet, QString *error)
     return true;
 }
 
-QString finalizeStyleSheet(const QString &styleSheet)
+LoadedStyleSheet finalizeStyleSheet(const QString &styleSheet)
 {
-    return normalizeWardSelectors(stripAndResolveCustomProperties(styleSheet)) + QStringLiteral(
+    LoadedStyleSheet result = stripAndResolveCustomProperties(styleSheet);
+    result.styleSheet = normalizeWardSelectors(result.styleSheet) + QStringLiteral(
         "\nQLabel#iconLabel {\n"
         "    min-width: 0px;\n"
         "    max-width: 16777215px;\n"
         "    min-height: 0px;\n"
         "    max-height: 16777215px;\n"
         "}\n");
+    return result;
 }
 
 StyleLoadResult loadStyleFile(const QString &path, bool isRootFile, StyleLoadContext *context);
@@ -765,7 +776,7 @@ StyleLoadResult loadStyleSheet(const QString &path)
         return styleFile;
     }
 
-    result.styleSheet.styleSheet = finalizeStyleSheet(styleFile.styleSheet.styleSheet);
+    result.styleSheet = finalizeStyleSheet(styleFile.styleSheet.styleSheet);
     result.styleSheet.dependencyFiles = context.dependencyFiles.values();
     result.styleSheet.dependencyDirectories = context.dependencyDirectories.values();
     result.ok = true;
@@ -793,6 +804,11 @@ const QString &WardConfigLoader::styleSheet() const
     return styleSheet_;
 }
 
+const QHash<QString, QString> &WardConfigLoader::styleVariables() const
+{
+    return styleVariables_;
+}
+
 QString WardConfigLoader::configPath() const
 {
     return wardConfigDirectory() + "/config.toml";
@@ -815,11 +831,14 @@ void WardConfigLoader::reload()
     const StyleLoadResult loadedStyleSheet = loadStyleSheet(stylePath());
     if (loadedStyleSheet.ok) {
         styleSheet_ = loadedStyleSheet.styleSheet.styleSheet;
+        styleVariables_ = loadedStyleSheet.styleSheet.variables;
         styleDependencyFiles_ = loadedStyleSheet.styleSheet.dependencyFiles;
         styleDependencyDirectories_ = loadedStyleSheet.styleSheet.dependencyDirectories;
     } else {
         if (styleSheet_.isEmpty()) {
-            styleSheet_ = finalizeStyleSheet(defaultStyleContents());
+            const LoadedStyleSheet defaultStyleSheet = finalizeStyleSheet(defaultStyleContents());
+            styleSheet_ = defaultStyleSheet.styleSheet;
+            styleVariables_ = defaultStyleSheet.variables;
         }
         qWarning().noquote() << "ward:" << loadedStyleSheet.error;
     }
@@ -831,7 +850,7 @@ void WardConfigLoader::reload()
     }
 
     if (loadedStyleSheet.ok) {
-        emit styleChanged(styleSheet_);
+        emit styleChanged(styleSheet_, styleVariables_);
     }
 }
 

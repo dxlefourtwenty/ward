@@ -59,6 +59,8 @@ template <> constexpr inline auto NotificationCenter::qt_create_metaobjectdata<q
         "config",
         "applyStyle",
         "styleSheet",
+        "QHash<QString,QString>",
+        "styleVariables",
         "handlePopupDismissed"
     };
 
@@ -87,11 +89,11 @@ template <> constexpr inline auto NotificationCenter::qt_create_metaobjectdata<q
             { 0x80000000 | 16, 17 },
         }}),
         // Slot 'applyStyle'
-        QtMocHelpers::SlotData<void(const QString &)>(18, 2, QMC::AccessPrivate, QMetaType::Void, {{
-            { QMetaType::QString, 19 },
+        QtMocHelpers::SlotData<void(const QString &, const QHash<QString,QString> &)>(18, 2, QMC::AccessPrivate, QMetaType::Void, {{
+            { QMetaType::QString, 19 }, { 0x80000000 | 20, 21 },
         }}),
         // Slot 'handlePopupDismissed'
-        QtMocHelpers::SlotData<void(uint, uint)>(20, 2, QMC::AccessPrivate, QMetaType::Void, {{
+        QtMocHelpers::SlotData<void(uint, uint)>(22, 2, QMC::AccessPrivate, QMetaType::Void, {{
             { QMetaType::UInt, 3 }, { QMetaType::UInt, 4 },
         }}),
     };
@@ -123,7 +125,7 @@ void NotificationCenter::qt_static_metacall(QObject *_o, QMetaObject::Call _c, i
         case 3: _t->closeNotification((*reinterpret_cast<std::add_pointer_t<uint>>(_a[1])),(*reinterpret_cast<std::add_pointer_t<uint>>(_a[2]))); break;
         case 4: _t->closeNotification((*reinterpret_cast<std::add_pointer_t<uint>>(_a[1]))); break;
         case 5: _t->applyConfig((*reinterpret_cast<std::add_pointer_t<WardConfig>>(_a[1]))); break;
-        case 6: _t->applyStyle((*reinterpret_cast<std::add_pointer_t<QString>>(_a[1]))); break;
+        case 6: _t->applyStyle((*reinterpret_cast<std::add_pointer_t<QString>>(_a[1])),(*reinterpret_cast<std::add_pointer_t<QHash<QString,QString>>>(_a[2]))); break;
         case 7: _t->handlePopupDismissed((*reinterpret_cast<std::add_pointer_t<uint>>(_a[1])),(*reinterpret_cast<std::add_pointer_t<uint>>(_a[2]))); break;
         default: ;
         }

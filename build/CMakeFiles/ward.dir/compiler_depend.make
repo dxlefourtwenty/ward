@@ -1806,6 +1806,7 @@ CMakeFiles/ward.dir/src/NotificationPopup.cpp.o: /home/dxle/builds/ward/src/Noti
   /usr/include/qt6/QtCore/QDir \
   /usr/include/qt6/QtCore/QEvent \
   /usr/include/qt6/QtCore/QFileSystemWatcher \
+  /usr/include/qt6/QtCore/QHash \
   /usr/include/qt6/QtCore/QList \
   /usr/include/qt6/QtCore/QMap \
   /usr/include/qt6/QtCore/QMargins \
@@ -1814,6 +1815,7 @@ CMakeFiles/ward.dir/src/NotificationPopup.cpp.o: /home/dxle/builds/ward/src/Noti
   /usr/include/qt6/QtCore/QProcess \
   /usr/include/qt6/QtCore/QPropertyAnimation \
   /usr/include/qt6/QtCore/QRect \
+  /usr/include/qt6/QtCore/QRegularExpression \
   /usr/include/qt6/QtCore/QSize \
   /usr/include/qt6/QtCore/QSizeF \
   /usr/include/qt6/QtCore/QString \
@@ -1924,6 +1926,7 @@ CMakeFiles/ward.dir/src/NotificationPopup.cpp.o: /home/dxle/builds/ward/src/Noti
   /usr/include/qt6/QtCore/qpropertyanimation.h \
   /usr/include/qt6/QtCore/qrect.h \
   /usr/include/qt6/QtCore/qrefcount.h \
+  /usr/include/qt6/QtCore/qregularexpression.h \
   /usr/include/qt6/QtCore/qscopedpointer.h \
   /usr/include/qt6/QtCore/qscopeguard.h \
   /usr/include/qt6/QtCore/qset.h \
@@ -6816,6 +6819,12 @@ ward_autogen/UVLADIE3JM/moc_NotificationServer.cpp:
 
 /usr/include/qt6/QtCore/QProcess:
 
+/usr/include/qt6/QtCore/qtypes.h:
+
+/usr/include/qt6/QtCore/QRegularExpression:
+
+ward_autogen/UVLADIE3JM/moc_NotificationCenter.cpp:
+
 /usr/include/qt6/QtCore/QXmlStreamReader:
 
 /usr/include/qt6/QtCore/qfiledevice.h:
@@ -6845,12 +6854,6 @@ ward_autogen/UVLADIE3JM/moc_NotificationServer.cpp:
 /usr/include/wctype.h:
 
 /usr/include/qt6/QtCore/QFileInfo:
-
-/usr/include/qt6/QtCore/qtypes.h:
-
-/usr/include/qt6/QtCore/QRegularExpression:
-
-ward_autogen/UVLADIE3JM/moc_NotificationCenter.cpp:
 
 /usr/include/qt6/QtCore/qtnoop.h:
 

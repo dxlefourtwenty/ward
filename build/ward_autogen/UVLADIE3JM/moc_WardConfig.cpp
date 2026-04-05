@@ -45,6 +45,8 @@ template <> constexpr inline auto WardConfigLoader::qt_create_metaobjectdata<qt_
         "config",
         "styleChanged",
         "styleSheet",
+        "QHash<QString,QString>",
+        "styleVariables",
         "reload"
     };
 
@@ -54,11 +56,11 @@ template <> constexpr inline auto WardConfigLoader::qt_create_metaobjectdata<qt_
             { 0x80000000 | 3, 4 },
         }}),
         // Signal 'styleChanged'
-        QtMocHelpers::SignalData<void(const QString &)>(5, 2, QMC::AccessPublic, QMetaType::Void, {{
-            { QMetaType::QString, 6 },
+        QtMocHelpers::SignalData<void(const QString &, const QHash<QString,QString> &)>(5, 2, QMC::AccessPublic, QMetaType::Void, {{
+            { QMetaType::QString, 6 }, { 0x80000000 | 7, 8 },
         }}),
         // Slot 'reload'
-        QtMocHelpers::SlotData<void()>(7, 2, QMC::AccessPublic, QMetaType::Void),
+        QtMocHelpers::SlotData<void()>(9, 2, QMC::AccessPublic, QMetaType::Void),
     };
     QtMocHelpers::UintData qt_properties {
     };
@@ -83,7 +85,7 @@ void WardConfigLoader::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int
     if (_c == QMetaObject::InvokeMetaMethod) {
         switch (_id) {
         case 0: _t->configChanged((*reinterpret_cast<std::add_pointer_t<WardConfig>>(_a[1]))); break;
-        case 1: _t->styleChanged((*reinterpret_cast<std::add_pointer_t<QString>>(_a[1]))); break;
+        case 1: _t->styleChanged((*reinterpret_cast<std::add_pointer_t<QString>>(_a[1])),(*reinterpret_cast<std::add_pointer_t<QHash<QString,QString>>>(_a[2]))); break;
         case 2: _t->reload(); break;
         default: ;
         }
@@ -91,7 +93,7 @@ void WardConfigLoader::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int
     if (_c == QMetaObject::IndexOfMethod) {
         if (QtMocHelpers::indexOfMethod<void (WardConfigLoader::*)(const WardConfig & )>(_a, &WardConfigLoader::configChanged, 0))
             return;
-        if (QtMocHelpers::indexOfMethod<void (WardConfigLoader::*)(const QString & )>(_a, &WardConfigLoader::styleChanged, 1))
+        if (QtMocHelpers::indexOfMethod<void (WardConfigLoader::*)(const QString & , const QHash<QString,QString> & )>(_a, &WardConfigLoader::styleChanged, 1))
             return;
     }
 }
@@ -134,8 +136,8 @@ void WardConfigLoader::configChanged(const WardConfig & _t1)
 }
 
 // SIGNAL 1
-void WardConfigLoader::styleChanged(const QString & _t1)
+void WardConfigLoader::styleChanged(const QString & _t1, const QHash<QString,QString> & _t2)
 {
-    QMetaObject::activate<void>(this, &staticMetaObject, 1, nullptr, _t1);
+    QMetaObject::activate<void>(this, &staticMetaObject, 1, nullptr, _t1, _t2);
 }
 QT_WARNING_POP

@@ -4,6 +4,7 @@
 
 #include <QFrame>
 #include <QGraphicsOpacityEffect>
+#include <QHash>
 #include <QLabel>
 #include <QPixmap>
 #include <QMargins>
@@ -36,7 +37,7 @@ public:
     QString stackTag() const;
     void updateNotification(const NotificationRequest &request, const WardConfig &config);
     void applyConfig(const WardConfig &config);
-    void applyStyleSheet(const QString &styleSheet);
+    void applyStyleSheet(const QString &styleSheet, const QHash<QString, QString> &styleVariables);
     void showAnimated(const QPoint &targetPosition, int stackOffset);
     void moveAnimated(const QPoint &targetPosition, int stackOffset);
     void dismiss(uint reason, const QString &exitDirection = {}, bool forceSilent = false);
@@ -51,6 +52,7 @@ protected:
 
 private:
     void buildUi();
+    void applyCardLayoutStyle();
     void refreshContent();
     void refreshGeometry();
     void syncCardGeometry();
@@ -97,6 +99,7 @@ private:
     QTimer timeoutTimer_;
     QPointer<QVariantAnimation> moveAnimation_;
     QPointer<QVariantAnimation> fadeAnimation_;
+    QHash<QString, QString> styleVariables_;
     uint pendingCloseReason_ = 0;
     int currentStackOffset_ = 0;
     QSize currentIconSize_;

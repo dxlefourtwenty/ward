@@ -32,7 +32,7 @@ public slots:
 
 private slots:
     void applyConfig(const WardConfig &config);
-    void applyStyle(const QString &styleSheet);
+    void applyStyle(const QString &styleSheet, const QHash<QString, QString> &styleVariables);
     void handlePopupDismissed(uint id, uint reason);
 
 private:
@@ -50,6 +50,7 @@ private:
     WardConfigLoader configLoader_;
     WardConfig config_;
     QString styleSheet_;
+    QHash<QString, QString> styleVariables_;
     QList<NotificationPopup *> popups_;
     QHash<uint, NotificationPopup *> popupById_;
     QHash<QString, NotificationPopup *> popupByStackTag_;

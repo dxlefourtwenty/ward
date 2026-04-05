@@ -29,6 +29,7 @@ NotificationCenter::NotificationCenter(QObject *parent)
     : QObject(parent)
     , config_(configLoader_.config())
     , styleSheet_(configLoader_.styleSheet())
+    , styleVariables_(configLoader_.styleVariables())
 {
     connect(&configLoader_, &WardConfigLoader::configChanged, this, &NotificationCenter::applyConfig);
     connect(&configLoader_, &WardConfigLoader::styleChanged, this, &NotificationCenter::applyStyle);
@@ -73,7 +74,7 @@ void NotificationCenter::showNotification(uint id,
     }
 
     auto *popup = new NotificationPopup(request, config_);
-    popup->applyStyleSheet(styleSheet_);
+    popup->applyStyleSheet(styleSheet_, styleVariables_);
     connect(popup, &NotificationPopup::dismissed, this, &NotificationCenter::handlePopupDismissed);
 
     popups_.prepend(popup);
@@ -104,12 +105,14 @@ void NotificationCenter::applyConfig(const WardConfig &config)
     relayout();
 }
 
-void NotificationCenter::applyStyle(const QString &styleSheet)
+void NotificationCenter::applyStyle(const QString &styleSheet,
+                                    const QHash<QString, QString> &styleVariables)
 {
     styleSheet_ = styleSheet;
+    styleVariables_ = styleVariables;
 
     for (NotificationPopup *popup : popups_) {
-        popup->applyStyleSheet(styleSheet_);
+        popup->applyStyleSheet(styleSheet_, styleVariables_);
     }
 
     relayout();

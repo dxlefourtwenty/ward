@@ -349,8 +349,9 @@ CMakeFiles/ward.dir/src/NotificationPopup.cpp.o: \
  /usr/include/qt6/QtGui/qcursor.h /usr/include/qt6/QtGui/qbitmap.h \
  /usr/include/qt6/QtWidgets/QGraphicsOpacityEffect \
  /usr/include/qt6/QtWidgets/qgraphicseffect.h \
- /usr/include/qt6/QtWidgets/QLabel /usr/include/qt6/QtWidgets/qlabel.h \
- /usr/include/qt6/QtGui/qpicture.h /usr/include/qt6/QtCore/qiodevice.h \
+ /usr/include/qt6/QtCore/QHash /usr/include/qt6/QtWidgets/QLabel \
+ /usr/include/qt6/QtWidgets/qlabel.h /usr/include/qt6/QtGui/qpicture.h \
+ /usr/include/qt6/QtCore/qiodevice.h \
  /usr/include/qt6/QtGui/qtextdocument.h /usr/include/qt6/QtCore/qurl.h \
  /usr/include/qt6/QtGui/QPixmap /usr/include/qt6/QtCore/QMargins \
  /usr/include/qt6/QtCore/QPointer /usr/include/qt6/QtCore/qpointer.h \
@@ -435,6 +436,8 @@ CMakeFiles/ward.dir/src/NotificationPopup.cpp.o: \
  /usr/include/qt6/QtGui/QGuiApplication /usr/include/qt6/QtGui/QIcon \
  /usr/include/qt6/QtGui/QImage /usr/include/qt6/QtGui/QMouseEvent \
  /usr/include/qt6/QtCore/QProcess /usr/include/qt6/QtCore/qprocess.h \
+ /usr/include/qt6/QtCore/QRegularExpression \
+ /usr/include/qt6/QtCore/qregularexpression.h \
  /usr/include/qt6/QtGui/QScreen /usr/include/qt6/QtCore/QUrl \
  /usr/include/qt6/QtGui/QWindow /usr/include/qt6/QtGui/qwindow.h \
  /usr/include/qt6/QtCore/QEvent /usr/include/qt6/QtCore/QMargins \
