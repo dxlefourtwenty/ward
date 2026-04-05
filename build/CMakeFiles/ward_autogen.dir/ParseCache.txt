@@ -1278,10 +1278,15 @@
  mdp:/usr/include/qt6/QtWidgets/QFrame
  mdp:/usr/include/qt6/QtWidgets/QGraphicsOpacityEffect
  mdp:/usr/include/qt6/QtWidgets/QLabel
+ mdp:/usr/include/qt6/QtWidgets/QVBoxLayout
  mdp:/usr/include/qt6/QtWidgets/QWidget
+ mdp:/usr/include/qt6/QtWidgets/qboxlayout.h
  mdp:/usr/include/qt6/QtWidgets/qframe.h
  mdp:/usr/include/qt6/QtWidgets/qgraphicseffect.h
+ mdp:/usr/include/qt6/QtWidgets/qgridlayout.h
  mdp:/usr/include/qt6/QtWidgets/qlabel.h
+ mdp:/usr/include/qt6/QtWidgets/qlayout.h
+ mdp:/usr/include/qt6/QtWidgets/qlayoutitem.h
  mdp:/usr/include/qt6/QtWidgets/qsizepolicy.h
  mdp:/usr/include/qt6/QtWidgets/qtwidgets-config.h
  mdp:/usr/include/qt6/QtWidgets/qtwidgetsexports.h
@@ -1787,10 +1792,15 @@
  mdp:/usr/include/qt6/QtWidgets/QFrame
  mdp:/usr/include/qt6/QtWidgets/QGraphicsOpacityEffect
  mdp:/usr/include/qt6/QtWidgets/QLabel
+ mdp:/usr/include/qt6/QtWidgets/QVBoxLayout
  mdp:/usr/include/qt6/QtWidgets/QWidget
+ mdp:/usr/include/qt6/QtWidgets/qboxlayout.h
  mdp:/usr/include/qt6/QtWidgets/qframe.h
  mdp:/usr/include/qt6/QtWidgets/qgraphicseffect.h
+ mdp:/usr/include/qt6/QtWidgets/qgridlayout.h
  mdp:/usr/include/qt6/QtWidgets/qlabel.h
+ mdp:/usr/include/qt6/QtWidgets/qlayout.h
+ mdp:/usr/include/qt6/QtWidgets/qlayoutitem.h
  mdp:/usr/include/qt6/QtWidgets/qsizepolicy.h
  mdp:/usr/include/qt6/QtWidgets/qtwidgets-config.h
  mdp:/usr/include/qt6/QtWidgets/qtwidgetsexports.h

@@ -497,10 +497,15 @@
  /usr/include/qt6/QtWidgets/QFrame
  /usr/include/qt6/QtWidgets/QGraphicsOpacityEffect
  /usr/include/qt6/QtWidgets/QLabel
+ /usr/include/qt6/QtWidgets/QVBoxLayout
  /usr/include/qt6/QtWidgets/QWidget
+ /usr/include/qt6/QtWidgets/qboxlayout.h
  /usr/include/qt6/QtWidgets/qframe.h
  /usr/include/qt6/QtWidgets/qgraphicseffect.h
+ /usr/include/qt6/QtWidgets/qgridlayout.h
  /usr/include/qt6/QtWidgets/qlabel.h
+ /usr/include/qt6/QtWidgets/qlayout.h
+ /usr/include/qt6/QtWidgets/qlayoutitem.h
  /usr/include/qt6/QtWidgets/qsizepolicy.h
  /usr/include/qt6/QtWidgets/qtwidgets-config.h
  /usr/include/qt6/QtWidgets/qtwidgetsexports.h
@@ -1455,11 +1460,16 @@ CMakeFiles/ward.dir/src/NotificationCenter.cpp.o
  /usr/include/qt6/QtWidgets/QFrame
  /usr/include/qt6/QtWidgets/QGraphicsOpacityEffect
  /usr/include/qt6/QtWidgets/QLabel
+ /usr/include/qt6/QtWidgets/QVBoxLayout
  /usr/include/qt6/QtWidgets/QWidget
  /usr/include/qt6/QtWidgets/qapplication.h
+ /usr/include/qt6/QtWidgets/qboxlayout.h
  /usr/include/qt6/QtWidgets/qframe.h
  /usr/include/qt6/QtWidgets/qgraphicseffect.h
+ /usr/include/qt6/QtWidgets/qgridlayout.h
  /usr/include/qt6/QtWidgets/qlabel.h
+ /usr/include/qt6/QtWidgets/qlayout.h
+ /usr/include/qt6/QtWidgets/qlayoutitem.h
  /usr/include/qt6/QtWidgets/qsizepolicy.h
  /usr/include/qt6/QtWidgets/qtwidgets-config.h
  /usr/include/qt6/QtWidgets/qtwidgetsexports.h
@@ -2049,6 +2059,7 @@ CMakeFiles/ward.dir/src/NotificationPopup.cpp.o
  /usr/include/qt6/QtWidgets/QFrame
  /usr/include/qt6/QtWidgets/QGraphicsOpacityEffect
  /usr/include/qt6/QtWidgets/QLabel
+ /usr/include/qt6/QtWidgets/QVBoxLayout
  /usr/include/qt6/QtWidgets/QWidget
  /usr/include/qt6/QtWidgets/qboxlayout.h
  /usr/include/qt6/QtWidgets/qframe.h
@@ -3959,11 +3970,16 @@ CMakeFiles/ward.dir/src/main.cpp.o
  /usr/include/qt6/QtWidgets/QFrame
  /usr/include/qt6/QtWidgets/QGraphicsOpacityEffect
  /usr/include/qt6/QtWidgets/QLabel
+ /usr/include/qt6/QtWidgets/QVBoxLayout
  /usr/include/qt6/QtWidgets/QWidget
  /usr/include/qt6/QtWidgets/qapplication.h
+ /usr/include/qt6/QtWidgets/qboxlayout.h
  /usr/include/qt6/QtWidgets/qframe.h
  /usr/include/qt6/QtWidgets/qgraphicseffect.h
+ /usr/include/qt6/QtWidgets/qgridlayout.h
  /usr/include/qt6/QtWidgets/qlabel.h
+ /usr/include/qt6/QtWidgets/qlayout.h
+ /usr/include/qt6/QtWidgets/qlayoutitem.h
  /usr/include/qt6/QtWidgets/qsizepolicy.h
  /usr/include/qt6/QtWidgets/qtwidgets-config.h
  /usr/include/qt6/QtWidgets/qtwidgetsexports.h
@@ -4504,10 +4520,15 @@ CMakeFiles/ward.dir/ward_autogen/mocs_compilation.cpp.o
  /usr/include/qt6/QtWidgets/QFrame
  /usr/include/qt6/QtWidgets/QGraphicsOpacityEffect
  /usr/include/qt6/QtWidgets/QLabel
+ /usr/include/qt6/QtWidgets/QVBoxLayout
  /usr/include/qt6/QtWidgets/QWidget
+ /usr/include/qt6/QtWidgets/qboxlayout.h
  /usr/include/qt6/QtWidgets/qframe.h
  /usr/include/qt6/QtWidgets/qgraphicseffect.h
+ /usr/include/qt6/QtWidgets/qgridlayout.h
  /usr/include/qt6/QtWidgets/qlabel.h
+ /usr/include/qt6/QtWidgets/qlayout.h
+ /usr/include/qt6/QtWidgets/qlayoutitem.h
  /usr/include/qt6/QtWidgets/qsizepolicy.h
  /usr/include/qt6/QtWidgets/qtwidgets-config.h
  /usr/include/qt6/QtWidgets/qtwidgetsexports.h

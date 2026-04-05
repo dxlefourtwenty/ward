@@ -12,6 +12,7 @@
 #include <QPropertyAnimation>
 #include <QResizeEvent>
 #include <QTimer>
+#include <QVBoxLayout>
 #include <QVariantAnimation>
 #include <QWidget>
 
@@ -91,7 +92,8 @@ private:
     NotificationRequest request_;
     WardConfig config_;
     QFrame *card_ = nullptr;
-    QLayout *textLayout_ = nullptr;
+    QVBoxLayout *textLayout_ = nullptr;
+    QVBoxLayout *textBlockLayout_ = nullptr;
     QLabel *iconLabel_ = nullptr;
     QLabel *summaryLabel_ = nullptr;
     QLabel *bodyLabel_ = nullptr;

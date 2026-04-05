@@ -435,7 +435,11 @@ CMakeFiles/ward.dir/src/main.cpp.o: /home/dxle/builds/ward/src/main.cpp \
  /usr/include/qt6/QtCore/QRect /usr/include/qt6/QtCore/QSize \
  /usr/include/qt6/QtCore/QSizeF /usr/include/qt6/QtGui/QTransform \
  /usr/include/qt6/QtGui/qscreen_platform.h /usr/include/qt6/QtCore/QTimer \
- /usr/include/qt6/QtCore/qtimer.h \
+ /usr/include/qt6/QtCore/qtimer.h /usr/include/qt6/QtWidgets/QVBoxLayout \
+ /usr/include/qt6/QtWidgets/qboxlayout.h \
+ /usr/include/qt6/QtWidgets/qlayout.h \
+ /usr/include/qt6/QtWidgets/qlayoutitem.h \
+ /usr/include/qt6/QtWidgets/qgridlayout.h \
  /usr/include/qt6/QtCore/QVariantAnimation \
  /usr/include/qt6/QtWidgets/QWidget \
  /home/dxle/builds/ward/src/NotificationTypes.h \

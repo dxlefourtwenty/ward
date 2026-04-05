@@ -1012,7 +1012,13 @@ void NotificationPopup::buildUi()
 
     textLayout_ = new QVBoxLayout();
     textLayout_->setContentsMargins(0, 0, 0, 0);
-    textLayout_->setSpacing(effectiveTextGap());
+    textLayout_->setSpacing(0);
+    textLayout_->addStretch(1);
+    textBlockLayout_ = new QVBoxLayout();
+    textBlockLayout_->setContentsMargins(0, 0, 0, 0);
+    textBlockLayout_->setSpacing(effectiveTextGap());
+    textLayout_->addLayout(textBlockLayout_);
+    textLayout_->addStretch(1);
     cardLayout->addLayout(textLayout_, 1);
 
     summaryLabel_ = new QLabel(card_);
@@ -1020,14 +1026,14 @@ void NotificationPopup::buildUi()
     summaryLabel_->setWordWrap(true);
     summaryLabel_->setTextFormat(Qt::RichText);
     summaryLabel_->setTextInteractionFlags(Qt::NoTextInteraction);
-    textLayout_->addWidget(summaryLabel_);
+    textBlockLayout_->addWidget(summaryLabel_);
 
     bodyLabel_ = new QLabel(card_);
     bodyLabel_->setObjectName("bodyLabel");
     bodyLabel_->setWordWrap(true);
     bodyLabel_->setTextFormat(Qt::RichText);
     bodyLabel_->setTextInteractionFlags(Qt::NoTextInteraction);
-    textLayout_->addWidget(bodyLabel_);
+    textBlockLayout_->addWidget(bodyLabel_);
 
     opacityEffect_ = new QGraphicsOpacityEffect(card_);
     opacityEffect_->setOpacity(1.0);
@@ -1048,10 +1054,6 @@ void NotificationPopup::applyCardLayoutStyle()
 
 void NotificationPopup::refreshContent()
 {
-    if (textLayout_) {
-        textLayout_->setSpacing(effectiveTextGap());
-    }
-
     const QString summaryText = request_.summary.trimmed();
     const QString bodyText = request_.body.trimmed();
     summaryLabel_->setVisible(!summaryText.isEmpty() || bodyText.isEmpty());
@@ -1077,6 +1079,9 @@ void NotificationPopup::refreshContent()
     iconLabel_->setFixedSize(currentIconSize_);
     iconLabel_->setVisible(!pixmap.isNull());
     iconLabel_->setPixmap(pixmap);
+    if (textBlockLayout_) {
+        textBlockLayout_->setSpacing(effectiveTextGap());
+    }
     invalidateLayout();
 }
 

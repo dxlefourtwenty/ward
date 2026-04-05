@@ -381,6 +381,11 @@ CMakeFiles/ward.dir/src/NotificationPopup.cpp.o: \
  /usr/include/qt6/QtGui/qinputmethod.h /usr/include/qt6/QtCore/qlocale.h \
  /usr/include/qt6/QtGui/qguiapplication_platform.h \
  /usr/include/qt6/QtCore/QTimer /usr/include/qt6/QtCore/qtimer.h \
+ /usr/include/qt6/QtWidgets/QVBoxLayout \
+ /usr/include/qt6/QtWidgets/qboxlayout.h \
+ /usr/include/qt6/QtWidgets/qlayout.h \
+ /usr/include/qt6/QtWidgets/qlayoutitem.h \
+ /usr/include/qt6/QtWidgets/qgridlayout.h \
  /usr/include/qt6/QtCore/QVariantAnimation \
  /usr/include/qt6/QtWidgets/QWidget \
  /home/dxle/builds/ward/src/NotificationTypes.h \
@@ -397,11 +402,7 @@ CMakeFiles/ward.dir/src/NotificationPopup.cpp.o: \
  /usr/include/qt6/QtCore/qfilesystemwatcher.h \
  /usr/include/qt6/QtDBus/QDBusArgument \
  /usr/include/qt6/QtDBus/qdbusargument.h \
- /usr/include/qt6/QtWidgets/QBoxLayout \
- /usr/include/qt6/QtWidgets/qboxlayout.h \
- /usr/include/qt6/QtWidgets/qlayout.h \
- /usr/include/qt6/QtWidgets/qlayoutitem.h \
- /usr/include/qt6/QtWidgets/qgridlayout.h /usr/include/qt6/QtGui/QColor \
+ /usr/include/qt6/QtWidgets/QBoxLayout /usr/include/qt6/QtGui/QColor \
  /usr/include/qt6/QtCore/QDir /usr/include/qt6/QtCore/qdir.h \
  /usr/include/qt6/QtCore/qdirlisting.h \
  /usr/include/qt6/QtCore/qfiledevice.h /usr/include/c++/15.2.1/filesystem \

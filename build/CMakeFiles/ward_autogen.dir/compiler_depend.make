@@ -496,10 +496,15 @@ ward_autogen/timestamp: /home/dxle/builds/ward/CMakeLists.txt \
   /usr/include/qt6/QtWidgets/QFrame \
   /usr/include/qt6/QtWidgets/QGraphicsOpacityEffect \
   /usr/include/qt6/QtWidgets/QLabel \
+  /usr/include/qt6/QtWidgets/QVBoxLayout \
   /usr/include/qt6/QtWidgets/QWidget \
+  /usr/include/qt6/QtWidgets/qboxlayout.h \
   /usr/include/qt6/QtWidgets/qframe.h \
   /usr/include/qt6/QtWidgets/qgraphicseffect.h \
+  /usr/include/qt6/QtWidgets/qgridlayout.h \
   /usr/include/qt6/QtWidgets/qlabel.h \
+  /usr/include/qt6/QtWidgets/qlayout.h \
+  /usr/include/qt6/QtWidgets/qlayoutitem.h \
   /usr/include/qt6/QtWidgets/qsizepolicy.h \
   /usr/include/qt6/QtWidgets/qtwidgets-config.h \
   /usr/include/qt6/QtWidgets/qtwidgetsexports.h \
@@ -1456,6 +1461,16 @@ ward_autogen/timestamp: /home/dxle/builds/ward/CMakeLists.txt \
 
 /usr/lib/cmake/Qt6/QtPublicGitHelpers.cmake:
 
+/usr/lib/cmake/Qt6/QtPublicDependencyHelpers.cmake:
+
+/usr/lib/cmake/Qt6/QtPublicCMakeHelpers.cmake:
+
+/usr/lib/cmake/Qt6Gui/Qt6QVncIntegrationPluginTargetsPrecheck.cmake:
+
+/usr/lib/cmake/Qt6/QtPublicCMakeEarlyPolicyHelpers.cmake:
+
+/usr/lib/cmake/Qt6/QtPublicAppleHelpers.cmake:
+
 /usr/lib/cmake/Qt6Widgets/Qt6WidgetsDependencies.cmake:
 
 /usr/include/c++/15.2.1/variant:
@@ -1569,8 +1584,6 @@ ward_autogen/timestamp: /home/dxle/builds/ward/CMakeLists.txt \
 /usr/include/qt6/QtWidgets/qgraphicseffect.h:
 
 /usr/include/c++/15.2.1/list:
-
-/usr/include/c++/15.2.1/cassert:
 
 /usr/include/c++/15.2.1/bits/version.h:
 
@@ -1769,6 +1782,8 @@ ward_autogen/timestamp: /home/dxle/builds/ward/CMakeLists.txt \
 /usr/lib/gcc/x86_64-pc-linux-gnu/15.2.1/include/stdarg.h:
 
 /usr/include/bits/types/sigset_t.h:
+
+/usr/include/qt6/QtWidgets/qgridlayout.h:
 
 /usr/include/c++/15.2.1/bits/hashtable_policy.h:
 
@@ -2174,6 +2189,8 @@ CMakeFiles/4.3.1/CMakeSystem.cmake:
 
 /usr/include/bits/types/__locale_t.h:
 
+/usr/include/qt6/QtWidgets/qlayoutitem.h:
+
 /usr/include/bits/types/clock_t.h:
 
 /usr/include/c++/15.2.1/bits/parse_numbers.h:
@@ -2306,8 +2323,6 @@ CMakeFiles/4.3.1/CMakeSystem.cmake:
 
 /usr/include/c++/15.2.1/x86_64-pc-linux-gnu/bits/error_constants.h:
 
-/usr/lib/cmake/Qt6/QtPublicCMakeHelpers.cmake:
-
 /usr/include/c++/15.2.1/x86_64-pc-linux-gnu/bits/gthr-default.h:
 
 /usr/lib/cmake/Qt6Gui/Qt6QGifPluginAdditionalTargetInfo.cmake:
@@ -2335,8 +2350,6 @@ CMakeFiles/4.3.1/CMakeSystem.cmake:
 /usr/include/gnu/stubs-64.h:
 
 /usr/include/qt6/QtCore/qtversionchecks.h:
-
-/usr/lib/cmake/Qt6/QtPublicAppleHelpers.cmake:
 
 /usr/lib/cmake/Qt6Widgets/Qt6WidgetsConfigVersion.cmake:
 
@@ -2411,6 +2424,10 @@ CMakeFiles/4.3.1/CMakeSystem.cmake:
 /usr/include/features.h:
 
 /usr/include/qt6/QtCore/q20iterator.h:
+
+/usr/include/c++/15.2.1/cassert:
+
+/usr/include/qt6/QtWidgets/qboxlayout.h:
 
 /usr/lib/cmake/Qt6CoreTools/Qt6CoreToolsVersionlessTargets.cmake:
 
@@ -2539,6 +2556,8 @@ CMakeFiles/4.3.1/CMakeSystem.cmake:
 /usr/include/qt6/QtCore/qdarwinhelpers.h:
 
 /usr/lib/cmake/Qt6WidgetsTools/Qt6WidgetsToolsVersionlessTargets.cmake:
+
+/usr/include/qt6/QtWidgets/QVBoxLayout:
 
 /usr/include/qt6/QtCore/qdeadlinetimer.h:
 
@@ -2798,6 +2817,8 @@ ward_autogen/moc_predefs.h:
 
 /usr/include/qt6/QtWidgets/qlabel.h:
 
+/usr/include/qt6/QtWidgets/qlayout.h:
+
 /usr/include/qt6/QtWidgets/qtwidgetsglobal.h:
 
 /usr/include/sched.h:
@@ -2843,9 +2864,3 @@ ward_autogen/moc_predefs.h:
 /usr/include/strings.h:
 
 /usr/lib/cmake/Qt6/QtPublicAndroidHelpers.cmake:
-
-/usr/lib/cmake/Qt6Gui/Qt6QVncIntegrationPluginTargetsPrecheck.cmake:
-
-/usr/lib/cmake/Qt6/QtPublicCMakeEarlyPolicyHelpers.cmake:
-
-/usr/lib/cmake/Qt6/QtPublicDependencyHelpers.cmake:

@@ -496,10 +496,15 @@ ward_autogen/timestamp: /home/dxle/builds/ward/CMakeLists.txt \
   /usr/include/qt6/QtWidgets/QFrame \
   /usr/include/qt6/QtWidgets/QGraphicsOpacityEffect \
   /usr/include/qt6/QtWidgets/QLabel \
+  /usr/include/qt6/QtWidgets/QVBoxLayout \
   /usr/include/qt6/QtWidgets/QWidget \
+  /usr/include/qt6/QtWidgets/qboxlayout.h \
   /usr/include/qt6/QtWidgets/qframe.h \
   /usr/include/qt6/QtWidgets/qgraphicseffect.h \
+  /usr/include/qt6/QtWidgets/qgridlayout.h \
   /usr/include/qt6/QtWidgets/qlabel.h \
+  /usr/include/qt6/QtWidgets/qlayout.h \
+  /usr/include/qt6/QtWidgets/qlayoutitem.h \
   /usr/include/qt6/QtWidgets/qsizepolicy.h \
   /usr/include/qt6/QtWidgets/qtwidgets-config.h \
   /usr/include/qt6/QtWidgets/qtwidgetsexports.h \
@@ -1453,11 +1458,16 @@ CMakeFiles/ward.dir/src/NotificationCenter.cpp.o: /home/dxle/builds/ward/src/Not
   /usr/include/qt6/QtWidgets/QFrame \
   /usr/include/qt6/QtWidgets/QGraphicsOpacityEffect \
   /usr/include/qt6/QtWidgets/QLabel \
+  /usr/include/qt6/QtWidgets/QVBoxLayout \
   /usr/include/qt6/QtWidgets/QWidget \
   /usr/include/qt6/QtWidgets/qapplication.h \
+  /usr/include/qt6/QtWidgets/qboxlayout.h \
   /usr/include/qt6/QtWidgets/qframe.h \
   /usr/include/qt6/QtWidgets/qgraphicseffect.h \
+  /usr/include/qt6/QtWidgets/qgridlayout.h \
   /usr/include/qt6/QtWidgets/qlabel.h \
+  /usr/include/qt6/QtWidgets/qlayout.h \
+  /usr/include/qt6/QtWidgets/qlayoutitem.h \
   /usr/include/qt6/QtWidgets/qsizepolicy.h \
   /usr/include/qt6/QtWidgets/qtwidgets-config.h \
   /usr/include/qt6/QtWidgets/qtwidgetsexports.h \
@@ -2046,6 +2056,7 @@ CMakeFiles/ward.dir/src/NotificationPopup.cpp.o: /home/dxle/builds/ward/src/Noti
   /usr/include/qt6/QtWidgets/QFrame \
   /usr/include/qt6/QtWidgets/QGraphicsOpacityEffect \
   /usr/include/qt6/QtWidgets/QLabel \
+  /usr/include/qt6/QtWidgets/QVBoxLayout \
   /usr/include/qt6/QtWidgets/QWidget \
   /usr/include/qt6/QtWidgets/qboxlayout.h \
   /usr/include/qt6/QtWidgets/qframe.h \
@@ -3952,11 +3963,16 @@ CMakeFiles/ward.dir/src/main.cpp.o: /home/dxle/builds/ward/src/main.cpp \
   /usr/include/qt6/QtWidgets/QFrame \
   /usr/include/qt6/QtWidgets/QGraphicsOpacityEffect \
   /usr/include/qt6/QtWidgets/QLabel \
+  /usr/include/qt6/QtWidgets/QVBoxLayout \
   /usr/include/qt6/QtWidgets/QWidget \
   /usr/include/qt6/QtWidgets/qapplication.h \
+  /usr/include/qt6/QtWidgets/qboxlayout.h \
   /usr/include/qt6/QtWidgets/qframe.h \
   /usr/include/qt6/QtWidgets/qgraphicseffect.h \
+  /usr/include/qt6/QtWidgets/qgridlayout.h \
   /usr/include/qt6/QtWidgets/qlabel.h \
+  /usr/include/qt6/QtWidgets/qlayout.h \
+  /usr/include/qt6/QtWidgets/qlayoutitem.h \
   /usr/include/qt6/QtWidgets/qsizepolicy.h \
   /usr/include/qt6/QtWidgets/qtwidgets-config.h \
   /usr/include/qt6/QtWidgets/qtwidgetsexports.h \
@@ -4496,10 +4512,15 @@ CMakeFiles/ward.dir/ward_autogen/mocs_compilation.cpp.o: ward_autogen/mocs_compi
   /usr/include/qt6/QtWidgets/QFrame \
   /usr/include/qt6/QtWidgets/QGraphicsOpacityEffect \
   /usr/include/qt6/QtWidgets/QLabel \
+  /usr/include/qt6/QtWidgets/QVBoxLayout \
   /usr/include/qt6/QtWidgets/QWidget \
+  /usr/include/qt6/QtWidgets/qboxlayout.h \
   /usr/include/qt6/QtWidgets/qframe.h \
   /usr/include/qt6/QtWidgets/qgraphicseffect.h \
+  /usr/include/qt6/QtWidgets/qgridlayout.h \
   /usr/include/qt6/QtWidgets/qlabel.h \
+  /usr/include/qt6/QtWidgets/qlayout.h \
+  /usr/include/qt6/QtWidgets/qlayoutitem.h \
   /usr/include/qt6/QtWidgets/qsizepolicy.h \
   /usr/include/qt6/QtWidgets/qtwidgets-config.h \
   /usr/include/qt6/QtWidgets/qtwidgetsexports.h \
@@ -4673,7 +4694,7 @@ CMakeFiles/ward.dir/src/NotificationServer.cpp.o:
 
 /usr/lib/libbz2.so.1.0:
 
-/usr/lib/cmake/Qt6/QtPublicCMakeEarlyPolicyHelpers.cmake:
+/usr/lib/libbrotlidec.so.1:
 
 /usr/include/strings.h:
 
@@ -4706,6 +4727,8 @@ CMakeFiles/ward.dir/src/NotificationServer.cpp.o:
 /usr/include/string.h:
 
 /usr/include/qt6/QtWidgets/qtwidgetsglobal.h:
+
+/usr/include/qt6/QtWidgets/qlayout.h:
 
 /usr/include/qt6/QtWidgets/qlabel.h:
 
@@ -5021,6 +5044,10 @@ ward_autogen/moc_predefs.h:
 
 /usr/lib/cmake/Qt6CoreTools/Qt6CoreToolsVersionlessTargets.cmake:
 
+/usr/include/qt6/QtWidgets/qboxlayout.h:
+
+/usr/include/c++/15.2.1/cassert:
+
 /usr/include/features.h:
 
 /usr/include/c++/15.2.1/chrono:
@@ -5091,10 +5118,6 @@ ward_autogen/moc_predefs.h:
 
 /usr/include/features-time64.h:
 
-/usr/lib/cmake/Qt6/QtPublicAppleHelpers.cmake:
-
-/usr/include/qt6/QtDBus/QDBusReply:
-
 /usr/include/c++/15.2.1/bits/ptr_traits.h:
 
 /usr/share/cmake/Modules/CMakeGenericSystem.cmake:
@@ -5108,10 +5131,6 @@ ward_autogen/moc_predefs.h:
 /usr/include/c++/15.2.1/x86_64-pc-linux-gnu/bits/gthr.h:
 
 /usr/lib/cmake/Qt6Gui/Qt6QGifPluginAdditionalTargetInfo.cmake:
-
-/usr/include/c++/15.2.1/ext/alloc_traits.h:
-
-/usr/lib/cmake/Qt6/QtPublicCMakeHelpers.cmake:
 
 /usr/include/stdio.h:
 
@@ -5220,6 +5239,8 @@ CMakeFiles/ward.dir/src/NotificationPopup.cpp.o:
 /usr/lib/cmake/Qt6Gui/Qt6QVncIntegrationPluginConfig.cmake:
 
 /usr/include/bits/types/clock_t.h:
+
+/usr/include/qt6/QtWidgets/qlayoutitem.h:
 
 /usr/include/qt6/QtGui/qvectornd.h:
 
@@ -5459,6 +5480,8 @@ CMakeFiles/4.3.1/CMakeCCompiler.cmake:
 
 /usr/lib/cmake/LayerShellQt/LayerShellQtTargets.cmake:
 
+/usr/include/qt6/QtWidgets/QVBoxLayout:
+
 /usr/include/bits/types/struct_sched_param.h:
 
 /usr/include/c++/15.2.1/bits/stl_list.h:
@@ -5635,6 +5658,8 @@ CMakeFiles/4.3.1/CMakeCXXCompiler.cmake:
 
 /usr/include/c++/15.2.1/bits/hashtable_policy.h:
 
+/usr/include/qt6/QtWidgets/qgridlayout.h:
+
 /usr/include/qt6/QtCore/qline.h:
 
 /usr/lib/gcc/x86_64-pc-linux-gnu/15.2.1/include/stdarg.h:
@@ -5676,10 +5701,6 @@ CMakeFiles/4.3.1/CMakeCXXCompiler.cmake:
 /usr/include/qt6/QtCore/qflags.h:
 
 /usr/include/c++/15.2.1/cmath:
-
-/usr/lib/cmake/Qt6Gui/Qt6QVncIntegrationPluginTargetsPrecheck.cmake:
-
-/usr/include/c++/15.2.1/bits/new_allocator.h:
 
 /usr/lib/cmake/Qt6Gui/Qt6QEglFSIntegrationPluginAdditionalTargetInfo.cmake:
 
@@ -5820,10 +5841,6 @@ CMakeFiles/4.3.1/CMakeCXXCompiler.cmake:
 /usr/share/cmake/Modules/Internal/CheckCompilerFlag.cmake:
 
 /usr/include/c++/15.2.1/bits/version.h:
-
-/usr/include/c++/15.2.1/cassert:
-
-/usr/include/qt6/QtWidgets/qboxlayout.h:
 
 /usr/include/qt6/QtCore/qtconfiginclude.h:
 
@@ -5972,6 +5989,20 @@ CMakeFiles/4.3.1/CMakeCXXCompiler.cmake:
 /usr/include/c++/15.2.1/variant:
 
 /usr/lib/cmake/Qt6Widgets/Qt6WidgetsDependencies.cmake:
+
+/usr/include/qt6/QtDBus/QDBusReply:
+
+/usr/lib/cmake/Qt6/QtPublicAppleHelpers.cmake:
+
+/usr/lib/cmake/Qt6/QtPublicCMakeEarlyPolicyHelpers.cmake:
+
+/usr/include/c++/15.2.1/bits/new_allocator.h:
+
+/usr/lib/cmake/Qt6Gui/Qt6QVncIntegrationPluginTargetsPrecheck.cmake:
+
+/usr/include/c++/15.2.1/ext/alloc_traits.h:
+
+/usr/lib/cmake/Qt6/QtPublicCMakeHelpers.cmake:
 
 /usr/lib/cmake/Qt6/QtPublicPluginHelpers.cmake:
 
@@ -6845,12 +6876,6 @@ ward_autogen/UVLADIE3JM/moc_NotificationCenter.cpp:
 
 /usr/include/qt6/QtWidgets/QBoxLayout:
 
-/usr/include/qt6/QtWidgets/qgridlayout.h:
-
-/usr/include/qt6/QtWidgets/qlayout.h:
-
-/usr/include/qt6/QtWidgets/qlayoutitem.h:
-
 /usr/include/wctype.h:
 
 /usr/include/qt6/QtCore/QFileInfo:
@@ -6920,5 +6945,3 @@ ward_autogen/UVLADIE3JM/moc_NotificationCenter.cpp:
 /usr/lib/libb2.so.1:
 
 /usr/lib/libbrotlicommon.so.1:
-
-/usr/lib/libbrotlidec.so.1:
