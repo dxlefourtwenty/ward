@@ -36,6 +36,8 @@ private slots:
     void handlePopupDismissed(uint id, uint reason);
 
 private:
+    void updatePopupMappings(NotificationPopup *popup, uint previousId = 0, const QString &previousStackTag = {});
+    NotificationPopup *popupForRequest(const NotificationRequest &request) const;
     QScreen *resolveScreen() const;
     int stackOffsetForIndex(int index) const;
     QPoint targetPosition(int index, const QSize &popupSize, const QScreen *screen) const;
@@ -50,4 +52,5 @@ private:
     QString styleSheet_;
     QList<NotificationPopup *> popups_;
     QHash<uint, NotificationPopup *> popupById_;
+    QHash<QString, NotificationPopup *> popupByStackTag_;
 };

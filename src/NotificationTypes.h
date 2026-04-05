@@ -113,6 +113,25 @@ inline bool notificationReplaceLast(const QVariantMap &hints)
                                  QStringLiteral("replace_last")});
 }
 
+inline QString notificationStackTag(const QVariantMap &hints)
+{
+    const QStringList keys = {QStringLiteral("x-dunst-stack-tag"),
+                              QStringLiteral("x-dunst-stack_tag"),
+                              QStringLiteral("x-canonical-private-synchronous"),
+                              QStringLiteral("x-canonical-private_synchronous"),
+                              QStringLiteral("private-synchronous"),
+                              QStringLiteral("private_synchronous")};
+
+    for (const QString &key : keys) {
+        const QString value = unwrapHintValue(hints.value(key)).toString().trimmed();
+        if (!value.isEmpty()) {
+            return value;
+        }
+    }
+
+    return {};
+}
+
 inline int notificationTextGap(const QVariantMap &hints, int fallback)
 {
     return notificationHintInt(hints,

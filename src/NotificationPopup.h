@@ -33,6 +33,7 @@ public:
                                QWidget *parent = nullptr);
 
     uint id() const;
+    QString stackTag() const;
     void updateNotification(const NotificationRequest &request, const WardConfig &config);
     void applyConfig(const WardConfig &config);
     void applyStyleSheet(const QString &styleSheet);
@@ -67,7 +68,7 @@ private:
     QString effectiveExitDirection(const QString &exitDirectionOverride) const;
     QEasingCurve animationEasing() const;
     QPixmap notificationPixmap() const;
-    QString formatNotificationText(const QString &text) const;
+    QString formatNotificationText(const QString &text, const QLabel *label) const;
     void setContentOffset(const QPoint &offset);
     void setContentOpacity(qreal opacity);
     void resetContentState();

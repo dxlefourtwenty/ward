@@ -56,28 +56,18 @@ void NotificationCenter::showNotification(uint id,
     request.timeoutMs = timeoutMs;
     request.hints = hints;
 
-    if (notificationReplaceLast(request.hints) && !popups_.isEmpty()) {
-        NotificationPopup *popup = popups_.first();
+    if (NotificationPopup *popup = popupForRequest(request)) {
         const uint replacedId = popup->id();
+        const QString previousStackTag = popup->stackTag();
+        popup->updateNotification(request, config_);
+        updatePopupMappings(popup, replacedId, previousStackTag);
+        popups_.removeAll(popup);
+        popups_.prepend(popup);
 
         if (replacedId != id) {
-            popupById_.remove(replacedId);
             emit notificationClosed(replacedId, 4);
         }
 
-        popup->updateNotification(request, config_);
-        popupById_.insert(id, popup);
-        popups_.removeAll(popup);
-        popups_.prepend(popup);
-        relayout();
-        return;
-    }
-
-    if (popupById_.contains(id)) {
-        NotificationPopup *popup = popupById_.value(id);
-        popup->updateNotification(request, config_);
-        popups_.removeAll(popup);
-        popups_.prepend(popup);
         relayout();
         return;
     }
@@ -87,7 +77,7 @@ void NotificationCenter::showNotification(uint id,
     connect(popup, &NotificationPopup::dismissed, this, &NotificationCenter::handlePopupDismissed);
 
     popups_.prepend(popup);
-    popupById_.insert(id, popup);
+    updatePopupMappings(popup);
 
     trimToCapacity();
     relayout(popup);
@@ -132,10 +122,49 @@ void NotificationCenter::handlePopupDismissed(uint id, uint reason)
         return;
     }
 
+    popupByStackTag_.remove(popup->stackTag());
     popups_.removeAll(popup);
     emit notificationClosed(id, reason);
     popup->deleteLater();
     relayout();
+}
+
+void NotificationCenter::updatePopupMappings(NotificationPopup *popup,
+                                             uint previousId,
+                                             const QString &previousStackTag)
+{
+    if (previousId > 0) {
+        popupById_.remove(previousId);
+    }
+
+    if (!previousStackTag.isEmpty()) {
+        popupByStackTag_.remove(previousStackTag);
+    }
+
+    popupById_.insert(popup->id(), popup);
+
+    const QString stackTag = popup->stackTag();
+    if (!stackTag.isEmpty()) {
+        popupByStackTag_.insert(stackTag, popup);
+    }
+}
+
+NotificationPopup *NotificationCenter::popupForRequest(const NotificationRequest &request) const
+{
+    if (popupById_.contains(request.id)) {
+        return popupById_.value(request.id);
+    }
+
+    const QString stackTag = notificationStackTag(request.hints);
+    if (!stackTag.isEmpty() && popupByStackTag_.contains(stackTag)) {
+        return popupByStackTag_.value(stackTag);
+    }
+
+    if (notificationReplaceLast(request.hints) && !popups_.isEmpty()) {
+        return popups_.first();
+    }
+
+    return nullptr;
 }
 
 QScreen *NotificationCenter::resolveScreen() const

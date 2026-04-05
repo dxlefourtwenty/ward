@@ -5,6 +5,7 @@
 #include <QDBusArgument>
 #include <QBoxLayout>
 #include <QColor>
+#include <QFontInfo>
 #include <QGuiApplication>
 #include <QIcon>
 #include <QImage>
@@ -250,6 +251,30 @@ QString richTextFromMarkup(const QString &text)
     return html;
 }
 
+QString cssQuotedFontFamily(const QString &family)
+{
+    QString escaped = family;
+    escaped.replace('\\', QStringLiteral("\\\\"));
+    escaped.replace('\'', QStringLiteral("\\'"));
+    return QStringLiteral("font-family: '%1';").arg(escaped);
+}
+
+QString applyLabelFontFamily(const QString &html, const QLabel *label)
+{
+    if (html.isEmpty() || !label) {
+        return html;
+    }
+
+    label->ensurePolished();
+    const QString family = QFontInfo(label->font()).family().trimmed();
+    if (family.isEmpty()) {
+        return html;
+    }
+
+    return QStringLiteral("<span style=\"%1\">%2</span>")
+        .arg(cssQuotedFontFamily(family).toHtmlEscaped(), html);
+}
+
 QPixmap loadPixmapFromImageData(const QVariant &value)
 {
     if (!value.isValid() || !value.canConvert<QDBusArgument>()) {
@@ -398,6 +423,11 @@ uint NotificationPopup::id() const
     return request_.id;
 }
 
+QString NotificationPopup::stackTag() const
+{
+    return notificationStackTag(request_.hints);
+}
+
 void NotificationPopup::updateNotification(const NotificationRequest &request, const WardConfig &config)
 {
     stopAnimations();
@@ -423,6 +453,7 @@ void NotificationPopup::applyConfig(const WardConfig &config)
 void NotificationPopup::applyStyleSheet(const QString &styleSheet)
 {
     setStyleSheet(styleSheet);
+    refreshContent();
     refreshGeometry();
 }
 
@@ -682,9 +713,10 @@ void NotificationPopup::refreshContent()
     summaryLabel_->setVisible(!summaryText.isEmpty() || bodyText.isEmpty());
     summaryLabel_->setText(formatNotificationText(summaryText.isEmpty()
                                ? QStringLiteral("Notification")
-                               : request_.summary));
+                               : request_.summary,
+                           summaryLabel_));
     bodyLabel_->setVisible(!bodyText.isEmpty());
-    bodyLabel_->setText(formatNotificationText(request_.body));
+    bodyLabel_->setText(formatNotificationText(request_.body, bodyLabel_));
 
     QPixmap pixmap = trimmedPixmap(notificationPixmap());
     const int maxIconSize = effectiveMaxIconSize();
@@ -951,9 +983,9 @@ QPixmap NotificationPopup::notificationPixmap() const
     return {};
 }
 
-QString NotificationPopup::formatNotificationText(const QString &text) const
+QString NotificationPopup::formatNotificationText(const QString &text, const QLabel *label) const
 {
-    return richTextFromMarkup(text);
+    return applyLabelFontFamily(richTextFromMarkup(text), label);
 }
 
 void NotificationPopup::setContentOffset(const QPoint &offset)

@@ -400,12 +400,12 @@ CMakeFiles/ward.dir/src/NotificationPopup.cpp.o: \
  /usr/include/qt6/QtWidgets/qlayout.h \
  /usr/include/qt6/QtWidgets/qlayoutitem.h \
  /usr/include/qt6/QtWidgets/qgridlayout.h /usr/include/qt6/QtGui/QColor \
- /usr/include/qt6/QtGui/QGuiApplication /usr/include/qt6/QtGui/QIcon \
- /usr/include/qt6/QtGui/QImage /usr/include/qt6/QtGui/QMouseEvent \
- /usr/include/qt6/QtGui/QScreen /usr/include/qt6/QtCore/QUrl \
- /usr/include/qt6/QtGui/QWindow /usr/include/qt6/QtGui/qwindow.h \
- /usr/include/qt6/QtCore/QEvent /usr/include/qt6/QtCore/QMargins \
- /usr/include/qt6/QtGui/qsurface.h \
+ /usr/include/qt6/QtGui/QFontInfo /usr/include/qt6/QtGui/QGuiApplication \
+ /usr/include/qt6/QtGui/QIcon /usr/include/qt6/QtGui/QImage \
+ /usr/include/qt6/QtGui/QMouseEvent /usr/include/qt6/QtGui/QScreen \
+ /usr/include/qt6/QtCore/QUrl /usr/include/qt6/QtGui/QWindow \
+ /usr/include/qt6/QtGui/qwindow.h /usr/include/qt6/QtCore/QEvent \
+ /usr/include/qt6/QtCore/QMargins /usr/include/qt6/QtGui/qsurface.h \
  /usr/include/qt6/QtGui/qsurfaceformat.h \
  /usr/include/qt6/QtCore/QXmlStreamReader \
  /usr/include/qt6/QtCore/qxmlstream.h /usr/include/LayerShellQt/window.h \

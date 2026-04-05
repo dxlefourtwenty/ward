@@ -479,6 +479,7 @@ LoadedStyleSheet loadStyleSheet(const QString &path)
 WardConfigLoader::WardConfigLoader(QObject *parent)
     : QObject(parent)
 {
+    ensureConfigFiles();
     connect(&watcher_, &QFileSystemWatcher::fileChanged, this, &WardConfigLoader::reload);
     connect(&watcher_, &QFileSystemWatcher::directoryChanged, this, &WardConfigLoader::reload);
     reload();
@@ -506,8 +507,6 @@ QString WardConfigLoader::stylePath() const
 
 void WardConfigLoader::reload()
 {
-    ensureConfigFiles();
-
     config_ = loadWardConfig(configPath());
     const LoadedStyleSheet loadedStyleSheet = loadStyleSheet(stylePath());
     styleSheet_ = loadedStyleSheet.styleSheet;
