@@ -31,6 +31,12 @@ constexpr int defaultCardPaddingRight = 16;
 constexpr int defaultCardPaddingBottom = 16;
 constexpr int defaultCardPaddingLeft = 16;
 constexpr int defaultCardSpacing = 12;
+constexpr int textHeightSafetyPadding = 8;
+constexpr int textRightCushion = 6;
+
+QString resolveStyleValue(const QString &value,
+                          const QHash<QString, QString> &styleVariables,
+                          int depth = 0);
 
 QEasingCurve::Type easingFromName(const QString &name)
 {
@@ -184,7 +190,7 @@ int topLevelCommaIndex(const QString &value)
 
 QString resolveStyleValue(const QString &value,
                           const QHash<QString, QString> &styleVariables,
-                          int depth = 0)
+                          int depth)
 {
     QString resolved = value;
     if (depth > 16 || !resolved.contains(QStringLiteral("var("))) {
@@ -223,6 +229,74 @@ QString resolveStyleValue(const QString &value,
     }
 
     return resolved.trimmed();
+}
+
+QString resolvedAttributeValue(const QXmlStreamAttributes &attributes,
+                               const QStringList &keys,
+                               const QHash<QString, QString> &styleVariables)
+{
+    for (const QString &key : keys) {
+        if (!attributes.hasAttribute(key)) {
+            continue;
+        }
+
+        return resolveStyleValue(attributes.value(key).toString(), styleVariables);
+    }
+
+    return {};
+}
+
+QString wrapCharactersToLineLimit(const QString &text, int maxCharactersPerLine)
+{
+    if (maxCharactersPerLine <= 0 || text.isEmpty()) {
+        return text;
+    }
+
+    QString wrapped;
+    wrapped.reserve(text.size() + (text.size() / qMax(maxCharactersPerLine, 1)));
+
+    int lineLength = 0;
+    int lastSpaceIndex = -1;
+    int lastSpaceLineLength = -1;
+
+    for (const QChar character : text) {
+        if (character == '\r') {
+            continue;
+        }
+
+        if (character == '\n') {
+            wrapped += character;
+            lineLength = 0;
+            lastSpaceIndex = -1;
+            lastSpaceLineLength = -1;
+            continue;
+        }
+
+        wrapped += character;
+        ++lineLength;
+
+        if (character.isSpace()) {
+            lastSpaceIndex = wrapped.size() - 1;
+            lastSpaceLineLength = lineLength;
+        }
+
+        if (lineLength <= maxCharactersPerLine) {
+            continue;
+        }
+
+        if (lastSpaceIndex >= 0 && lastSpaceLineLength > 0) {
+            wrapped[lastSpaceIndex] = '\n';
+            lineLength -= lastSpaceLineLength;
+        } else {
+            wrapped.insert(wrapped.size() - 1, QChar('\n'));
+            lineLength = 1;
+        }
+
+        lastSpaceIndex = -1;
+        lastSpaceLineLength = -1;
+    }
+
+    return wrapped;
 }
 
 QColor colorFromStyleValue(const QString &value)
@@ -384,18 +458,15 @@ QString spanStyle(const QXmlStreamAttributes &attributes, const QHash<QString, Q
         }
     }
 
-    if (attributes.hasAttribute(QStringLiteral("font_weight"))) {
-        const QString fontWeight = resolveStyleValue(attributes.value(QStringLiteral("font_weight")).toString(),
-                                                     styleVariables);
-        if (!fontWeight.isEmpty()) {
-            styles.append(QStringLiteral("font-weight: %1;").arg(fontWeight.toHtmlEscaped()));
-        }
-    } else if (attributes.hasAttribute(QStringLiteral("weight"))) {
-        const QString fontWeight = resolveStyleValue(attributes.value(QStringLiteral("weight")).toString(),
-                                                     styleVariables);
-        if (!fontWeight.isEmpty()) {
-            styles.append(QStringLiteral("font-weight: %1;").arg(fontWeight.toHtmlEscaped()));
-        }
+    const QString fontWeight = resolvedAttributeValue(attributes,
+                                                      {
+                                                          QStringLiteral("font_weight"),
+                                                          QStringLiteral("font-weight"),
+                                                          QStringLiteral("weight")
+                                                      },
+                                                      styleVariables);
+    if (!fontWeight.isEmpty()) {
+        styles.append(QStringLiteral("font-weight: %1;").arg(fontWeight.toHtmlEscaped()));
     }
 
     if (attributes.hasAttribute(QStringLiteral("font_style"))) {
@@ -446,7 +517,9 @@ QString spanStyle(const QXmlStreamAttributes &attributes, const QHash<QString, Q
     return styles.join(' ');
 }
 
-QString richTextFromMarkup(const QString &text, const QHash<QString, QString> &styleVariables)
+QString richTextFromMarkup(const QString &text,
+                           const QHash<QString, QString> &styleVariables,
+                           int maxCharactersPerLine)
 {
     if (text.trimmed().isEmpty()) {
         return {};
@@ -525,15 +598,31 @@ QString richTextFromMarkup(const QString &text, const QHash<QString, QString> &s
             }
             break;
         case QXmlStreamReader::Characters:
-            html += xml.text().toString().toHtmlEscaped().replace('\n', QStringLiteral("<br/>"));
+        {
+            QString characters = xml.text().toString();
+            characters.replace(QChar::Nbsp, QLatin1Char(' '));
+            characters.replace(QChar(0x202F), QLatin1Char(' '));
+            characters.replace(QChar(0x2007), QLatin1Char(' '));
+            characters.replace(QChar(0xFEFF), QLatin1Char(' '));
+            characters.remove(QChar(0x2060));
+            characters = wrapCharactersToLineLimit(characters, maxCharactersPerLine);
+            html += characters.toHtmlEscaped().replace('\n', QStringLiteral("<br/>"));
             break;
+        }
         default:
             break;
         }
     }
 
     if (xml.hasError()) {
-        return text.toHtmlEscaped().replace('\n', QStringLiteral("<br/>"));
+        QString escapedText = text;
+        escapedText.replace(QChar::Nbsp, QLatin1Char(' '));
+        escapedText.replace(QChar(0x202F), QLatin1Char(' '));
+        escapedText.replace(QChar(0x2007), QLatin1Char(' '));
+        escapedText.replace(QChar(0xFEFF), QLatin1Char(' '));
+        escapedText.remove(QChar(0x2060));
+        escapedText = wrapCharactersToLineLimit(escapedText, maxCharactersPerLine);
+        return escapedText.toHtmlEscaped().replace('\n', QStringLiteral("<br/>"));
     }
 
     return html;
@@ -810,6 +899,7 @@ void NotificationPopup::showAnimated(const QPoint &targetPosition, int stackOffs
 
         show();
         raise();
+        schedulePostShowGeometrySync();
 
         if (!config_.animation.enabled || silentOpen) {
             restartTimeout();
@@ -830,6 +920,7 @@ void NotificationPopup::showAnimated(const QPoint &targetPosition, int stackOffs
     move(targetPosition);
     show();
     raise();
+    schedulePostShowGeometrySync();
 
     if (!config_.animation.enabled || silentOpen) {
         if (supportsOpacityAnimation()) {
@@ -862,6 +953,27 @@ void NotificationPopup::showAnimated(const QPoint &targetPosition, int stackOffs
         fadeAnimation_->setEasingCurve(animationEasing());
         fadeAnimation_->start(QAbstractAnimation::DeleteWhenStopped);
     }
+}
+
+void NotificationPopup::schedulePostShowGeometrySync()
+{
+    if (postShowGeometrySyncPending_) {
+        return;
+    }
+
+    postShowGeometrySyncPending_ = true;
+    QTimer::singleShot(0, this, [this]() {
+        postShowGeometrySyncPending_ = false;
+        if (!isVisible()) {
+            return;
+        }
+
+        const int previousHeight = popupHeight();
+        refreshGeometry();
+        if (popupHeight() != previousHeight) {
+            emit geometryUpdated();
+        }
+    });
 }
 
 void NotificationPopup::moveAnimated(const QPoint &targetPosition, int stackOffset)
@@ -1137,6 +1249,9 @@ void NotificationPopup::syncTextWidths()
 
     const QMargins margins = layout->contentsMargins();
     int textWidth = config_.layout.width - margins.left() - margins.right();
+    if (card_) {
+        textWidth -= card_->frameWidth() * 2;
+    }
     if (iconLabel_ && iconLabel_->isVisible()) {
         textWidth -= currentIconSize_.width();
         textWidth -= layout->spacing();
@@ -1154,22 +1269,45 @@ QSize NotificationPopup::contentSize() const
 
     if (card_) {
         card_->ensurePolished();
-        if (QLayout *layout = card_->layout()) {
-            layout->invalidate();
-            layout->activate();
+        if (const auto *layout = qobject_cast<const QBoxLayout *>(card_->layout())) {
+            const QMargins margins = layout->contentsMargins();
+            int textWidth = popupWidth - margins.left() - margins.right();
+            if (card_) {
+                textWidth -= card_->frameWidth() * 2;
+            }
+            if (iconLabel_ && iconLabel_->isVisible()) {
+                textWidth -= currentIconSize_.width();
+                textWidth -= layout->spacing();
+            }
+            textWidth = qMax(textWidth, 1);
 
-            if (layout->hasHeightForWidth()) {
-                measuredHeight = qMax(measuredHeight, layout->totalHeightForWidth(popupWidth));
+            int summaryHeight = 0;
+            if (summaryLabel_ && summaryLabel_->isVisible()) {
+                summaryLabel_->ensurePolished();
+                summaryHeight = qMax(summaryLabel_->heightForWidth(textWidth),
+                                     summaryLabel_->minimumSizeHint().height());
             }
 
-            measuredHeight = qMax(measuredHeight, layout->sizeHint().height());
-            measuredHeight = qMax(measuredHeight, layout->minimumSize().height());
+            int bodyHeight = 0;
+            if (bodyLabel_ && bodyLabel_->isVisible()) {
+                bodyLabel_->ensurePolished();
+                bodyHeight = qMax(bodyLabel_->heightForWidth(textWidth),
+                                  bodyLabel_->minimumSizeHint().height());
+            }
+
+            const int textSpacing =
+                (summaryHeight > 0 && bodyHeight > 0 && textBlockLayout_) ? textBlockLayout_->spacing() : 0;
+            const int textHeight = summaryHeight + bodyHeight + textSpacing;
+            const int iconHeight = (iconLabel_ && iconLabel_->isVisible()) ? currentIconSize_.height() : 0;
+
+            measuredHeight = margins.top() + qMax(textHeight, iconHeight) + margins.bottom();
+            measuredHeight = qMax(measuredHeight, card_->minimumSizeHint().height());
         } else {
             measuredHeight = card_->sizeHint().height();
         }
     }
 
-    const int popupHeight = qMax(measuredHeight, effectiveMinimumHeight());
+    const int popupHeight = qMax(measuredHeight + textHeightSafetyPadding, effectiveMinimumHeight());
     return QSize(popupWidth, popupHeight);
 }
 
@@ -1334,7 +1472,48 @@ QPixmap NotificationPopup::notificationPixmap() const
 
 QString NotificationPopup::formatNotificationText(const QString &text, const QLabel *label) const
 {
-    return applyLabelFontFamily(richTextFromMarkup(text, styleVariables_), label);
+    const int characterLimit = lineCharacterLimitForLabel(label);
+    const QString html = applyLabelFontFamily(
+        richTextFromMarkup(text, styleVariables_, characterLimit),
+        label);
+    if (html.isEmpty()) {
+        return {};
+    }
+
+    return QStringLiteral("<div style=\"margin:0; padding:0 %1px 0 0;\">%2</div>")
+        .arg(textRightCushion)
+        .arg(html);
+}
+
+int NotificationPopup::lineCharacterLimitForLabel(const QLabel *label) const
+{
+    if (!label) {
+        return 0;
+    }
+
+    const auto *layout = qobject_cast<const QBoxLayout *>(card_ ? card_->layout() : nullptr);
+    if (!layout) {
+        return 0;
+    }
+
+    const QMargins margins = layout->contentsMargins();
+    int textWidth = config_.layout.width - margins.left() - margins.right();
+    if (card_) {
+        textWidth -= card_->frameWidth() * 2;
+    }
+    if (iconLabel_ && iconLabel_->isVisible()) {
+        textWidth -= currentIconSize_.width();
+        textWidth -= layout->spacing();
+    }
+
+    textWidth = qMax(textWidth, 1);
+    const int rightPadding = textRightCushion;
+    textWidth = qMax(textWidth - rightPadding, 1);
+
+    const QFontMetrics metrics(label->font());
+    const int averageCharacterWidth = qMax(metrics.horizontalAdvance(QLatin1Char('n')), 1);
+    const int characterLimit = textWidth / averageCharacterWidth;
+    return qMax(characterLimit, 12);
 }
 
 void NotificationPopup::setContentOffset(const QPoint &offset)

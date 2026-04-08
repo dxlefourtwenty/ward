@@ -46,6 +46,7 @@ public:
 
 signals:
     void dismissed(uint id, uint reason);
+    void geometryUpdated();
 
 protected:
     void mousePressEvent(QMouseEvent *event) override;
@@ -72,6 +73,7 @@ private:
     QEasingCurve animationEasing() const;
     QPixmap notificationPixmap() const;
     QString formatNotificationText(const QString &text, const QLabel *label) const;
+    int lineCharacterLimitForLabel(const QLabel *label) const;
     void setContentOffset(const QPoint &offset);
     void setContentOpacity(qreal opacity);
     void resetContentState();
@@ -88,6 +90,7 @@ private:
     void stopAnimations();
     bool anchorAtTop() const;
     bool anchorAtRight() const;
+    void schedulePostShowGeometrySync();
 
     NotificationRequest request_;
     WardConfig config_;
@@ -106,6 +109,7 @@ private:
     int currentStackOffset_ = 0;
     QSize currentIconSize_;
     QPoint contentOffset_;
+    bool postShowGeometrySyncPending_ = false;
 #if WARD_HAS_LAYERSHELLQT
     LayerShellQt::Window *layerShellWindow_ = nullptr;
 #endif

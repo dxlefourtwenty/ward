@@ -76,6 +76,9 @@ void NotificationCenter::showNotification(uint id,
     auto *popup = new NotificationPopup(request, config_);
     popup->applyStyleSheet(styleSheet_, styleVariables_);
     connect(popup, &NotificationPopup::dismissed, this, &NotificationCenter::handlePopupDismissed);
+    connect(popup, &NotificationPopup::geometryUpdated, this, [this]() {
+        relayout();
+    });
 
     popups_.prepend(popup);
     updatePopupMappings(popup);
