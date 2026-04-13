@@ -73,7 +73,6 @@ private:
     QEasingCurve animationEasing() const;
     QPixmap notificationPixmap() const;
     QString formatNotificationText(const QString &text, const QLabel *label) const;
-    int lineCharacterLimitForLabel(const QLabel *label) const;
     void setContentOffset(const QPoint &offset);
     void setContentOpacity(qreal opacity);
     void resetContentState();

@@ -246,59 +246,6 @@ QString resolvedAttributeValue(const QXmlStreamAttributes &attributes,
     return {};
 }
 
-QString wrapCharactersToLineLimit(const QString &text, int maxCharactersPerLine)
-{
-    if (maxCharactersPerLine <= 0 || text.isEmpty()) {
-        return text;
-    }
-
-    QString wrapped;
-    wrapped.reserve(text.size() + (text.size() / qMax(maxCharactersPerLine, 1)));
-
-    int lineLength = 0;
-    int lastSpaceIndex = -1;
-    int lastSpaceLineLength = -1;
-
-    for (const QChar character : text) {
-        if (character == '\r') {
-            continue;
-        }
-
-        if (character == '\n') {
-            wrapped += character;
-            lineLength = 0;
-            lastSpaceIndex = -1;
-            lastSpaceLineLength = -1;
-            continue;
-        }
-
-        wrapped += character;
-        ++lineLength;
-
-        if (character.isSpace()) {
-            lastSpaceIndex = wrapped.size() - 1;
-            lastSpaceLineLength = lineLength;
-        }
-
-        if (lineLength <= maxCharactersPerLine) {
-            continue;
-        }
-
-        if (lastSpaceIndex >= 0 && lastSpaceLineLength > 0) {
-            wrapped[lastSpaceIndex] = '\n';
-            lineLength -= lastSpaceLineLength;
-        } else {
-            wrapped.insert(wrapped.size() - 1, QChar('\n'));
-            lineLength = 1;
-        }
-
-        lastSpaceIndex = -1;
-        lastSpaceLineLength = -1;
-    }
-
-    return wrapped;
-}
-
 QColor colorFromStyleValue(const QString &value)
 {
     return QColor(value.trimmed());
@@ -518,8 +465,7 @@ QString spanStyle(const QXmlStreamAttributes &attributes, const QHash<QString, Q
 }
 
 QString richTextFromMarkup(const QString &text,
-                           const QHash<QString, QString> &styleVariables,
-                           int maxCharactersPerLine)
+                           const QHash<QString, QString> &styleVariables)
 {
     if (text.trimmed().isEmpty()) {
         return {};
@@ -605,7 +551,6 @@ QString richTextFromMarkup(const QString &text,
             characters.replace(QChar(0x2007), QLatin1Char(' '));
             characters.replace(QChar(0xFEFF), QLatin1Char(' '));
             characters.remove(QChar(0x2060));
-            characters = wrapCharactersToLineLimit(characters, maxCharactersPerLine);
             html += characters.toHtmlEscaped().replace('\n', QStringLiteral("<br/>"));
             break;
         }
@@ -621,7 +566,6 @@ QString richTextFromMarkup(const QString &text,
         escapedText.replace(QChar(0x2007), QLatin1Char(' '));
         escapedText.replace(QChar(0xFEFF), QLatin1Char(' '));
         escapedText.remove(QChar(0x2060));
-        escapedText = wrapCharactersToLineLimit(escapedText, maxCharactersPerLine);
         return escapedText.toHtmlEscaped().replace('\n', QStringLiteral("<br/>"));
     }
 
@@ -1472,9 +1416,12 @@ QPixmap NotificationPopup::notificationPixmap() const
 
 QString NotificationPopup::formatNotificationText(const QString &text, const QLabel *label) const
 {
-    const int characterLimit = lineCharacterLimitForLabel(label);
+    if (!label) {
+        return {};
+    }
+
     const QString html = applyLabelFontFamily(
-        richTextFromMarkup(text, styleVariables_, characterLimit),
+        richTextFromMarkup(text, styleVariables_),
         label);
     if (html.isEmpty()) {
         return {};
@@ -1483,37 +1430,6 @@ QString NotificationPopup::formatNotificationText(const QString &text, const QLa
     return QStringLiteral("<div style=\"margin:0; padding:0 %1px 0 0;\">%2</div>")
         .arg(textRightCushion)
         .arg(html);
-}
-
-int NotificationPopup::lineCharacterLimitForLabel(const QLabel *label) const
-{
-    if (!label) {
-        return 0;
-    }
-
-    const auto *layout = qobject_cast<const QBoxLayout *>(card_ ? card_->layout() : nullptr);
-    if (!layout) {
-        return 0;
-    }
-
-    const QMargins margins = layout->contentsMargins();
-    int textWidth = config_.layout.width - margins.left() - margins.right();
-    if (card_) {
-        textWidth -= card_->frameWidth() * 2;
-    }
-    if (iconLabel_ && iconLabel_->isVisible()) {
-        textWidth -= currentIconSize_.width();
-        textWidth -= layout->spacing();
-    }
-
-    textWidth = qMax(textWidth, 1);
-    const int rightPadding = textRightCushion;
-    textWidth = qMax(textWidth - rightPadding, 1);
-
-    const QFontMetrics metrics(label->font());
-    const int averageCharacterWidth = qMax(metrics.horizontalAdvance(QLatin1Char('n')), 1);
-    const int characterLimit = textWidth / averageCharacterWidth;
-    return qMax(characterLimit, 12);
 }
 
 void NotificationPopup::setContentOffset(const QPoint &offset)
