@@ -10,6 +10,7 @@
 #include <QMargins>
 #include <QPointer>
 #include <QPropertyAnimation>
+#include <QPaintEvent>
 #include <QResizeEvent>
 #include <QTimer>
 #include <QVBoxLayout>
@@ -50,11 +51,14 @@ signals:
 
 protected:
     void mousePressEvent(QMouseEvent *event) override;
+    void paintEvent(QPaintEvent *event) override;
     void resizeEvent(QResizeEvent *event) override;
 
 private:
     void buildUi();
     void applyCardLayoutStyle();
+    void applyWindowBlurStyle();
+    void syncWindowShape();
     void refreshContent();
     void refreshGeometry();
     void syncCardGeometry();
@@ -68,6 +72,7 @@ private:
     int effectiveTimeoutMs() const;
     int effectiveMinimumHeight() const;
     int effectiveMaxIconSize() const;
+    int effectiveCardBorderRadius() const;
     QPoint directionalOffset(const QString &direction) const;
     QString effectiveExitDirection(const QString &exitDirectionOverride) const;
     QEasingCurve animationEasing() const;
@@ -86,6 +91,9 @@ private:
     void configureLayerShell(QScreen *screen);
     void applyLayerShellPlacement(int stackOffset, const QPoint &offset = QPoint());
     QMargins layerShellMargins(int stackOffset, const QPoint &offset = QPoint()) const;
+    void startLayerShellAnimation(const QPoint &endOffset,
+                                  int durationMs,
+                                  const std::function<void()> &onFinished = {});
     void stopAnimations();
     bool anchorAtTop() const;
     bool anchorAtRight() const;
@@ -103,11 +111,13 @@ private:
     QTimer timeoutTimer_;
     QPointer<QVariantAnimation> moveAnimation_;
     QPointer<QVariantAnimation> fadeAnimation_;
+    QString appliedStyleSheet_;
     QHash<QString, QString> styleVariables_;
     uint pendingCloseReason_ = 0;
     int currentStackOffset_ = 0;
     QSize currentIconSize_;
     QPoint contentOffset_;
+    QPoint layerShellOffset_;
     bool postShowGeometrySyncPending_ = false;
 #if WARD_HAS_LAYERSHELLQT
     LayerShellQt::Window *layerShellWindow_ = nullptr;

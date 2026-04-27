@@ -452,6 +452,7 @@ ward_autogen/timestamp: /home/dxle/builds/ward/CMakeLists.txt \
   /usr/include/qt6/QtDBus/qdbusextratypes.h \
   /usr/include/qt6/QtDBus/qtdbusexports.h \
   /usr/include/qt6/QtDBus/qtdbusglobal.h \
+  /usr/include/qt6/QtGui/QPaintEvent \
   /usr/include/qt6/QtGui/QPixmap \
   /usr/include/qt6/QtGui/QResizeEvent \
   /usr/include/qt6/QtGui/QTransform \
@@ -523,6 +524,10 @@ ward_autogen/timestamp: /home/dxle/builds/ward/CMakeLists.txt \
   /usr/include/sys/types.h \
   /usr/include/time.h \
   /usr/include/wchar.h \
+  /usr/lib/cmake/KF6WindowSystem/KF6WindowSystemConfig.cmake \
+  /usr/lib/cmake/KF6WindowSystem/KF6WindowSystemConfigVersion.cmake \
+  /usr/lib/cmake/KF6WindowSystem/KF6WindowSystemTargets-noconfig.cmake \
+  /usr/lib/cmake/KF6WindowSystem/KF6WindowSystemTargets.cmake \
   /usr/lib/cmake/LayerShellQt/LayerShellQtConfig.cmake \
   /usr/lib/cmake/LayerShellQt/LayerShellQtConfigVersion.cmake \
   /usr/lib/cmake/LayerShellQt/LayerShellQtTargets-noconfig.cmake \
@@ -923,17 +928,22 @@ ward_autogen/timestamp: /home/dxle/builds/ward/CMakeLists.txt \
   /usr/share/cmake/Modules/CheckCSourceCompiles.cmake \
   /usr/share/cmake/Modules/CheckCXXCompilerFlag.cmake \
   /usr/share/cmake/Modules/CheckCXXSourceCompiles.cmake \
+  /usr/share/cmake/Modules/CheckFunctionExists.cmake \
   /usr/share/cmake/Modules/CheckIncludeFile.cmake \
   /usr/share/cmake/Modules/CheckLibraryExists.cmake \
   /usr/share/cmake/Modules/Compiler/CMakeCommonCompilerMacros.cmake \
   /usr/share/cmake/Modules/Compiler/GNU-C.cmake \
   /usr/share/cmake/Modules/Compiler/GNU-CXX.cmake \
   /usr/share/cmake/Modules/Compiler/GNU.cmake \
+  /usr/share/cmake/Modules/FindFontconfig.cmake \
+  /usr/share/cmake/Modules/FindFreetype.cmake \
   /usr/share/cmake/Modules/FindOpenGL.cmake \
   /usr/share/cmake/Modules/FindPackageHandleStandardArgs.cmake \
   /usr/share/cmake/Modules/FindPackageMessage.cmake \
+  /usr/share/cmake/Modules/FindPkgConfig.cmake \
   /usr/share/cmake/Modules/FindThreads.cmake \
   /usr/share/cmake/Modules/FindVulkan.cmake \
+  /usr/share/cmake/Modules/FindX11.cmake \
   /usr/share/cmake/Modules/GNUInstallDirs.cmake \
   /usr/share/cmake/Modules/Internal/CMakeCLinkerInformation.cmake \
   /usr/share/cmake/Modules/Internal/CMakeCXXLinkerInformation.cmake \
@@ -954,7 +964,8 @@ ward_autogen/timestamp: /home/dxle/builds/ward/CMakeLists.txt \
   /usr/share/cmake/Modules/Platform/Linux-GNU.cmake \
   /usr/share/cmake/Modules/Platform/Linux-Initialize.cmake \
   /usr/share/cmake/Modules/Platform/Linux.cmake \
-  /usr/share/cmake/Modules/Platform/UnixPaths.cmake
+  /usr/share/cmake/Modules/Platform/UnixPaths.cmake \
+  /usr/share/cmake/Modules/SelectLibraryConfigurations.cmake
 
 CMakeFiles/ward.dir/src/NotificationCenter.cpp.o: /home/dxle/builds/ward/src/NotificationCenter.cpp \
   /home/dxle/builds/ward/src/NotificationCenter.h \
@@ -1412,6 +1423,7 @@ CMakeFiles/ward.dir/src/NotificationCenter.cpp.o: /home/dxle/builds/ward/src/Not
   /usr/include/qt6/QtDBus/qtdbusexports.h \
   /usr/include/qt6/QtDBus/qtdbusglobal.h \
   /usr/include/qt6/QtGui/QCursor \
+  /usr/include/qt6/QtGui/QPaintEvent \
   /usr/include/qt6/QtGui/QPixmap \
   /usr/include/qt6/QtGui/QResizeEvent \
   /usr/include/qt6/QtGui/QScreen \
@@ -1497,6 +1509,10 @@ CMakeFiles/ward.dir/src/NotificationPopup.cpp.o: /home/dxle/builds/ward/src/Noti
   /home/dxle/builds/ward/src/NotificationPopup.h \
   /home/dxle/builds/ward/src/NotificationTypes.h \
   /home/dxle/builds/ward/src/WardConfig.h \
+  /usr/include/KF6/KWindowSystem/KWindowEffects \
+  /usr/include/KF6/KWindowSystem/kwindoweffects.h \
+  /usr/include/KF6/KWindowSystem/kwindowsystem_export.h \
+  /usr/include/KF6/KWindowSystem/kwindowsystem_version.h \
   /usr/include/LayerShellQt/layershellqt_export.h \
   /usr/include/LayerShellQt/window.h \
   /usr/include/alloca.h \
@@ -2006,10 +2022,14 @@ CMakeFiles/ward.dir/src/NotificationPopup.cpp.o: /home/dxle/builds/ward/src/Noti
   /usr/include/qt6/QtGui/QIcon \
   /usr/include/qt6/QtGui/QImage \
   /usr/include/qt6/QtGui/QMouseEvent \
+  /usr/include/qt6/QtGui/QPaintEvent \
+  /usr/include/qt6/QtGui/QPainter \
   /usr/include/qt6/QtGui/QPixmap \
+  /usr/include/qt6/QtGui/QRegion \
   /usr/include/qt6/QtGui/QResizeEvent \
   /usr/include/qt6/QtGui/QScreen \
   /usr/include/qt6/QtGui/QTransform \
+  /usr/include/qt6/QtGui/QWidgetList \
   /usr/include/qt6/QtGui/QWindow \
   /usr/include/qt6/QtGui/qaction.h \
   /usr/include/qt6/QtGui/qbitmap.h \
@@ -2030,7 +2050,9 @@ CMakeFiles/ward.dir/src/NotificationPopup.cpp.o: /home/dxle/builds/ward/src/Noti
   /usr/include/qt6/QtGui/qinputmethod.h \
   /usr/include/qt6/QtGui/qkeysequence.h \
   /usr/include/qt6/QtGui/qpaintdevice.h \
+  /usr/include/qt6/QtGui/qpainter.h \
   /usr/include/qt6/QtGui/qpalette.h \
+  /usr/include/qt6/QtGui/qpen.h \
   /usr/include/qt6/QtGui/qpicture.h \
   /usr/include/qt6/QtGui/qpixelformat.h \
   /usr/include/qt6/QtGui/qpixmap.h \
@@ -2044,6 +2066,7 @@ CMakeFiles/ward.dir/src/NotificationPopup.cpp.o: /home/dxle/builds/ward/src/Noti
   /usr/include/qt6/QtGui/qsurface.h \
   /usr/include/qt6/QtGui/qsurfaceformat.h \
   /usr/include/qt6/QtGui/qtextdocument.h \
+  /usr/include/qt6/QtGui/qtextoption.h \
   /usr/include/qt6/QtGui/qtgui-config.h \
   /usr/include/qt6/QtGui/qtguiexports.h \
   /usr/include/qt6/QtGui/qtguiglobal.h \
@@ -3918,6 +3941,7 @@ CMakeFiles/ward.dir/src/main.cpp.o: /home/dxle/builds/ward/src/main.cpp \
   /usr/include/qt6/QtDBus/qdbusreply.h \
   /usr/include/qt6/QtDBus/qtdbusexports.h \
   /usr/include/qt6/QtDBus/qtdbusglobal.h \
+  /usr/include/qt6/QtGui/QPaintEvent \
   /usr/include/qt6/QtGui/QPixmap \
   /usr/include/qt6/QtGui/QResizeEvent \
   /usr/include/qt6/QtGui/QTransform \
@@ -4464,6 +4488,7 @@ CMakeFiles/ward.dir/ward_autogen/mocs_compilation.cpp.o: ward_autogen/mocs_compi
   /usr/include/qt6/QtDBus/qdbusextratypes.h \
   /usr/include/qt6/QtDBus/qtdbusexports.h \
   /usr/include/qt6/QtDBus/qtdbusglobal.h \
+  /usr/include/qt6/QtGui/QPaintEvent \
   /usr/include/qt6/QtGui/QPixmap \
   /usr/include/qt6/QtGui/QResizeEvent \
   /usr/include/qt6/QtGui/QTransform \
@@ -4561,16 +4586,18 @@ ward: /usr/lib/Scrt1.o \
   /usr/lib/libEGL.so.1 \
   /usr/lib/libGLX.so \
   /usr/lib/libGLdispatch.so.0 \
-  /usr/lib/libLayerShellQtInterface.so.6.6.3 \
+  /usr/lib/libKF6WindowSystem.so.6.25.0 \
+  /usr/lib/libLayerShellQtInterface.so.6.6.4 \
   /usr/lib/libOpenGL.so \
   /usr/lib/libQt6Core.so.6.11.0 \
   /usr/lib/libQt6DBus.so.6.11.0 \
   /usr/lib/libQt6Gui.so.6.11.0 \
   /usr/lib/libQt6WaylandClient.so.6 \
   /usr/lib/libQt6Widgets.so.6.11.0 \
-  /usr/lib/libX11.so.6 \
+  /usr/lib/libX11.so \
   /usr/lib/libXau.so.6 \
   /usr/lib/libXdmcp.so.6 \
+  /usr/lib/libXfixes.so.3 \
   /usr/lib/libb2.so.1 \
   /usr/lib/libbrotlicommon.so.1 \
   /usr/lib/libbrotlidec.so.1 \
@@ -4600,6 +4627,8 @@ ward: /usr/lib/Scrt1.o \
   /usr/lib/liburing.so.2 \
   /usr/lib/libwayland-client.so.0 \
   /usr/lib/libwayland-cursor.so.0 \
+  /usr/lib/libxcb-keysyms.so.1 \
+  /usr/lib/libxcb-res.so.0 \
   /usr/lib/libxcb.so.1 \
   /usr/lib/libxkbcommon.so.0 \
   /usr/lib/libz.so.1 \
@@ -4607,6 +4636,7 @@ ward: /usr/lib/Scrt1.o \
   /usr/lib32/libGLdispatch.so.0 \
   /usr/lib32/libXau.so.6 \
   /usr/lib32/libXdmcp.so.6 \
+  /usr/lib32/libXfixes.so.3 \
   /usr/lib32/libbrotlicommon.so.1 \
   /usr/lib32/libbrotlidec.so.1 \
   /usr/lib32/libbz2.so.1.0 \
@@ -4616,6 +4646,7 @@ ward: /usr/lib/Scrt1.o \
   /usr/lib32/libicudata.so.78 \
   /usr/lib32/libpcre2-8.so.0 \
   /usr/lib32/libwayland-client.so.0 \
+  /usr/lib32/libxcb-res.so.0 \
   /usr/lib32/libxcb.so.1 \
   CMakeFiles/ward.dir/src/NotificationCenter.cpp.o \
   CMakeFiles/ward.dir/src/NotificationPopup.cpp.o \
@@ -4653,6 +4684,8 @@ CMakeFiles/ward.dir/src/WardConfig.cpp.o:
 /usr/lib/libxkbcommon.so.0:
 
 /usr/lib/libxcb.so.1:
+
+/usr/lib/libxcb-res.so.0:
 
 /usr/lib/libwayland-client.so.0:
 
@@ -4696,13 +4729,35 @@ CMakeFiles/ward.dir/src/NotificationServer.cpp.o:
 
 /usr/lib/libbrotlidec.so.1:
 
-/usr/include/strings.h:
+/usr/lib/libbrotlicommon.so.1:
 
-/usr/include/bits/posix2_lim.h:
+/usr/lib/libXfixes.so.3:
 
-/usr/lib/cmake/Qt6Gui/Qt6QLinuxFbIntegrationPluginTargets.cmake:
+/usr/lib/libXdmcp.so.6:
 
-/usr/lib/cmake/Qt6/Qt6VersionlessAliasTargets.cmake:
+/usr/lib/libXau.so.6:
+
+/usr/lib/libX11.so:
+
+/usr/lib/libQt6Widgets.so.6.11.0:
+
+/usr/lib/libQt6WaylandClient.so.6:
+
+/usr/lib/libQt6DBus.so.6.11.0:
+
+/usr/lib/libLayerShellQtInterface.so.6.6.4:
+
+/usr/lib/libKF6WindowSystem.so.6.25.0:
+
+/usr/lib/libGLX.so:
+
+/usr/lib/libQt6Core.so.6.11.0:
+
+/usr/lib/libEGL.so.1:
+
+/usr/lib/ld-linux-x86-64.so.2:
+
+/usr/lib/gcc/x86_64-pc-linux-gnu/15.2.1/libgcc.a:
 
 /usr/lib/cmake/Qt6/Qt6ConfigExtras.cmake:
 
@@ -4717,6 +4772,8 @@ CMakeFiles/ward.dir/src/NotificationServer.cpp.o:
 /usr/lib/cmake/LayerShellQt/LayerShellQtConfigVersion.cmake:
 
 /usr/lib/cmake/Qt6Gui/Qt6QXcbGlxIntegrationPluginTargetsPrecheck.cmake:
+
+/usr/lib/cmake/KF6WindowSystem/KF6WindowSystemConfig.cmake:
 
 /usr/include/qt6/QtCore/qlocale.h:
 
@@ -4772,6 +4829,8 @@ CMakeFiles/ward.dir/src/NotificationServer.cpp.o:
 
 /usr/include/qt6/QtGui/qevent.h:
 
+/usr/lib/cmake/KF6WindowSystem/KF6WindowSystemTargets.cmake:
+
 /usr/include/qt6/QtCore/qpropertyanimation.h:
 
 /usr/lib32/libicudata.so.78:
@@ -4781,6 +4840,8 @@ CMakeFiles/ward.dir/src/NotificationServer.cpp.o:
 /usr/include/c++/15.2.1/x86_64-pc-linux-gnu/bits/ctype_base.h:
 
 /usr/include/qt6/QtCore/q20bit.h:
+
+/usr/include/qt6/QtGui/QPaintEvent:
 
 /usr/include/stdlib.h:
 
@@ -4815,16 +4876,6 @@ CMakeFiles/ward.dir/src/NotificationServer.cpp.o:
 /usr/include/qt6/QtCore/qtypeinfo.h:
 
 /usr/include/qt6/QtCore/qtpreprocessorsupport.h:
-
-/usr/lib/libXau.so.6:
-
-/usr/lib/cmake/Qt6/QtPublicAndroidHelpers.cmake:
-
-/usr/include/qt6/QtCore/qtimer.h:
-
-/usr/lib/cmake/Qt6/QtFeature.cmake:
-
-/usr/include/qt6/QtGui/qpaintdevice.h:
 
 /usr/include/qt6/QtCore/qtextstream.h:
 
@@ -4874,6 +4925,8 @@ CMakeFiles/ward.dir/src/NotificationServer.cpp.o:
 
 /usr/lib/cmake/Qt6Gui/Qt6QWaylandEglClientBufferPluginTargets-relwithdebinfo.cmake:
 
+/usr/share/cmake/Modules/SelectLibraryConfigurations.cmake:
+
 /usr/include/qt6/QtCore/qobject.h:
 
 /usr/include/qt6/QtDBus/qtdbusglobal.h:
@@ -4901,6 +4954,8 @@ CMakeFiles/ward.dir/src/NotificationServer.cpp.o:
 /usr/include/qt6/QtCore/qmap.h:
 
 /usr/include/qt6/QtGui/qrgba64.h:
+
+/usr/include/KF6/KWindowSystem/kwindowsystem_export.h:
 
 /usr/include/qt6/QtCore/qmalloc.h:
 
@@ -5032,15 +5087,13 @@ ward_autogen/moc_predefs.h:
 
 /usr/include/qt6/QtCore/q20utility.h:
 
+/usr/lib/cmake/KF6WindowSystem/KF6WindowSystemTargets-noconfig.cmake:
+
 /usr/include/qt6/QtGui/qimage.h:
 
 /usr/include/qt6/QtCore/qbasictimer.h:
 
 /usr/include/qt6/QtGui/qfontvariableaxis.h:
-
-/usr/lib/cmake/Qt6/QtFeatureCommon.cmake:
-
-/usr/include/qt6/QtCore/q20memory.h:
 
 /usr/lib/cmake/Qt6CoreTools/Qt6CoreToolsVersionlessTargets.cmake:
 
@@ -5144,10 +5197,6 @@ ward_autogen/moc_predefs.h:
 
 /usr/include/bits/libm-simd-decl-stubs.h:
 
-/usr/lib/cmake/Qt6/QtInstallPaths.cmake:
-
-/usr/include/bits/types/clockid_t.h:
-
 /usr/include/c++/15.2.1/bits/alloc_traits.h:
 
 /usr/include/qt6/QtCore/qabstractanimation.h:
@@ -5156,6 +5205,8 @@ ward_autogen/moc_predefs.h:
 
 /usr/include/c++/15.2.1/bits/basic_ios.h:
 
+/usr/include/qt6/QtGui/QRegion:
+
 /usr/include/c++/15.2.1/bits/erase_if.h:
 
 /usr/include/c++/15.2.1/bits/concept_check.h:
@@ -5163,8 +5214,6 @@ ward_autogen/moc_predefs.h:
 /usr/include/bits/mathcalls-narrow.h:
 
 /usr/include/c++/15.2.1/algorithm:
-
-/usr/lib/libQt6Widgets.so.6.11.0:
 
 /usr/include/qt6/QtWidgets/QGraphicsOpacityEffect:
 
@@ -5236,11 +5285,19 @@ CMakeFiles/ward.dir/src/NotificationPopup.cpp.o:
 
 /usr/include/c++/15.2.1/x86_64-pc-linux-gnu/bits/atomic_word.h:
 
+/usr/share/cmake/Modules/CheckFunctionExists.cmake:
+
 /usr/lib/cmake/Qt6Gui/Qt6QVncIntegrationPluginConfig.cmake:
 
 /usr/include/bits/types/clock_t.h:
 
 /usr/include/qt6/QtWidgets/qlayoutitem.h:
+
+/usr/lib/libGLdispatch.so.0:
+
+/usr/include/qt6/QtWidgets/qtwidgetsexports.h:
+
+/usr/include/bits/types/__locale_t.h:
 
 /usr/include/qt6/QtGui/qvectornd.h:
 
@@ -5263,8 +5320,6 @@ CMakeFiles/ward.dir/src/NotificationPopup.cpp.o:
 /usr/lib/cmake/Qt6Gui/Qt6QTuioTouchPluginConfig.cmake:
 
 ward_autogen/UVLADIE3JM/moc_NotificationPopup.cpp:
-
-/usr/lib/libX11.so.6:
 
 /usr/include/wchar.h:
 
@@ -5334,6 +5389,14 @@ ward_autogen/UVLADIE3JM/moc_NotificationPopup.cpp:
 
 /usr/include/c++/15.2.1/tr1/bessel_function.tcc:
 
+/usr/include/bits/posix2_lim.h:
+
+/usr/include/qt6/QtCore/q20memory.h:
+
+/usr/lib/cmake/Qt6/QtFeatureCommon.cmake:
+
+/usr/lib/cmake/Qt6Gui/Qt6QLinuxFbIntegrationPluginTargets.cmake:
+
 /usr/include/qt6/QtCore/qcommandlineoption.h:
 
 /usr/lib/cmake/Qt6Gui/Qt6QTgaPluginAdditionalTargetInfo.cmake:
@@ -5345,10 +5408,6 @@ ward_autogen/UVLADIE3JM/moc_NotificationPopup.cpp:
 /usr/include/c++/15.2.1/tr1/hypergeometric.tcc:
 
 /usr/include/bits/select.h:
-
-/usr/lib/cmake/Qt6Gui/Qt6QMngPluginTargetsPrecheck.cmake:
-
-/usr/lib/cmake/Qt6Gui/Qt6QTsLibPluginTargets-relwithdebinfo.cmake:
 
 /usr/include/c++/15.2.1/bits/charconv.h:
 
@@ -5384,12 +5443,6 @@ ward_autogen/UVLADIE3JM/moc_NotificationPopup.cpp:
 
 /usr/include/c++/15.2.1/backward/binders.h:
 
-/usr/include/qt6/QtWidgets/qtwidgetsexports.h:
-
-/usr/include/bits/types/__locale_t.h:
-
-/usr/lib/libGLdispatch.so.0:
-
 /usr/include/c++/15.2.1/ext/concurrence.h:
 
 /usr/include/qt6/QtGui/QWindow:
@@ -5422,7 +5475,11 @@ ward_autogen/UVLADIE3JM/moc_NotificationPopup.cpp:
 
 /usr/include/bits/types/__sigset_t.h:
 
-/usr/share/cmake/Modules/CheckIncludeFile.cmake:
+/usr/include/strings.h:
+
+/usr/include/qt6/QtCore/qtimer.h:
+
+/usr/lib/cmake/Qt6/QtPublicAndroidHelpers.cmake:
 
 CMakeFiles/4.3.1/CMakeCCompiler.cmake:
 
@@ -5489,6 +5546,10 @@ CMakeFiles/4.3.1/CMakeCCompiler.cmake:
 /usr/lib/cmake/Qt6Gui/Qt6QOffscreenIntegrationPluginConfig.cmake:
 
 /usr/include/c++/15.2.1/clocale:
+
+/usr/share/cmake/Modules/CheckLibraryExists.cmake:
+
+/usr/include/asm/types.h:
 
 /usr/lib/cmake/Qt6Core/Qt6CoreConfig.cmake:
 
@@ -5624,6 +5685,14 @@ CMakeFiles/4.3.1/CMakeCXXCompiler.cmake:
 
 /usr/include/qt6/QtWidgets/QLabel:
 
+/usr/include/bits/types/clockid_t.h:
+
+/usr/lib/cmake/Qt6/QtInstallPaths.cmake:
+
+/usr/lib/cmake/Qt6Gui/Qt6QTsLibPluginTargets-relwithdebinfo.cmake:
+
+/usr/lib/cmake/Qt6Gui/Qt6QMngPluginTargetsPrecheck.cmake:
+
 /usr/lib/libdbus-1.so.3:
 
 /usr/include/bits/stdint-intn.h:
@@ -5656,9 +5725,17 @@ CMakeFiles/4.3.1/CMakeCXXCompiler.cmake:
 
 /usr/include/c++/15.2.1/type_traits:
 
+/usr/share/cmake/Modules/CheckIncludeFile.cmake:
+
+/usr/lib/cmake/KF6WindowSystem/KF6WindowSystemConfigVersion.cmake:
+
 /usr/include/c++/15.2.1/bits/hashtable_policy.h:
 
 /usr/include/qt6/QtWidgets/qgridlayout.h:
+
+/usr/lib/gcc/x86_64-pc-linux-gnu/15.2.1/crtendS.o:
+
+/usr/include/bits/types/sigset_t.h:
 
 /usr/include/qt6/QtCore/qline.h:
 
@@ -5704,6 +5781,8 @@ CMakeFiles/4.3.1/CMakeCXXCompiler.cmake:
 
 /usr/lib/cmake/Qt6Gui/Qt6QEglFSIntegrationPluginAdditionalTargetInfo.cmake:
 
+/usr/include/qt6/QtGui/QWidgetList:
+
 /usr/include/c++/15.2.1/system_error:
 
 /usr/include/c++/15.2.1/bits/basic_string.tcc:
@@ -5719,8 +5798,6 @@ CMakeFiles/4.3.1/CMakeCXXCompiler.cmake:
 /usr/share/cmake/Modules/FindPackageMessage.cmake:
 
 /usr/include/c++/15.2.1/unordered_map:
-
-/usr/lib/libXdmcp.so.6:
 
 /usr/include/qt6/QtCore/q20type_traits.h:
 
@@ -5760,9 +5837,15 @@ CMakeFiles/4.3.1/CMakeCXXCompiler.cmake:
 
 /usr/lib/cmake/Qt6Gui/Qt6QEglFSKmsGbmIntegrationPluginTargets.cmake:
 
+/usr/include/qt6/QtGui/qpaintdevice.h:
+
+/usr/lib/cmake/Qt6/QtFeature.cmake:
+
 /usr/include/qt6/QtCore/qcontainertools_impl.h:
 
 /usr/include/c++/15.2.1/bits/stl_raw_storage_iter.h:
+
+/usr/lib/cmake/Qt6/Qt6VersionlessAliasTargets.cmake:
 
 /usr/include/pthread.h:
 
@@ -5784,11 +5867,15 @@ CMakeFiles/4.3.1/CMakeCXXCompiler.cmake:
 
 /usr/lib/libc.so:
 
+/usr/lib/gcc/x86_64-pc-linux-gnu/15.2.1/crtbeginS.o:
+
+/usr/include/bits/typesizes.h:
+
 /usr/lib/cmake/Qt6Gui/Qt6QXcbGlxIntegrationPluginTargets-relwithdebinfo.cmake:
 
-/usr/include/c++/15.2.1/tr1/ell_integral.tcc:
-
 /usr/lib/libOpenGL.so:
+
+/usr/include/c++/15.2.1/tr1/ell_integral.tcc:
 
 /usr/include/c++/15.2.1/bits/uniform_int_dist.h:
 
@@ -5846,6 +5933,8 @@ CMakeFiles/4.3.1/CMakeCXXCompiler.cmake:
 
 /usr/include/c++/15.2.1/list:
 
+/usr/include/KF6/KWindowSystem/kwindoweffects.h:
+
 /usr/include/c++/15.2.1/cerrno:
 
 /usr/include/stdint.h:
@@ -5872,6 +5961,8 @@ CMakeFiles/4.3.1/CMakeCXXCompiler.cmake:
 
 /usr/include/qt6/QtCore/qcheckedint_impl.h:
 
+/usr/lib/libxcb-keysyms.so.1:
+
 /usr/include/c++/15.2.1/cstddef:
 
 /usr/lib/cmake/Qt6Gui/Qt6QEglFSEmulatorIntegrationPluginTargets.cmake:
@@ -5879,8 +5970,6 @@ CMakeFiles/4.3.1/CMakeCXXCompiler.cmake:
 /usr/include/qt6/QtGui/qtextdocument.h:
 
 /usr/include/c++/15.2.1/bits/fs_path.h:
-
-/usr/lib/libQt6DBus.so.6.11.0:
 
 /usr/include/qt6/QtWidgets/qsizepolicy.h:
 
@@ -5905,8 +5994,6 @@ CMakeFiles/4.3.1/CMakeCXXCompiler.cmake:
 /usr/include/c++/15.2.1/debug/assertions.h:
 
 /usr/include/c++/15.2.1/string:
-
-/usr/lib/gcc/x86_64-pc-linux-gnu/15.2.1/libgcc.a:
 
 /usr/include/qt6/QtCore/qset.h:
 
@@ -6004,7 +6091,11 @@ CMakeFiles/4.3.1/CMakeCXXCompiler.cmake:
 
 /usr/lib/cmake/Qt6/QtPublicCMakeHelpers.cmake:
 
+/usr/include/KF6/KWindowSystem/kwindowsystem_version.h:
+
 /usr/lib/cmake/Qt6/QtPublicPluginHelpers.cmake:
+
+/usr/share/cmake/Modules/FindX11.cmake:
 
 /usr/lib/cmake/Qt6/QtPublicPluginHelpers_v2.cmake:
 
@@ -6246,6 +6337,8 @@ CMakeFiles/4.3.1/CMakeSystem.cmake:
 
 /usr/lib/cmake/Qt6Gui/Qt6QEglFSKmsEglDeviceIntegrationPluginAdditionalTargetInfo.cmake:
 
+/usr/share/cmake/Modules/FindPkgConfig.cmake:
+
 /usr/lib/cmake/Qt6Gui/Qt6QEglFSKmsEglDeviceIntegrationPluginTargets-relwithdebinfo.cmake:
 
 /usr/lib/cmake/Qt6Gui/Qt6QEglFSKmsEglDeviceIntegrationPluginTargets.cmake:
@@ -6257,8 +6350,6 @@ CMakeFiles/4.3.1/CMakeSystem.cmake:
 /usr/share/cmake/Modules/CMakeSystemSpecificInformation.cmake:
 
 /usr/lib/cmake/Qt6Gui/Qt6QEglFSKmsEglDeviceIntegrationPluginTargetsPrecheck.cmake:
-
-/usr/lib/libQt6WaylandClient.so.6:
 
 /usr/lib/cmake/Qt6Gui/Qt6QEglFSX11IntegrationPluginAdditionalTargetInfo.cmake:
 
@@ -6279,8 +6370,6 @@ CMakeFiles/4.3.1/CMakeSystem.cmake:
 /usr/lib/cmake/Qt6Gui/Qt6QEvdevKeyboardPluginTargets.cmake:
 
 /usr/lib/cmake/Qt6Gui/Qt6QEvdevMousePluginConfig.cmake:
-
-/usr/lib/libGLX.so:
 
 /usr/lib/cmake/Qt6Gui/Qt6QEvdevMousePluginTargets.cmake:
 
@@ -6361,6 +6450,10 @@ ward_autogen/UVLADIE3JM/moc_WardConfig.cpp:
 /usr/lib/cmake/Qt6Gui/Qt6QICOPluginTargets.cmake:
 
 /usr/lib/cmake/Qt6Gui/Qt6QIbusPlatformInputContextPluginTargets-relwithdebinfo.cmake:
+
+/usr/lib/libb2.so.1:
+
+/usr/lib/cmake/Qt6Gui/Qt6QJp2PluginTargets-relwithdebinfo.cmake:
 
 /usr/lib/cmake/Qt6Gui/Qt6QJp2PluginTargetsPrecheck.cmake:
 
@@ -6568,6 +6661,8 @@ ward_autogen/UVLADIE3JM/moc_NotificationServer.cpp:
 
 /usr/lib/cmake/Qt6Gui/Qt6QWaylandXdgShellIntegrationPluginTargets.cmake:
 
+/usr/share/cmake/Modules/FindFontconfig.cmake:
+
 /usr/lib/cmake/Qt6Gui/Qt6QWbmpPluginTargets-relwithdebinfo.cmake:
 
 /usr/lib/cmake/Qt6DBus/Qt6DBusAdditionalTargetInfo.cmake:
@@ -6575,10 +6670,6 @@ ward_autogen/UVLADIE3JM/moc_NotificationServer.cpp:
 /usr/lib/cmake/Qt6Gui/Qt6QWbmpPluginTargets.cmake:
 
 /usr/lib/cmake/Qt6Gui/Qt6QWbmpPluginTargetsPrecheck.cmake:
-
-/usr/include/bits/types/sigset_t.h:
-
-/usr/lib/gcc/x86_64-pc-linux-gnu/15.2.1/crtendS.o:
 
 /usr/include/c++/15.2.1/iterator:
 
@@ -6617,6 +6708,8 @@ ward_autogen/UVLADIE3JM/moc_NotificationServer.cpp:
 /usr/lib/cmake/Qt6Gui/Qt6QXdgDesktopPortalThemePluginTargets-relwithdebinfo.cmake:
 
 /usr/lib/cmake/Qt6Gui/Qt6QXdgDesktopPortalThemePluginTargets.cmake:
+
+/usr/lib32/libxcb-res.so.0:
 
 /usr/lib/cmake/Qt6Gui/Qt6QXdgDesktopPortalThemePluginTargetsPrecheck.cmake:
 
@@ -6720,10 +6813,6 @@ ward_autogen/UVLADIE3JM/moc_NotificationServer.cpp:
 
 /usr/share/cmake/Modules/CheckCXXSourceCompiles.cmake:
 
-/usr/include/asm/types.h:
-
-/usr/share/cmake/Modules/CheckLibraryExists.cmake:
-
 /usr/include/qt6/QtCore/qbytearrayalgorithms.h:
 
 /usr/share/cmake/Modules/Compiler/CMakeCommonCompilerMacros.cmake:
@@ -6742,7 +6831,11 @@ ward_autogen/UVLADIE3JM/moc_NotificationServer.cpp:
 
 /usr/include/c++/15.2.1/pstl/glue_memory_defs.h:
 
+/usr/lib32/libXfixes.so.3:
+
 /usr/share/cmake/Modules/Compiler/GNU.cmake:
+
+/usr/share/cmake/Modules/FindFreetype.cmake:
 
 /usr/share/cmake/Modules/FindPackageHandleStandardArgs.cmake:
 
@@ -6824,6 +6917,8 @@ ward_autogen/UVLADIE3JM/moc_NotificationServer.cpp:
 
 /usr/lib/gcc/x86_64-pc-linux-gnu/15.2.1/include/stdint.h:
 
+/usr/include/KF6/KWindowSystem/KWindowEffects:
+
 /usr/include/c++/15.2.1/bits/basic_ios.tcc:
 
 /usr/include/c++/15.2.1/bits/codecvt.h:
@@ -6874,6 +6969,12 @@ ward_autogen/UVLADIE3JM/moc_NotificationCenter.cpp:
 
 /usr/include/qt6/QtGui/QImage:
 
+/usr/include/qt6/QtGui/QPainter:
+
+/usr/include/qt6/QtGui/qpainter.h:
+
+/usr/include/qt6/QtGui/qtextoption.h:
+
 /usr/include/qt6/QtWidgets/QBoxLayout:
 
 /usr/include/wctype.h:
@@ -6914,8 +7015,6 @@ ward_autogen/UVLADIE3JM/moc_NotificationCenter.cpp:
 
 /usr/include/qt6/QtGui/qtextcursor.h:
 
-/usr/include/qt6/QtGui/qtextoption.h:
-
 /usr/lib/crti.o:
 
 /usr/lib/cmake/Qt6Gui/Qt6QSvgIconPluginTargetsPrecheck.cmake:
@@ -6927,21 +7026,3 @@ ward_autogen/UVLADIE3JM/moc_NotificationCenter.cpp:
 /usr/lib/libm.so:
 
 /usr/lib/libstdc++.so:
-
-/usr/include/bits/typesizes.h:
-
-/usr/lib/gcc/x86_64-pc-linux-gnu/15.2.1/crtbeginS.o:
-
-/usr/lib/ld-linux-x86-64.so.2:
-
-/usr/lib/libLayerShellQtInterface.so.6.6.3:
-
-/usr/lib/libEGL.so.1:
-
-/usr/lib/libQt6Core.so.6.11.0:
-
-/usr/lib/cmake/Qt6Gui/Qt6QJp2PluginTargets-relwithdebinfo.cmake:
-
-/usr/lib/libb2.so.1:
-
-/usr/lib/libbrotlicommon.so.1:

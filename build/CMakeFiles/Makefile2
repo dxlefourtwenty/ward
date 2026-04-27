@@ -84,8 +84,8 @@ clean: CMakeFiles/ward_autogen.dir/clean
 # Target rules for target CMakeFiles/ward.dir
 
 # All Build rule for target.
-CMakeFiles/ward.dir/all: CMakeFiles/ward_autogen_timestamp_deps.dir/all
 CMakeFiles/ward.dir/all: CMakeFiles/ward_autogen.dir/all
+CMakeFiles/ward.dir/all: CMakeFiles/ward_autogen_timestamp_deps.dir/all
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/ward.dir/build.make CMakeFiles/ward.dir/depend
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/ward.dir/build.make CMakeFiles/ward.dir/build
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/dxle/builds/ward/build/CMakeFiles --progress-num=1,2,3,4,5,6,7,8,9 "Built target ward"

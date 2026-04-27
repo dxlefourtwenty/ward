@@ -435,6 +435,7 @@
   /usr/include/qt6/QtDBus/qdbusextratypes.h \
   /usr/include/qt6/QtDBus/qtdbusexports.h \
   /usr/include/qt6/QtDBus/qtdbusglobal.h \
+  /usr/include/qt6/QtGui/QPaintEvent \
   /usr/include/qt6/QtGui/QPixmap \
   /usr/include/qt6/QtGui/QResizeEvent \
   /usr/include/qt6/QtGui/QTransform \

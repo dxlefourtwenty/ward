@@ -10,12 +10,14 @@ ward: \
   CMakeFiles/ward.dir/src/NotificationPopup.cpp.o \
   CMakeFiles/ward.dir/src/WardConfig.cpp.o \
   /usr/lib/libQt6Widgets.so.6.11.0 \
-  /usr/lib/libLayerShellQtInterface.so.6.6.3 \
+  /usr/lib/libLayerShellQtInterface.so.6.6.4 \
+  /usr/lib/libKF6WindowSystem.so.6.25.0 \
   /usr/lib/libQt6Gui.so.6.11.0 \
   /usr/lib/libQt6DBus.so.6.11.0 \
   /usr/lib/libQt6Core.so.6.11.0 \
   /usr/lib/libGLX.so \
   /usr/lib/libOpenGL.so \
+  /usr/lib/libX11.so \
   /usr/lib/gcc/x86_64-pc-linux-gnu/15.2.1/../../../../lib/libstdc++.so \
   /usr/lib/gcc/x86_64-pc-linux-gnu/15.2.1/../../../../lib/libm.so \
   /usr/lib/gcc/x86_64-pc-linux-gnu/15.2.1/../../../../lib/libm.so \
@@ -46,9 +48,15 @@ ward: \
   /usr/lib/libwayland-client.so.0 \
   /usr/lib/libQt6WaylandClient.so.6 \
   /usr/lib/ld-linux-x86-64.so.2 \
+  /usr/lib32/libxcb.so.1 \
+  /usr/lib/libxcb.so.1 \
+  /usr/lib32/libxcb-res.so.0 \
+  /usr/lib/libxcb-res.so.0 \
+  /usr/lib32/libXfixes.so.3 \
+  /usr/lib/libXfixes.so.3 \
+  /usr/lib/libxcb-keysyms.so.1 \
   /usr/lib/libEGL.so.1 \
   /usr/lib/libfontconfig.so.1 \
-  /usr/lib/libX11.so.6 \
   /usr/lib/libglib-2.0.so.0 \
   /usr/lib/libxkbcommon.so.0 \
   /usr/lib/libpng16.so.16 \
@@ -70,10 +78,12 @@ ward: \
   /usr/lib32/libffi.so.8 \
   /usr/lib/libffi.so.8 \
   /usr/lib/libwayland-cursor.so.0 \
+  /usr/lib32/libXau.so.6 \
+  /usr/lib/libXau.so.6 \
+  /usr/lib32/libXdmcp.so.6 \
+  /usr/lib/libXdmcp.so.6 \
   /usr/lib32/libexpat.so.1 \
   /usr/lib/libexpat.so.1 \
-  /usr/lib32/libxcb.so.1 \
-  /usr/lib/libxcb.so.1 \
   /usr/lib32/libpcre2-8.so.0 \
   /usr/lib/libpcre2-8.so.0 \
   /usr/lib/libgraphite2.so.3 \
@@ -85,10 +95,6 @@ ward: \
   /usr/lib/libicudata.so.78 \
   /usr/lib32/libgomp.so.1 \
   /usr/lib/libgomp.so.1 \
-  /usr/lib32/libXau.so.6 \
-  /usr/lib/libXau.so.6 \
-  /usr/lib32/libXdmcp.so.6 \
-  /usr/lib/libXdmcp.so.6 \
   /usr/lib32/libbrotlicommon.so.1 \
   /usr/lib/libbrotlicommon.so.1
 
@@ -114,7 +120,9 @@ CMakeFiles/ward.dir/src/WardConfig.cpp.o:
 
 /usr/lib/libQt6Widgets.so.6.11.0:
 
-/usr/lib/libLayerShellQtInterface.so.6.6.3:
+/usr/lib/libLayerShellQtInterface.so.6.6.4:
+
+/usr/lib/libKF6WindowSystem.so.6.25.0:
 
 /usr/lib/libQt6Gui.so.6.11.0:
 
@@ -125,6 +133,8 @@ CMakeFiles/ward.dir/src/WardConfig.cpp.o:
 /usr/lib/libGLX.so:
 
 /usr/lib/libOpenGL.so:
+
+/usr/lib/libX11.so:
 
 /usr/lib/gcc/x86_64-pc-linux-gnu/15.2.1/../../../../lib/libstdc++.so:
 
@@ -186,11 +196,23 @@ CMakeFiles/ward.dir/src/WardConfig.cpp.o:
 
 /usr/lib/ld-linux-x86-64.so.2:
 
+/usr/lib32/libxcb.so.1:
+
+/usr/lib/libxcb.so.1:
+
+/usr/lib32/libxcb-res.so.0:
+
+/usr/lib/libxcb-res.so.0:
+
+/usr/lib32/libXfixes.so.3:
+
+/usr/lib/libXfixes.so.3:
+
+/usr/lib/libxcb-keysyms.so.1:
+
 /usr/lib/libEGL.so.1:
 
 /usr/lib/libfontconfig.so.1:
-
-/usr/lib/libX11.so.6:
 
 /usr/lib/libglib-2.0.so.0:
 
@@ -234,13 +256,17 @@ CMakeFiles/ward.dir/src/WardConfig.cpp.o:
 
 /usr/lib/libwayland-cursor.so.0:
 
+/usr/lib32/libXau.so.6:
+
+/usr/lib/libXau.so.6:
+
+/usr/lib32/libXdmcp.so.6:
+
+/usr/lib/libXdmcp.so.6:
+
 /usr/lib32/libexpat.so.1:
 
 /usr/lib/libexpat.so.1:
-
-/usr/lib32/libxcb.so.1:
-
-/usr/lib/libxcb.so.1:
 
 /usr/lib32/libpcre2-8.so.0:
 
@@ -263,14 +289,6 @@ CMakeFiles/ward.dir/src/WardConfig.cpp.o:
 /usr/lib32/libgomp.so.1:
 
 /usr/lib/libgomp.so.1:
-
-/usr/lib32/libXau.so.6:
-
-/usr/lib/libXau.so.6:
-
-/usr/lib32/libXdmcp.so.6:
-
-/usr/lib/libXdmcp.so.6:
 
 /usr/lib32/libbrotlicommon.so.1:
 

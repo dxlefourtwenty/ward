@@ -55,8 +55,8 @@ bool registerService(const QDBusConnection &bus,
 {
     const auto registration = bus.interface()->registerService(
         serviceName,
-        QDBusConnectionInterface::DontQueueService,
-        QDBusConnectionInterface::DontAllowReplacement);
+        QDBusConnectionInterface::ReplaceExistingService,
+        QDBusConnectionInterface::AllowReplacement);
 
     if (!registration.isValid()) {
         qCritical() << failureMessage << registration.error().message();
@@ -109,10 +109,12 @@ int main(int argc, char *argv[])
     }
 
     QLockFile instanceLock(instanceLockPath());
-    instanceLock.setStaleLockTime(0);
+    instanceLock.setStaleLockTime(5000);
     if (!instanceLock.tryLock()) {
-        qCritical() << "ward is already running.";
-        return 1;
+        if (!instanceLock.removeStaleLockFile() || !instanceLock.tryLock()) {
+            qCritical() << "ward is already running.";
+            return 1;
+        }
     }
 
     NotificationCenter center;

@@ -200,12 +200,14 @@ ward: CMakeFiles/ward.dir/src/WardConfig.cpp.o
 ward: CMakeFiles/ward.dir/build.make
 ward: CMakeFiles/ward.dir/compiler_depend.ts
 ward: /usr/lib/libQt6Widgets.so.6.11.0
-ward: /usr/lib/libLayerShellQtInterface.so.6.6.3
+ward: /usr/lib/libLayerShellQtInterface.so.6.6.4
+ward: /usr/lib/libKF6WindowSystem.so.6.25.0
 ward: /usr/lib/libQt6Gui.so.6.11.0
 ward: /usr/lib/libQt6DBus.so.6.11.0
 ward: /usr/lib/libQt6Core.so.6.11.0
 ward: /usr/lib/libGLX.so
 ward: /usr/lib/libOpenGL.so
+ward: /usr/lib/libX11.so
 ward: CMakeFiles/ward.dir/link.txt
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --bold --progress-dir=/home/dxle/builds/ward/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_9) "Linking CXX executable ward"
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/ward.dir/link.txt --verbose=$(VERBOSE)

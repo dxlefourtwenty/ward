@@ -11,13 +11,19 @@
 #include <QIcon>
 #include <QImage>
 #include <QMouseEvent>
+#include <QPainter>
 #include <QPixmap>
 #include <QProcess>
 #include <QRegularExpression>
+#include <QRegion>
 #include <QScreen>
 #include <QUrl>
 #include <QWindow>
 #include <QXmlStreamReader>
+
+#if WARD_HAS_KWINDOWSYSTEM
+#include <KWindowEffects>
+#endif
 
 #if WARD_HAS_LAYERSHELLQT
 #include <LayerShellQt/window.h>
@@ -269,6 +275,17 @@ bool parseStyleLength(const QString &value, int *parsed)
     return true;
 }
 
+bool parseFirstStyleLength(const QString &value, int *parsed)
+{
+    const QStringList parts = value.split(QRegularExpression(QStringLiteral("\\s+")),
+                                          Qt::SkipEmptyParts);
+    if (parts.isEmpty()) {
+        return false;
+    }
+
+    return parseStyleLength(parts.first(), parsed);
+}
+
 bool parsePaddingValue(const QString &value, QMargins *margins)
 {
     const QStringList parts = value.split(QRegularExpression(QStringLiteral("\\s+")),
@@ -365,6 +382,67 @@ int notificationCardGap(const QHash<QString, QString> &styleVariables)
     return styleLengthValue(styleVariables,
                             QStringLiteral("--notification-card-gap"),
                             defaultCardSpacing);
+}
+
+int notificationCardBlurRadius(const QHash<QString, QString> &styleVariables)
+{
+    return styleLengthValue(styleVariables,
+                            QStringLiteral("--notification-card-blur-radius"),
+                            0);
+}
+
+int notificationCardBorderRadius(const QString &styleSheet,
+                                 const QHash<QString, QString> &styleVariables)
+{
+    static const QRegularExpression blockPattern(
+        QStringLiteral(R"(([^{}]*notificationCard[^{}]*)\{([^{}]*)\})"),
+        QRegularExpression::CaseInsensitiveOption | QRegularExpression::DotMatchesEverythingOption);
+    static const QRegularExpression radiusPattern(
+        QStringLiteral(R"(border-radius\s*:\s*([^;]+))"),
+        QRegularExpression::CaseInsensitiveOption);
+
+    auto blockMatches = blockPattern.globalMatch(styleSheet);
+    int radius = 0;
+    while (blockMatches.hasNext()) {
+        const QRegularExpressionMatch blockMatch = blockMatches.next();
+        const QRegularExpressionMatch radiusMatch = radiusPattern.match(blockMatch.captured(2));
+        if (!radiusMatch.hasMatch()) {
+            continue;
+        }
+
+        int parsed = 0;
+        const QString value = resolveStyleValue(radiusMatch.captured(1), styleVariables);
+        if (parseFirstStyleLength(value, &parsed)) {
+            radius = qMax(0, parsed);
+        }
+    }
+
+    return radius;
+}
+
+QRegion roundedRectRegion(const QRect &rect, int radius)
+{
+    if (rect.isEmpty() || radius <= 0) {
+        return QRegion(rect);
+    }
+
+    const int boundedRadius = qMin(radius, qMin(rect.width(), rect.height()) / 2);
+    const int diameter = boundedRadius * 2;
+    if (diameter <= 0) {
+        return QRegion(rect);
+    }
+
+    QRegion region(rect.adjusted(boundedRadius, 0, -boundedRadius, 0));
+    region += QRegion(rect.adjusted(0, boundedRadius, 0, -boundedRadius));
+    region += QRegion(QRect(rect.left(), rect.top(), diameter, diameter), QRegion::Ellipse);
+    region += QRegion(QRect(rect.right() - diameter + 1, rect.top(), diameter, diameter), QRegion::Ellipse);
+    region += QRegion(QRect(rect.left(), rect.bottom() - diameter + 1, diameter, diameter), QRegion::Ellipse);
+    region += QRegion(QRect(rect.right() - diameter + 1,
+                            rect.bottom() - diameter + 1,
+                            diameter,
+                            diameter),
+                       QRegion::Ellipse);
+    return region;
 }
 
 QString spanStyle(const QXmlStreamAttributes &attributes, const QHash<QString, QString> &styleVariables)
@@ -756,8 +834,10 @@ NotificationPopup::NotificationPopup(const NotificationRequest &request,
 {
     setObjectName("notificationPopup");
     setAttribute(Qt::WA_TranslucentBackground);
+    setAttribute(Qt::WA_NoSystemBackground);
     setAttribute(Qt::WA_ShowWithoutActivating);
     setAttribute(Qt::WA_DeleteOnClose, false);
+    setAutoFillBackground(false);
     setFocusPolicy(Qt::NoFocus);
     Qt::WindowFlags flags = Qt::FramelessWindowHint | Qt::WindowDoesNotAcceptFocus;
 
@@ -815,9 +895,11 @@ void NotificationPopup::applyConfig(const WardConfig &config)
 void NotificationPopup::applyStyleSheet(const QString &styleSheet,
                                         const QHash<QString, QString> &styleVariables)
 {
+    appliedStyleSheet_ = styleSheet;
     styleVariables_ = styleVariables;
     setStyleSheet(styleSheet);
     applyCardLayoutStyle();
+    applyWindowBlurStyle();
     refreshContent();
     refreshGeometry();
 }
@@ -832,17 +914,16 @@ void NotificationPopup::showAnimated(const QPoint &targetPosition, int stackOffs
 
     if (usesLayerShellPlacement()) {
         configureLayerShell(screen());
-        applyLayerShellPlacement(stackOffset);
-
-        if (config_.animation.enabled && !silentOpen) {
-            setContentOffset(directionalOffset(config_.animation.enterFrom));
-            setContentOpacity(0.0);
-        } else {
-            resetContentState();
-        }
+        resetContentState();
+        applyLayerShellPlacement(
+            stackOffset,
+            (config_.animation.enabled && !silentOpen)
+                ? directionalOffset(config_.animation.enterFrom)
+                : QPoint());
 
         show();
         raise();
+        applyWindowBlurStyle();
         schedulePostShowGeometrySync();
 
         if (!config_.animation.enabled || silentOpen) {
@@ -850,12 +931,7 @@ void NotificationPopup::showAnimated(const QPoint &targetPosition, int stackOffs
             return;
         }
 
-        startContentAnimation(QPoint(),
-                              config_.animation.enterDurationMs,
-                              1.0,
-                              0,
-                              [this]() {
-            setContentOffset(QPoint());
+        startLayerShellAnimation(QPoint(), config_.animation.enterDurationMs, [this]() {
             restartTimeout();
         });
         return;
@@ -864,6 +940,7 @@ void NotificationPopup::showAnimated(const QPoint &targetPosition, int stackOffs
     move(targetPosition);
     show();
     raise();
+    applyWindowBlurStyle();
     schedulePostShowGeometrySync();
 
     if (!config_.animation.enabled || silentOpen) {
@@ -972,17 +1049,15 @@ void NotificationPopup::dismiss(uint reason, const QString &exitDirection, bool 
         if (!config_.animation.enabled || silentClose) {
             hide();
             resetContentState();
+            applyLayerShellPlacement(currentStackOffset_);
             emit dismissed(request_.id, pendingCloseReason_);
             return;
         }
 
-        startContentAnimation(exitOffset,
-                              config_.animation.exitDurationMs,
-                              1.0,
-                              0,
-                              [this]() {
+        startLayerShellAnimation(exitOffset, config_.animation.exitDurationMs, [this]() {
             hide();
             resetContentState();
+            applyLayerShellPlacement(currentStackOffset_);
             emit dismissed(request_.id, pendingCloseReason_);
         });
         return;
@@ -1043,10 +1118,21 @@ void NotificationPopup::mousePressEvent(QMouseEvent *event)
     dismiss(2);
 }
 
+void NotificationPopup::paintEvent(QPaintEvent *event)
+{
+    QPainter painter(this);
+    painter.setCompositionMode(QPainter::CompositionMode_Source);
+    painter.fillRect(rect(), Qt::transparent);
+    painter.end();
+
+    QWidget::paintEvent(event);
+}
+
 void NotificationPopup::resizeEvent(QResizeEvent *event)
 {
     QWidget::resizeEvent(event);
     syncCardGeometry();
+    applyWindowBlurStyle();
 }
 
 void NotificationPopup::buildUi()
@@ -1108,6 +1194,39 @@ void NotificationPopup::applyCardLayoutStyle()
     layout->setSpacing(notificationCardGap(styleVariables_));
 }
 
+void NotificationPopup::applyWindowBlurStyle()
+{
+#if WARD_HAS_KWINDOWSYSTEM
+    QWindow *popupWindow = windowHandle();
+    if (!popupWindow || !card_) {
+        return;
+    }
+
+    const bool blurEnabled = notificationCardBlurRadius(styleVariables_) > 0;
+    const int borderRadius = effectiveCardBorderRadius();
+    KWindowEffects::enableBlurBehind(
+        popupWindow,
+        blurEnabled,
+        blurEnabled ? roundedRectRegion(card_->geometry(), borderRadius) : QRegion());
+#endif
+}
+
+void NotificationPopup::syncWindowShape()
+{
+    if (!usesLayerShellPlacement() || !card_) {
+        clearMask();
+        return;
+    }
+
+    const int borderRadius = effectiveCardBorderRadius();
+    if (borderRadius <= 0) {
+        clearMask();
+        return;
+    }
+
+    setMask(roundedRectRegion(card_->geometry(), borderRadius));
+}
+
 void NotificationPopup::refreshContent()
 {
     const QString summaryText = request_.summary.trimmed();
@@ -1160,6 +1279,8 @@ void NotificationPopup::syncCardGeometry()
     }
 
     card_->move(restingContentPosition() + contentOffset_);
+    syncWindowShape();
+    applyWindowBlurStyle();
 }
 
 void NotificationPopup::invalidateLayout()
@@ -1257,18 +1378,15 @@ QSize NotificationPopup::contentSize() const
 
 QSize NotificationPopup::surfaceSize() const
 {
-    const QSize popupSize = contentSize();
-
-    if (!usesLayerShellPlacement()) {
-        return popupSize;
-    }
-
-    return QSize(popupSize.width() + (anchorAtRight() ? config_.layout.marginRight : config_.layout.marginLeft),
-                 popupSize.height() + (anchorAtTop() ? config_.layout.marginTop : config_.layout.marginBottom));
+    return contentSize();
 }
 
 QPoint NotificationPopup::restingContentPosition() const
 {
+    if (usesLayerShellPlacement()) {
+        return QPoint();
+    }
+
     const QSize shellSize = size();
     const QSize popupSize = card_ ? card_->size() : contentSize();
     const int x = anchorAtRight()
@@ -1325,6 +1443,11 @@ int NotificationPopup::effectiveMaxIconSize() const
     return qBound(0, config_.notifications.maxIconSize, absoluteMaxIconSize);
 }
 
+int NotificationPopup::effectiveCardBorderRadius() const
+{
+    return notificationCardBorderRadius(appliedStyleSheet_, styleVariables_);
+}
+
 int NotificationPopup::effectiveTextGap() const
 {
     return qMax(notificationTextGap(request_.hints, config_.notifications.textGap), 0);
@@ -1332,8 +1455,9 @@ int NotificationPopup::effectiveTextGap() const
 
 QPoint NotificationPopup::directionalOffset(const QString &direction) const
 {
-    const int horizontalDistance = width() + config_.animation.slideDistance;
-    const int verticalDistance = height() + config_.animation.slideDistance;
+    const QSize popupSize = card_ ? card_->size() : contentSize();
+    const int horizontalDistance = popupSize.width() + config_.animation.slideDistance;
+    const int verticalDistance = popupSize.height() + config_.animation.slideDistance;
 
     if (direction == "left") {
         return QPoint(-horizontalDistance, 0);
@@ -1565,16 +1689,17 @@ void NotificationPopup::applyLayerShellPlacement(int stackOffset, const QPoint &
         return;
     }
 
+    layerShellOffset_ = offset;
     layerShellWindow_->setDesiredSize(surfaceSize());
     layerShellWindow_->setMargins(layerShellMargins(stackOffset, offset));
 }
 
 QMargins NotificationPopup::layerShellMargins(int stackOffset, const QPoint &offset) const
 {
-    int left = anchorAtRight() ? 0 : offset.x();
-    int top = anchorAtTop() ? stackOffset + offset.y() : 0;
-    int right = anchorAtRight() ? -offset.x() : 0;
-    int bottom = anchorAtTop() ? 0 : stackOffset - offset.y();
+    int left = anchorAtRight() ? 0 : config_.layout.marginLeft + offset.x();
+    int top = anchorAtTop() ? config_.layout.marginTop + stackOffset + offset.y() : 0;
+    int right = anchorAtRight() ? config_.layout.marginRight - offset.x() : 0;
+    int bottom = anchorAtTop() ? 0 : config_.layout.marginBottom + stackOffset - offset.y();
 
     if (!anchorAtRight()) {
         right = 0;
@@ -1594,6 +1719,35 @@ QMargins NotificationPopup::layerShellMargins(int stackOffset, const QPoint &off
 
     return QMargins(left, top, right, bottom);
 }
+
+void NotificationPopup::startLayerShellAnimation(const QPoint &endOffset,
+                                                 int durationMs,
+                                                 const std::function<void()> &onFinished)
+{
+    if (layerShellOffset_ == endOffset || durationMs <= 0) {
+        applyLayerShellPlacement(currentStackOffset_, endOffset);
+        if (onFinished) {
+            onFinished();
+        }
+        return;
+    }
+
+    moveAnimation_ = new QVariantAnimation(this);
+    moveAnimation_->setDuration(durationMs);
+    moveAnimation_->setStartValue(layerShellOffset_);
+    moveAnimation_->setEndValue(endOffset);
+    moveAnimation_->setEasingCurve(animationEasing());
+    connect(moveAnimation_, &QVariantAnimation::valueChanged, this, [this](const QVariant &value) {
+        applyLayerShellPlacement(currentStackOffset_, value.toPoint());
+    });
+    connect(moveAnimation_, &QVariantAnimation::finished, this, [this, endOffset, onFinished]() {
+        applyLayerShellPlacement(currentStackOffset_, endOffset);
+        if (onFinished) {
+            onFinished();
+        }
+    });
+    moveAnimation_->start(QAbstractAnimation::DeleteWhenStopped);
+}
 #else
 void NotificationPopup::configureLayerShell(QScreen *)
 {
@@ -1606,6 +1760,10 @@ void NotificationPopup::applyLayerShellPlacement(int, const QPoint &)
 QMargins NotificationPopup::layerShellMargins(int, const QPoint &) const
 {
     return {};
+}
+
+void NotificationPopup::startLayerShellAnimation(const QPoint &, int, const std::function<void()> &)
+{
 }
 #endif
 

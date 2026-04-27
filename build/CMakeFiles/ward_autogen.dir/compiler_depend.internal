@@ -453,6 +453,7 @@
  /usr/include/qt6/QtDBus/qdbusextratypes.h
  /usr/include/qt6/QtDBus/qtdbusexports.h
  /usr/include/qt6/QtDBus/qtdbusglobal.h
+ /usr/include/qt6/QtGui/QPaintEvent
  /usr/include/qt6/QtGui/QPixmap
  /usr/include/qt6/QtGui/QResizeEvent
  /usr/include/qt6/QtGui/QTransform
@@ -524,6 +525,10 @@
  /usr/include/sys/types.h
  /usr/include/time.h
  /usr/include/wchar.h
+ /usr/lib/cmake/KF6WindowSystem/KF6WindowSystemConfig.cmake
+ /usr/lib/cmake/KF6WindowSystem/KF6WindowSystemConfigVersion.cmake
+ /usr/lib/cmake/KF6WindowSystem/KF6WindowSystemTargets-noconfig.cmake
+ /usr/lib/cmake/KF6WindowSystem/KF6WindowSystemTargets.cmake
  /usr/lib/cmake/LayerShellQt/LayerShellQtConfig.cmake
  /usr/lib/cmake/LayerShellQt/LayerShellQtConfigVersion.cmake
  /usr/lib/cmake/LayerShellQt/LayerShellQtTargets-noconfig.cmake
@@ -924,17 +929,22 @@
  /usr/share/cmake/Modules/CheckCSourceCompiles.cmake
  /usr/share/cmake/Modules/CheckCXXCompilerFlag.cmake
  /usr/share/cmake/Modules/CheckCXXSourceCompiles.cmake
+ /usr/share/cmake/Modules/CheckFunctionExists.cmake
  /usr/share/cmake/Modules/CheckIncludeFile.cmake
  /usr/share/cmake/Modules/CheckLibraryExists.cmake
  /usr/share/cmake/Modules/Compiler/CMakeCommonCompilerMacros.cmake
  /usr/share/cmake/Modules/Compiler/GNU-C.cmake
  /usr/share/cmake/Modules/Compiler/GNU-CXX.cmake
  /usr/share/cmake/Modules/Compiler/GNU.cmake
+ /usr/share/cmake/Modules/FindFontconfig.cmake
+ /usr/share/cmake/Modules/FindFreetype.cmake
  /usr/share/cmake/Modules/FindOpenGL.cmake
  /usr/share/cmake/Modules/FindPackageHandleStandardArgs.cmake
  /usr/share/cmake/Modules/FindPackageMessage.cmake
+ /usr/share/cmake/Modules/FindPkgConfig.cmake
  /usr/share/cmake/Modules/FindThreads.cmake
  /usr/share/cmake/Modules/FindVulkan.cmake
+ /usr/share/cmake/Modules/FindX11.cmake
  /usr/share/cmake/Modules/GNUInstallDirs.cmake
  /usr/share/cmake/Modules/Internal/CMakeCLinkerInformation.cmake
  /usr/share/cmake/Modules/Internal/CMakeCXXLinkerInformation.cmake
@@ -956,4 +966,5 @@
  /usr/share/cmake/Modules/Platform/Linux-Initialize.cmake
  /usr/share/cmake/Modules/Platform/Linux.cmake
  /usr/share/cmake/Modules/Platform/UnixPaths.cmake
+ /usr/share/cmake/Modules/SelectLibraryConfigurations.cmake
 

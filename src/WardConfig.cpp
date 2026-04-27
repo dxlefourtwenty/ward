@@ -83,6 +83,7 @@ QString defaultStyleContents()
         "NotificationPopup {\n"
         "    --notification-card-padding: 14px 16px 16px 16px;\n"
         "    --notification-card-gap: 12px;\n"
+        "    --notification-card-blur-radius: 12px;\n"
         "    background: transparent;\n"
         "}\n"
         "\n"

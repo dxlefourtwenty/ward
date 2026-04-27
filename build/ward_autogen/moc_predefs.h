@@ -457,6 +457,7 @@
 #define __INT16_C(c) c
 #define __STDC__ 1
 #define __PTRDIFF_TYPE__ long int
+#define WARD_HAS_KWINDOWSYSTEM 1
 #define __LONG_MAX__ 0x7fffffffffffffffL
 #define __FLT32X_MIN_10_EXP__ (-307)
 #define __UINTPTR_TYPE__ long unsigned int

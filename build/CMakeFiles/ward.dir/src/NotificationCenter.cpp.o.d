@@ -361,7 +361,7 @@ CMakeFiles/ward.dir/src/NotificationCenter.cpp.o: \
  /usr/include/qt6/QtCore/qvariantanimation.h \
  /usr/include/qt6/QtCore/qabstractanimation.h \
  /usr/include/qt6/QtCore/qeasingcurve.h \
- /usr/include/qt6/QtGui/QResizeEvent /usr/include/qt6/QtGui/qevent.h \
+ /usr/include/qt6/QtGui/QPaintEvent /usr/include/qt6/QtGui/qevent.h \
  /usr/include/qt6/QtCore/qcoreevent.h \
  /usr/include/qt6/QtCore/qbasictimer.h \
  /usr/include/qt6/QtCore/qabstracteventdispatcher.h \
@@ -381,8 +381,8 @@ CMakeFiles/ward.dir/src/NotificationCenter.cpp.o: \
  /usr/include/qt6/QtCore/qcoreapplication_platform.h \
  /usr/include/qt6/QtGui/qinputmethod.h /usr/include/qt6/QtCore/qlocale.h \
  /usr/include/qt6/QtGui/qguiapplication_platform.h \
- /usr/include/qt6/QtCore/QTimer /usr/include/qt6/QtCore/qtimer.h \
- /usr/include/qt6/QtWidgets/QVBoxLayout \
+ /usr/include/qt6/QtGui/QResizeEvent /usr/include/qt6/QtCore/QTimer \
+ /usr/include/qt6/QtCore/qtimer.h /usr/include/qt6/QtWidgets/QVBoxLayout \
  /usr/include/qt6/QtWidgets/qboxlayout.h \
  /usr/include/qt6/QtWidgets/qlayout.h \
  /usr/include/qt6/QtWidgets/qlayoutitem.h \

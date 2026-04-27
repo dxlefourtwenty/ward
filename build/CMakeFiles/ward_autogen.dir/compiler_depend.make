@@ -452,6 +452,7 @@ ward_autogen/timestamp: /home/dxle/builds/ward/CMakeLists.txt \
   /usr/include/qt6/QtDBus/qdbusextratypes.h \
   /usr/include/qt6/QtDBus/qtdbusexports.h \
   /usr/include/qt6/QtDBus/qtdbusglobal.h \
+  /usr/include/qt6/QtGui/QPaintEvent \
   /usr/include/qt6/QtGui/QPixmap \
   /usr/include/qt6/QtGui/QResizeEvent \
   /usr/include/qt6/QtGui/QTransform \
@@ -523,6 +524,10 @@ ward_autogen/timestamp: /home/dxle/builds/ward/CMakeLists.txt \
   /usr/include/sys/types.h \
   /usr/include/time.h \
   /usr/include/wchar.h \
+  /usr/lib/cmake/KF6WindowSystem/KF6WindowSystemConfig.cmake \
+  /usr/lib/cmake/KF6WindowSystem/KF6WindowSystemConfigVersion.cmake \
+  /usr/lib/cmake/KF6WindowSystem/KF6WindowSystemTargets-noconfig.cmake \
+  /usr/lib/cmake/KF6WindowSystem/KF6WindowSystemTargets.cmake \
   /usr/lib/cmake/LayerShellQt/LayerShellQtConfig.cmake \
   /usr/lib/cmake/LayerShellQt/LayerShellQtConfigVersion.cmake \
   /usr/lib/cmake/LayerShellQt/LayerShellQtTargets-noconfig.cmake \
@@ -923,17 +928,22 @@ ward_autogen/timestamp: /home/dxle/builds/ward/CMakeLists.txt \
   /usr/share/cmake/Modules/CheckCSourceCompiles.cmake \
   /usr/share/cmake/Modules/CheckCXXCompilerFlag.cmake \
   /usr/share/cmake/Modules/CheckCXXSourceCompiles.cmake \
+  /usr/share/cmake/Modules/CheckFunctionExists.cmake \
   /usr/share/cmake/Modules/CheckIncludeFile.cmake \
   /usr/share/cmake/Modules/CheckLibraryExists.cmake \
   /usr/share/cmake/Modules/Compiler/CMakeCommonCompilerMacros.cmake \
   /usr/share/cmake/Modules/Compiler/GNU-C.cmake \
   /usr/share/cmake/Modules/Compiler/GNU-CXX.cmake \
   /usr/share/cmake/Modules/Compiler/GNU.cmake \
+  /usr/share/cmake/Modules/FindFontconfig.cmake \
+  /usr/share/cmake/Modules/FindFreetype.cmake \
   /usr/share/cmake/Modules/FindOpenGL.cmake \
   /usr/share/cmake/Modules/FindPackageHandleStandardArgs.cmake \
   /usr/share/cmake/Modules/FindPackageMessage.cmake \
+  /usr/share/cmake/Modules/FindPkgConfig.cmake \
   /usr/share/cmake/Modules/FindThreads.cmake \
   /usr/share/cmake/Modules/FindVulkan.cmake \
+  /usr/share/cmake/Modules/FindX11.cmake \
   /usr/share/cmake/Modules/GNUInstallDirs.cmake \
   /usr/share/cmake/Modules/Internal/CMakeCLinkerInformation.cmake \
   /usr/share/cmake/Modules/Internal/CMakeCXXLinkerInformation.cmake \
@@ -954,7 +964,8 @@ ward_autogen/timestamp: /home/dxle/builds/ward/CMakeLists.txt \
   /usr/share/cmake/Modules/Platform/Linux-GNU.cmake \
   /usr/share/cmake/Modules/Platform/Linux-Initialize.cmake \
   /usr/share/cmake/Modules/Platform/Linux.cmake \
-  /usr/share/cmake/Modules/Platform/UnixPaths.cmake
+  /usr/share/cmake/Modules/Platform/UnixPaths.cmake \
+  /usr/share/cmake/Modules/SelectLibraryConfigurations.cmake
 
 
 /usr/share/cmake/Modules/Platform/Linux.cmake:
@@ -983,6 +994,8 @@ ward_autogen/timestamp: /home/dxle/builds/ward/CMakeLists.txt \
 
 /usr/share/cmake/Modules/FindPackageHandleStandardArgs.cmake:
 
+/usr/share/cmake/Modules/FindFreetype.cmake:
+
 /usr/share/cmake/Modules/Compiler/GNU.cmake:
 
 /usr/share/cmake/Modules/Compiler/GNU-CXX.cmake:
@@ -990,8 +1003,6 @@ ward_autogen/timestamp: /home/dxle/builds/ward/CMakeLists.txt \
 /usr/share/cmake/Modules/Compiler/GNU-C.cmake:
 
 /usr/share/cmake/Modules/Compiler/CMakeCommonCompilerMacros.cmake:
-
-/usr/share/cmake/Modules/CheckLibraryExists.cmake:
 
 /usr/share/cmake/Modules/CheckCXXSourceCompiles.cmake:
 
@@ -1078,6 +1089,8 @@ ward_autogen/timestamp: /home/dxle/builds/ward/CMakeLists.txt \
 /usr/lib/cmake/Qt6Gui/Qt6QWbmpPluginTargets.cmake:
 
 /usr/lib/cmake/Qt6Gui/Qt6QWbmpPluginTargets-relwithdebinfo.cmake:
+
+/usr/share/cmake/Modules/FindFontconfig.cmake:
 
 /usr/lib/cmake/Qt6Gui/Qt6QWaylandXdgShellIntegrationPluginTargets.cmake:
 
@@ -1307,6 +1320,8 @@ ward_autogen/timestamp: /home/dxle/builds/ward/CMakeLists.txt \
 
 /usr/lib/cmake/Qt6Gui/Qt6QEglFSKmsEglDeviceIntegrationPluginTargets-relwithdebinfo.cmake:
 
+/usr/share/cmake/Modules/FindPkgConfig.cmake:
+
 /usr/lib/cmake/Qt6Gui/Qt6QEglFSKmsEglDeviceIntegrationPluginAdditionalTargetInfo.cmake:
 
 /usr/lib/cmake/Qt6Gui/Qt6QWaylandBradientDecorationPluginTargets-relwithdebinfo.cmake:
@@ -1456,6 +1471,8 @@ ward_autogen/timestamp: /home/dxle/builds/ward/CMakeLists.txt \
 /usr/lib/cmake/Qt6/QtPublicSbomDocumentNamespaceHelpers.cmake:
 
 /usr/lib/cmake/Qt6/QtPublicPluginHelpers_v2.cmake:
+
+/usr/share/cmake/Modules/FindX11.cmake:
 
 /usr/lib/cmake/Qt6/QtPublicPluginHelpers.cmake:
 
@@ -1657,9 +1674,17 @@ ward_autogen/timestamp: /home/dxle/builds/ward/CMakeLists.txt \
 
 /usr/include/pthread.h:
 
+/usr/lib/cmake/Qt6/Qt6VersionlessAliasTargets.cmake:
+
+/usr/include/qt6/QtWidgets/qwidget.h:
+
 /usr/include/c++/15.2.1/bits/stl_tree.h:
 
 /usr/include/c++/15.2.1/bits/stl_raw_storage_iter.h:
+
+/usr/lib/cmake/Qt6/QtFeature.cmake:
+
+/usr/include/qt6/QtGui/qpaintdevice.h:
 
 /usr/include/c++/15.2.1/bits/stl_iterator_base_types.h:
 
@@ -1787,6 +1812,8 @@ ward_autogen/timestamp: /home/dxle/builds/ward/CMakeLists.txt \
 
 /usr/include/c++/15.2.1/bits/hashtable_policy.h:
 
+/usr/lib/cmake/KF6WindowSystem/KF6WindowSystemConfigVersion.cmake:
+
 /usr/include/c++/15.2.1/type_traits:
 
 /usr/lib/cmake/Qt6Gui/Qt6QWaylandXdgShellIntegrationPluginConfig.cmake:
@@ -1810,6 +1837,12 @@ ward_autogen/timestamp: /home/dxle/builds/ward/CMakeLists.txt \
 /usr/lib/cmake/Qt6/QtPublicSbomDepHelpers.cmake:
 
 /usr/include/bits/stdint-intn.h:
+
+/usr/lib/cmake/Qt6Gui/Qt6QMngPluginTargetsPrecheck.cmake:
+
+/usr/lib/cmake/Qt6/QtInstallPaths.cmake:
+
+/usr/include/bits/types/clockid_t.h:
 
 /usr/include/qt6/QtWidgets/QLabel:
 
@@ -1999,6 +2032,10 @@ CMakeFiles/4.3.1/CMakeCXXCompiler.cmake:
 
 CMakeFiles/4.3.1/CMakeCCompiler.cmake:
 
+/usr/lib/cmake/Qt6/QtPublicAndroidHelpers.cmake:
+
+/usr/include/strings.h:
+
 /usr/share/cmake/Modules/CheckIncludeFile.cmake:
 
 /usr/include/bits/types/__sigset_t.h:
@@ -2094,6 +2131,12 @@ CMakeFiles/4.3.1/CMakeSystem.cmake:
 /usr/include/c++/15.2.1/streambuf:
 
 /usr/include/c++/15.2.1/bits/stl_bvector.h:
+
+/usr/lib/cmake/Qt6Gui/Qt6QLinuxFbIntegrationPluginTargets.cmake:
+
+/usr/lib/cmake/Qt6/QtFeatureCommon.cmake:
+
+/usr/include/bits/posix2_lim.h:
 
 /usr/include/c++/15.2.1/tr1/bessel_function.tcc:
 
@@ -2285,12 +2328,6 @@ CMakeFiles/4.3.1/CMakeSystem.cmake:
 
 /usr/include/c++/15.2.1/bits/alloc_traits.h:
 
-/usr/lib/cmake/Qt6Gui/Qt6QMngPluginTargetsPrecheck.cmake:
-
-/usr/include/bits/types/clockid_t.h:
-
-/usr/lib/cmake/Qt6/QtInstallPaths.cmake:
-
 /usr/include/c++/15.2.1/bits/requires_hosted.h:
 
 /usr/include/bits/types/error_t.h:
@@ -2440,6 +2477,8 @@ CMakeFiles/4.3.1/CMakeSystem.cmake:
 /usr/include/qt6/QtCore/qbasictimer.h:
 
 /usr/include/qt6/QtGui/qimage.h:
+
+/usr/lib/cmake/KF6WindowSystem/KF6WindowSystemTargets-noconfig.cmake:
 
 /usr/include/qt6/QtCore/q20utility.h:
 
@@ -2637,6 +2676,8 @@ CMakeFiles/4.3.1/CMakeSystem.cmake:
 
 /usr/include/qt6/QtCore/qobject.h:
 
+/usr/share/cmake/Modules/SelectLibraryConfigurations.cmake:
+
 /usr/include/qt6/QtCore/qobject_impl.h:
 
 /usr/lib/cmake/Qt6Gui/Qt6QWaylandEglClientBufferPluginTargets-relwithdebinfo.cmake:
@@ -2701,10 +2742,6 @@ ward_autogen/moc_predefs.h:
 
 /usr/include/qt6/QtCore/qtextstream.h:
 
-/usr/include/qt6/QtGui/qpaintdevice.h:
-
-/usr/lib/cmake/Qt6/QtFeature.cmake:
-
 /usr/include/qt6/QtCore/qtimer.h:
 
 /usr/include/qt6/QtCore/qtpreprocessorsupport.h:
@@ -2755,6 +2792,8 @@ ward_autogen/moc_predefs.h:
 
 /usr/include/stdlib.h:
 
+/usr/include/qt6/QtGui/QPaintEvent:
+
 /usr/include/qt6/QtCore/q20bit.h:
 
 /usr/include/qt6/QtGui/qbrush.h:
@@ -2762,6 +2801,8 @@ ward_autogen/moc_predefs.h:
 /usr/include/bits/floatn-common.h:
 
 /usr/include/qt6/QtCore/qpropertyanimation.h:
+
+/usr/lib/cmake/KF6WindowSystem/KF6WindowSystemTargets.cmake:
 
 /usr/include/qt6/QtGui/qevent.h:
 
@@ -2786,6 +2827,8 @@ ward_autogen/moc_predefs.h:
 /usr/include/qt6/QtGui/qkeysequence.h:
 
 /usr/include/qt6/QtGui/qpixelformat.h:
+
+/usr/share/cmake/Modules/CheckFunctionExists.cmake:
 
 /usr/include/qt6/QtCore/qstringconverter_base.h:
 
@@ -2833,6 +2876,10 @@ ward_autogen/moc_predefs.h:
 
 /usr/include/time.h:
 
+/usr/share/cmake/Modules/CheckLibraryExists.cmake:
+
+/usr/lib/cmake/KF6WindowSystem/KF6WindowSystemConfig.cmake:
+
 /usr/lib/cmake/Qt6Gui/Qt6QXcbGlxIntegrationPluginTargetsPrecheck.cmake:
 
 /usr/lib/cmake/LayerShellQt/LayerShellQtConfigVersion.cmake:
@@ -2850,17 +2897,3 @@ ward_autogen/moc_predefs.h:
 /usr/lib/cmake/Qt6/Qt6ConfigExtras.cmake:
 
 /usr/lib/cmake/Qt6/Qt6Dependencies.cmake:
-
-/usr/include/qt6/QtWidgets/qwidget.h:
-
-/usr/lib/cmake/Qt6/Qt6VersionlessAliasTargets.cmake:
-
-/usr/lib/cmake/Qt6Gui/Qt6QLinuxFbIntegrationPluginTargets.cmake:
-
-/usr/include/bits/posix2_lim.h:
-
-/usr/lib/cmake/Qt6/QtFeatureCommon.cmake:
-
-/usr/include/strings.h:
-
-/usr/lib/cmake/Qt6/QtPublicAndroidHelpers.cmake:

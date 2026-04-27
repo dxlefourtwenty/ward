@@ -360,7 +360,7 @@ CMakeFiles/ward.dir/src/NotificationPopup.cpp.o: \
  /usr/include/qt6/QtCore/qvariantanimation.h \
  /usr/include/qt6/QtCore/qabstractanimation.h \
  /usr/include/qt6/QtCore/qeasingcurve.h \
- /usr/include/qt6/QtGui/QResizeEvent /usr/include/qt6/QtGui/qevent.h \
+ /usr/include/qt6/QtGui/QPaintEvent /usr/include/qt6/QtGui/qevent.h \
  /usr/include/qt6/QtCore/qcoreevent.h \
  /usr/include/qt6/QtCore/qbasictimer.h \
  /usr/include/qt6/QtCore/qabstracteventdispatcher.h \
@@ -380,8 +380,8 @@ CMakeFiles/ward.dir/src/NotificationPopup.cpp.o: \
  /usr/include/qt6/QtCore/qcoreapplication_platform.h \
  /usr/include/qt6/QtGui/qinputmethod.h /usr/include/qt6/QtCore/qlocale.h \
  /usr/include/qt6/QtGui/qguiapplication_platform.h \
- /usr/include/qt6/QtCore/QTimer /usr/include/qt6/QtCore/qtimer.h \
- /usr/include/qt6/QtWidgets/QVBoxLayout \
+ /usr/include/qt6/QtGui/QResizeEvent /usr/include/qt6/QtCore/QTimer \
+ /usr/include/qt6/QtCore/qtimer.h /usr/include/qt6/QtWidgets/QVBoxLayout \
  /usr/include/qt6/QtWidgets/qboxlayout.h \
  /usr/include/qt6/QtWidgets/qlayout.h \
  /usr/include/qt6/QtWidgets/qlayoutitem.h \
@@ -436,14 +436,21 @@ CMakeFiles/ward.dir/src/NotificationPopup.cpp.o: \
  /usr/include/qt6/QtCore/qtimezone.h /usr/include/qt6/QtGui/QFontInfo \
  /usr/include/qt6/QtGui/QGuiApplication /usr/include/qt6/QtGui/QIcon \
  /usr/include/qt6/QtGui/QImage /usr/include/qt6/QtGui/QMouseEvent \
+ /usr/include/qt6/QtGui/QPainter /usr/include/qt6/QtGui/qpainter.h \
+ /usr/include/qt6/QtGui/qtextoption.h /usr/include/qt6/QtGui/qpen.h \
  /usr/include/qt6/QtCore/QProcess /usr/include/qt6/QtCore/qprocess.h \
  /usr/include/qt6/QtCore/QRegularExpression \
  /usr/include/qt6/QtCore/qregularexpression.h \
- /usr/include/qt6/QtGui/QScreen /usr/include/qt6/QtCore/QUrl \
- /usr/include/qt6/QtGui/QWindow /usr/include/qt6/QtGui/qwindow.h \
- /usr/include/qt6/QtCore/QEvent /usr/include/qt6/QtCore/QMargins \
- /usr/include/qt6/QtGui/qsurface.h \
+ /usr/include/qt6/QtGui/QRegion /usr/include/qt6/QtGui/QScreen \
+ /usr/include/qt6/QtCore/QUrl /usr/include/qt6/QtGui/QWindow \
+ /usr/include/qt6/QtGui/qwindow.h /usr/include/qt6/QtCore/QEvent \
+ /usr/include/qt6/QtCore/QMargins /usr/include/qt6/QtGui/qsurface.h \
  /usr/include/qt6/QtGui/qsurfaceformat.h \
  /usr/include/qt6/QtCore/QXmlStreamReader \
- /usr/include/qt6/QtCore/qxmlstream.h /usr/include/LayerShellQt/window.h \
+ /usr/include/qt6/QtCore/qxmlstream.h \
+ /usr/include/KF6/KWindowSystem/KWindowEffects \
+ /usr/include/KF6/KWindowSystem/kwindoweffects.h \
+ /usr/include/KF6/KWindowSystem/kwindowsystem_export.h \
+ /usr/include/KF6/KWindowSystem/kwindowsystem_version.h \
+ /usr/include/qt6/QtGui/QWidgetList /usr/include/LayerShellQt/window.h \
  /usr/include/LayerShellQt/layershellqt_export.h

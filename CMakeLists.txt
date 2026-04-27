@@ -8,6 +8,7 @@ set(CMAKE_AUTOUIC ON)
 
 find_package(Qt6 REQUIRED COMPONENTS Core DBus Widgets)
 find_package(LayerShellQt QUIET)
+find_package(KF6WindowSystem QUIET)
 
 qt_add_executable(ward
     src/main.cpp
@@ -29,6 +30,13 @@ if(LayerShellQt_FOUND)
     target_compile_definitions(ward PRIVATE WARD_HAS_LAYERSHELLQT=1)
 else()
     target_compile_definitions(ward PRIVATE WARD_HAS_LAYERSHELLQT=0)
+endif()
+
+if(KF6WindowSystem_FOUND)
+    target_link_libraries(ward PRIVATE KF6::WindowSystem)
+    target_compile_definitions(ward PRIVATE WARD_HAS_KWINDOWSYSTEM=1)
+else()
+    target_compile_definitions(ward PRIVATE WARD_HAS_KWINDOWSYSTEM=0)
 endif()
 
 install(TARGETS ward RUNTIME DESTINATION bin)

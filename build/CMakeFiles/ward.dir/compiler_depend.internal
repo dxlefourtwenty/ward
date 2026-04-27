@@ -453,6 +453,7 @@
  /usr/include/qt6/QtDBus/qdbusextratypes.h
  /usr/include/qt6/QtDBus/qtdbusexports.h
  /usr/include/qt6/QtDBus/qtdbusglobal.h
+ /usr/include/qt6/QtGui/QPaintEvent
  /usr/include/qt6/QtGui/QPixmap
  /usr/include/qt6/QtGui/QResizeEvent
  /usr/include/qt6/QtGui/QTransform
@@ -524,6 +525,10 @@
  /usr/include/sys/types.h
  /usr/include/time.h
  /usr/include/wchar.h
+ /usr/lib/cmake/KF6WindowSystem/KF6WindowSystemConfig.cmake
+ /usr/lib/cmake/KF6WindowSystem/KF6WindowSystemConfigVersion.cmake
+ /usr/lib/cmake/KF6WindowSystem/KF6WindowSystemTargets-noconfig.cmake
+ /usr/lib/cmake/KF6WindowSystem/KF6WindowSystemTargets.cmake
  /usr/lib/cmake/LayerShellQt/LayerShellQtConfig.cmake
  /usr/lib/cmake/LayerShellQt/LayerShellQtConfigVersion.cmake
  /usr/lib/cmake/LayerShellQt/LayerShellQtTargets-noconfig.cmake
@@ -924,17 +929,22 @@
  /usr/share/cmake/Modules/CheckCSourceCompiles.cmake
  /usr/share/cmake/Modules/CheckCXXCompilerFlag.cmake
  /usr/share/cmake/Modules/CheckCXXSourceCompiles.cmake
+ /usr/share/cmake/Modules/CheckFunctionExists.cmake
  /usr/share/cmake/Modules/CheckIncludeFile.cmake
  /usr/share/cmake/Modules/CheckLibraryExists.cmake
  /usr/share/cmake/Modules/Compiler/CMakeCommonCompilerMacros.cmake
  /usr/share/cmake/Modules/Compiler/GNU-C.cmake
  /usr/share/cmake/Modules/Compiler/GNU-CXX.cmake
  /usr/share/cmake/Modules/Compiler/GNU.cmake
+ /usr/share/cmake/Modules/FindFontconfig.cmake
+ /usr/share/cmake/Modules/FindFreetype.cmake
  /usr/share/cmake/Modules/FindOpenGL.cmake
  /usr/share/cmake/Modules/FindPackageHandleStandardArgs.cmake
  /usr/share/cmake/Modules/FindPackageMessage.cmake
+ /usr/share/cmake/Modules/FindPkgConfig.cmake
  /usr/share/cmake/Modules/FindThreads.cmake
  /usr/share/cmake/Modules/FindVulkan.cmake
+ /usr/share/cmake/Modules/FindX11.cmake
  /usr/share/cmake/Modules/GNUInstallDirs.cmake
  /usr/share/cmake/Modules/Internal/CMakeCLinkerInformation.cmake
  /usr/share/cmake/Modules/Internal/CMakeCXXLinkerInformation.cmake
@@ -956,6 +966,7 @@
  /usr/share/cmake/Modules/Platform/Linux-Initialize.cmake
  /usr/share/cmake/Modules/Platform/Linux.cmake
  /usr/share/cmake/Modules/Platform/UnixPaths.cmake
+ /usr/share/cmake/Modules/SelectLibraryConfigurations.cmake
 
 CMakeFiles/ward.dir/src/NotificationCenter.cpp.o
  /home/dxle/builds/ward/src/NotificationCenter.cpp
@@ -1414,6 +1425,7 @@ CMakeFiles/ward.dir/src/NotificationCenter.cpp.o
  /usr/include/qt6/QtDBus/qtdbusexports.h
  /usr/include/qt6/QtDBus/qtdbusglobal.h
  /usr/include/qt6/QtGui/QCursor
+ /usr/include/qt6/QtGui/QPaintEvent
  /usr/include/qt6/QtGui/QPixmap
  /usr/include/qt6/QtGui/QResizeEvent
  /usr/include/qt6/QtGui/QScreen
@@ -1500,6 +1512,10 @@ CMakeFiles/ward.dir/src/NotificationPopup.cpp.o
  /home/dxle/builds/ward/src/NotificationPopup.h
  /home/dxle/builds/ward/src/NotificationTypes.h
  /home/dxle/builds/ward/src/WardConfig.h
+ /usr/include/KF6/KWindowSystem/KWindowEffects
+ /usr/include/KF6/KWindowSystem/kwindoweffects.h
+ /usr/include/KF6/KWindowSystem/kwindowsystem_export.h
+ /usr/include/KF6/KWindowSystem/kwindowsystem_version.h
  /usr/include/LayerShellQt/layershellqt_export.h
  /usr/include/LayerShellQt/window.h
  /usr/include/alloca.h
@@ -2009,10 +2025,14 @@ CMakeFiles/ward.dir/src/NotificationPopup.cpp.o
  /usr/include/qt6/QtGui/QIcon
  /usr/include/qt6/QtGui/QImage
  /usr/include/qt6/QtGui/QMouseEvent
+ /usr/include/qt6/QtGui/QPaintEvent
+ /usr/include/qt6/QtGui/QPainter
  /usr/include/qt6/QtGui/QPixmap
+ /usr/include/qt6/QtGui/QRegion
  /usr/include/qt6/QtGui/QResizeEvent
  /usr/include/qt6/QtGui/QScreen
  /usr/include/qt6/QtGui/QTransform
+ /usr/include/qt6/QtGui/QWidgetList
  /usr/include/qt6/QtGui/QWindow
  /usr/include/qt6/QtGui/qaction.h
  /usr/include/qt6/QtGui/qbitmap.h
@@ -2033,7 +2053,9 @@ CMakeFiles/ward.dir/src/NotificationPopup.cpp.o
  /usr/include/qt6/QtGui/qinputmethod.h
  /usr/include/qt6/QtGui/qkeysequence.h
  /usr/include/qt6/QtGui/qpaintdevice.h
+ /usr/include/qt6/QtGui/qpainter.h
  /usr/include/qt6/QtGui/qpalette.h
+ /usr/include/qt6/QtGui/qpen.h
  /usr/include/qt6/QtGui/qpicture.h
  /usr/include/qt6/QtGui/qpixelformat.h
  /usr/include/qt6/QtGui/qpixmap.h
@@ -2047,6 +2069,7 @@ CMakeFiles/ward.dir/src/NotificationPopup.cpp.o
  /usr/include/qt6/QtGui/qsurface.h
  /usr/include/qt6/QtGui/qsurfaceformat.h
  /usr/include/qt6/QtGui/qtextdocument.h
+ /usr/include/qt6/QtGui/qtextoption.h
  /usr/include/qt6/QtGui/qtgui-config.h
  /usr/include/qt6/QtGui/qtguiexports.h
  /usr/include/qt6/QtGui/qtguiglobal.h
@@ -3925,6 +3948,7 @@ CMakeFiles/ward.dir/src/main.cpp.o
  /usr/include/qt6/QtDBus/qdbusreply.h
  /usr/include/qt6/QtDBus/qtdbusexports.h
  /usr/include/qt6/QtDBus/qtdbusglobal.h
+ /usr/include/qt6/QtGui/QPaintEvent
  /usr/include/qt6/QtGui/QPixmap
  /usr/include/qt6/QtGui/QResizeEvent
  /usr/include/qt6/QtGui/QTransform
@@ -4472,6 +4496,7 @@ CMakeFiles/ward.dir/ward_autogen/mocs_compilation.cpp.o
  /usr/include/qt6/QtDBus/qdbusextratypes.h
  /usr/include/qt6/QtDBus/qtdbusexports.h
  /usr/include/qt6/QtDBus/qtdbusglobal.h
+ /usr/include/qt6/QtGui/QPaintEvent
  /usr/include/qt6/QtGui/QPixmap
  /usr/include/qt6/QtGui/QResizeEvent
  /usr/include/qt6/QtGui/QTransform
@@ -4570,16 +4595,18 @@ ward
  /usr/lib/libEGL.so.1
  /usr/lib/libGLX.so
  /usr/lib/libGLdispatch.so.0
- /usr/lib/libLayerShellQtInterface.so.6.6.3
+ /usr/lib/libKF6WindowSystem.so.6.25.0
+ /usr/lib/libLayerShellQtInterface.so.6.6.4
  /usr/lib/libOpenGL.so
  /usr/lib/libQt6Core.so.6.11.0
  /usr/lib/libQt6DBus.so.6.11.0
  /usr/lib/libQt6Gui.so.6.11.0
  /usr/lib/libQt6WaylandClient.so.6
  /usr/lib/libQt6Widgets.so.6.11.0
- /usr/lib/libX11.so.6
+ /usr/lib/libX11.so
  /usr/lib/libXau.so.6
  /usr/lib/libXdmcp.so.6
+ /usr/lib/libXfixes.so.3
  /usr/lib/libb2.so.1
  /usr/lib/libbrotlicommon.so.1
  /usr/lib/libbrotlidec.so.1
@@ -4609,6 +4636,8 @@ ward
  /usr/lib/liburing.so.2
  /usr/lib/libwayland-client.so.0
  /usr/lib/libwayland-cursor.so.0
+ /usr/lib/libxcb-keysyms.so.1
+ /usr/lib/libxcb-res.so.0
  /usr/lib/libxcb.so.1
  /usr/lib/libxkbcommon.so.0
  /usr/lib/libz.so.1
@@ -4616,6 +4645,7 @@ ward
  /usr/lib32/libGLdispatch.so.0
  /usr/lib32/libXau.so.6
  /usr/lib32/libXdmcp.so.6
+ /usr/lib32/libXfixes.so.3
  /usr/lib32/libbrotlicommon.so.1
  /usr/lib32/libbrotlidec.so.1
  /usr/lib32/libbz2.so.1.0
@@ -4625,6 +4655,7 @@ ward
  /usr/lib32/libicudata.so.78
  /usr/lib32/libpcre2-8.so.0
  /usr/lib32/libwayland-client.so.0
+ /usr/lib32/libxcb-res.so.0
  /usr/lib32/libxcb.so.1
  /home/dxle/builds/ward/build/CMakeFiles/ward.dir/src/NotificationCenter.cpp.o
  /home/dxle/builds/ward/build/CMakeFiles/ward.dir/src/NotificationPopup.cpp.o
