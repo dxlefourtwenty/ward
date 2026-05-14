@@ -26,6 +26,8 @@ struct WardNotificationConfig {
 
 struct WardAnimationConfig {
     bool enabled = true;
+    bool slideIn = true;
+    bool slideOut = true;
     int enterDurationMs = 180;
     int exitDurationMs = 140;
     int moveDurationMs = 140;

@@ -29,6 +29,83 @@
 #include <LayerShellQt/window.h>
 #endif
 
+class TimeoutProgressRing : public QWidget {
+public:
+    explicit TimeoutProgressRing(QWidget *parent = nullptr)
+        : QWidget(parent)
+    {
+        setAttribute(Qt::WA_TransparentForMouseEvents);
+        setAttribute(Qt::WA_TranslucentBackground);
+        setAutoFillBackground(false);
+        setFixedSize(18, 18);
+    }
+
+    void setProgress(qreal progress)
+    {
+        const qreal boundedProgress = qBound<qreal>(0.0, progress, 1.0);
+        if (qFuzzyCompare(progress_ + 1.0, boundedProgress + 1.0)) {
+            return;
+        }
+
+        progress_ = boundedProgress;
+        update();
+    }
+
+    void setColors(const QColor &activeColor, const QColor &troughColor)
+    {
+        activeColor_ = activeColor.isValid() ? activeColor : QColor(Qt::white);
+        troughColor_ = troughColor.isValid() ? troughColor : QColor(255, 255, 255, 42);
+        update();
+    }
+
+    void setRingSize(int size)
+    {
+        const int boundedSize = qBound(8, size, 64);
+        if (width() == boundedSize && height() == boundedSize) {
+            return;
+        }
+
+        setFixedSize(boundedSize, boundedSize);
+    }
+
+    void setStrokeWidth(int strokeWidth)
+    {
+        strokeWidth_ = qBound(1, strokeWidth, qMax(1, qMin(width(), height()) / 3));
+        update();
+    }
+
+protected:
+    void paintEvent(QPaintEvent *) override
+    {
+        QPainter painter(this);
+        painter.setRenderHint(QPainter::Antialiasing);
+
+        const qreal strokeWidth = static_cast<qreal>(strokeWidth_);
+        const QRectF arcRect = rect().adjusted(strokeWidth, strokeWidth, -strokeWidth, -strokeWidth);
+        if (arcRect.isEmpty()) {
+            return;
+        }
+
+        QPen troughPen(troughColor_, strokeWidth, Qt::SolidLine, Qt::RoundCap);
+        painter.setPen(troughPen);
+        painter.drawEllipse(arcRect);
+
+        if (progress_ <= 0.0) {
+            return;
+        }
+
+        QPen activePen(activeColor_, strokeWidth, Qt::SolidLine, Qt::RoundCap);
+        painter.setPen(activePen);
+        painter.drawArc(arcRect, 90 * 16, -static_cast<int>(360 * 16 * progress_));
+    }
+
+private:
+    qreal progress_ = 1.0;
+    int strokeWidth_ = 2;
+    QColor activeColor_ = QColor(Qt::white);
+    QColor troughColor_ = QColor(255, 255, 255, 42);
+};
+
 namespace {
 
 constexpr int absoluteMaxIconSize = 128;
@@ -255,6 +332,26 @@ QString resolvedAttributeValue(const QXmlStreamAttributes &attributes,
 QColor colorFromStyleValue(const QString &value)
 {
     return QColor(value.trimmed());
+}
+
+QColor styleColorValue(const QHash<QString, QString> &styleVariables,
+                       const QString &name,
+                       const QString &fallbackName,
+                       const QColor &fallbackColor)
+{
+    QString value;
+    if (styleVariables.contains(name)) {
+        value = styleVariables.value(name);
+    } else if (styleVariables.contains(fallbackName)) {
+        value = styleVariables.value(fallbackName);
+    }
+
+    if (value.isEmpty()) {
+        return fallbackColor;
+    }
+
+    const QColor color = colorFromStyleValue(resolveStyleValue(value, styleVariables));
+    return color.isValid() ? color : fallbackColor;
 }
 
 bool parseStyleLength(const QString &value, int *parsed)
@@ -899,6 +996,7 @@ void NotificationPopup::applyStyleSheet(const QString &styleSheet,
     styleVariables_ = styleVariables;
     setStyleSheet(styleSheet);
     applyCardLayoutStyle();
+    updateTimeoutProgressStyle();
     applyWindowBlurStyle();
     refreshContent();
     refreshGeometry();
@@ -911,29 +1009,38 @@ void NotificationPopup::showAnimated(const QPoint &targetPosition, int stackOffs
     currentStackOffset_ = stackOffset;
     timeoutTimer_.stop();
     const bool silentOpen = notificationSilentOpen(request_.hints);
+    const bool animateOpen = config_.animation.enabled && !silentOpen;
+    const bool slideOpen = animateOpen && config_.animation.slideIn;
 
     if (usesLayerShellPlacement()) {
         configureLayerShell(screen());
         resetContentState();
-        applyLayerShellPlacement(
-            stackOffset,
-            (config_.animation.enabled && !silentOpen)
-                ? directionalOffset(config_.animation.enterFrom)
-                : QPoint());
+        if (animateOpen && !slideOpen) {
+            setContentOpacity(0.0);
+        }
+        applyLayerShellPlacement(stackOffset,
+                                 slideOpen ? directionalOffset(config_.animation.enterFrom)
+                                           : QPoint());
 
         show();
         raise();
         applyWindowBlurStyle();
         schedulePostShowGeometrySync();
 
-        if (!config_.animation.enabled || silentOpen) {
+        if (!animateOpen) {
             restartTimeout();
             return;
         }
 
-        startLayerShellAnimation(QPoint(), config_.animation.enterDurationMs, [this]() {
-            restartTimeout();
-        });
+        if (slideOpen) {
+            startLayerShellAnimation(QPoint(), config_.animation.enterDurationMs, [this]() {
+                restartTimeout();
+            });
+        } else {
+            startContentAnimation(QPoint(), 0, 1.0, config_.animation.fadeDurationMs, [this]() {
+                restartTimeout();
+            });
+        }
         return;
     }
 
@@ -943,7 +1050,7 @@ void NotificationPopup::showAnimated(const QPoint &targetPosition, int stackOffs
     applyWindowBlurStyle();
     schedulePostShowGeometrySync();
 
-    if (!config_.animation.enabled || silentOpen) {
+    if (!animateOpen) {
         if (supportsOpacityAnimation()) {
             setWindowOpacity(1.0);
         }
@@ -951,28 +1058,43 @@ void NotificationPopup::showAnimated(const QPoint &targetPosition, int stackOffs
         return;
     }
 
-    move(targetPosition + directionalOffset(config_.animation.enterFrom));
+    if (slideOpen) {
+        move(targetPosition + directionalOffset(config_.animation.enterFrom));
+    }
     if (supportsOpacityAnimation()) {
         setWindowOpacity(0.0);
+    } else if (!slideOpen) {
+        setContentOpacity(0.0);
     }
 
-    moveAnimation_ = new QPropertyAnimation(this, "pos", this);
-    moveAnimation_->setDuration(config_.animation.enterDurationMs);
-    moveAnimation_->setStartValue(pos());
-    moveAnimation_->setEndValue(targetPosition);
-    moveAnimation_->setEasingCurve(animationEasing());
-    connect(moveAnimation_, &QPropertyAnimation::finished, this, [this]() {
-        restartTimeout();
-    });
+    if (slideOpen) {
+        moveAnimation_ = new QPropertyAnimation(this, "pos", this);
+        moveAnimation_->setDuration(config_.animation.enterDurationMs);
+        moveAnimation_->setStartValue(pos());
+        moveAnimation_->setEndValue(targetPosition);
+        moveAnimation_->setEasingCurve(animationEasing());
+        connect(moveAnimation_, &QPropertyAnimation::finished, this, [this]() {
+            restartTimeout();
+        });
+        moveAnimation_->start(QAbstractAnimation::DeleteWhenStopped);
+    }
 
-    moveAnimation_->start(QAbstractAnimation::DeleteWhenStopped);
     if (supportsOpacityAnimation()) {
         fadeAnimation_ = new QPropertyAnimation(this, "windowOpacity", this);
         fadeAnimation_->setDuration(config_.animation.fadeDurationMs);
         fadeAnimation_->setStartValue(0.0);
         fadeAnimation_->setEndValue(1.0);
         fadeAnimation_->setEasingCurve(animationEasing());
+        if (!slideOpen) {
+            connect(fadeAnimation_, &QPropertyAnimation::finished, this, [this]() {
+                restartTimeout();
+            });
+        }
         fadeAnimation_->start(QAbstractAnimation::DeleteWhenStopped);
+    } else if (!slideOpen) {
+        startContentAnimation(QPoint(), 0, 1.0, config_.animation.fadeDurationMs, [this]() {
+            restartTimeout();
+        });
     }
 }
 
@@ -1041,12 +1163,16 @@ void NotificationPopup::dismiss(uint reason, const QString &exitDirection, bool 
 
     pendingCloseReason_ = reason;
     timeoutTimer_.stop();
+    stopTimeoutProgress();
     stopAnimations();
-    const QPoint exitOffset = directionalOffset(effectiveExitDirection(exitDirection));
     const bool silentClose = forceSilent || notificationSilentClose(request_.hints);
+    const bool animateClose = config_.animation.enabled && !silentClose;
+    const bool slideClose = animateClose && config_.animation.slideOut;
+    const QPoint exitOffset = slideClose ? directionalOffset(effectiveExitDirection(exitDirection))
+                                         : QPoint();
 
     if (usesLayerShellPlacement()) {
-        if (!config_.animation.enabled || silentClose) {
+        if (!animateClose) {
             hide();
             resetContentState();
             applyLayerShellPlacement(currentStackOffset_);
@@ -1054,33 +1180,47 @@ void NotificationPopup::dismiss(uint reason, const QString &exitDirection, bool 
             return;
         }
 
-        startLayerShellAnimation(exitOffset, config_.animation.exitDurationMs, [this]() {
+        auto finalizeDismissal = [this]() {
             hide();
             resetContentState();
             applyLayerShellPlacement(currentStackOffset_);
             emit dismissed(request_.id, pendingCloseReason_);
-        });
+        };
+
+        if (slideClose) {
+            startLayerShellAnimation(exitOffset, config_.animation.exitDurationMs, finalizeDismissal);
+        } else {
+            startContentFadeOutAnimation(finalizeDismissal);
+        }
         return;
     }
 
-    if (!config_.animation.enabled || silentClose) {
+    if (!animateClose) {
         hide();
         emit dismissed(request_.id, pendingCloseReason_);
         return;
     }
 
-    moveAnimation_ = new QPropertyAnimation(this, "pos", this);
-    moveAnimation_->setDuration(config_.animation.exitDurationMs);
-    moveAnimation_->setStartValue(pos());
-    moveAnimation_->setEndValue(pos() + exitOffset);
-    moveAnimation_->setEasingCurve(animationEasing());
+    if (slideClose) {
+        moveAnimation_ = new QPropertyAnimation(this, "pos", this);
+        moveAnimation_->setDuration(config_.animation.exitDurationMs);
+        moveAnimation_->setStartValue(pos());
+        moveAnimation_->setEndValue(pos() + exitOffset);
+        moveAnimation_->setEasingCurve(animationEasing());
+    }
 
-    auto completionCount = std::make_shared<int>(supportsOpacityAnimation() ? 2 : 1);
+    auto completionCount = std::make_shared<int>(0);
     auto finalizeDismissal = [this]() {
         hide();
         resetContentState();
         emit dismissed(request_.id, pendingCloseReason_);
     };
+
+    if (!slideClose && !supportsOpacityAnimation()) {
+        startContentFadeOutAnimation(finalizeDismissal);
+        return;
+    }
+
     auto handleAnimationFinished = [completionCount, finalizeDismissal]() {
         *completionCount -= 1;
         if (*completionCount == 0) {
@@ -1089,18 +1229,28 @@ void NotificationPopup::dismiss(uint reason, const QString &exitDirection, bool 
     };
 
     if (supportsOpacityAnimation()) {
+        *completionCount += 1;
         fadeAnimation_ = new QPropertyAnimation(this, "windowOpacity", this);
         fadeAnimation_->setDuration(config_.animation.fadeDurationMs);
         fadeAnimation_->setStartValue(windowOpacity());
         fadeAnimation_->setEndValue(0.0);
         fadeAnimation_->setEasingCurve(animationEasing());
         connect(fadeAnimation_, &QPropertyAnimation::finished, this, handleAnimationFinished);
-    } else {
+    }
+
+    if (moveAnimation_) {
+        *completionCount += 1;
         connect(moveAnimation_, &QPropertyAnimation::finished, this, handleAnimationFinished);
     }
-    connect(moveAnimation_, &QPropertyAnimation::finished, this, handleAnimationFinished);
 
-    moveAnimation_->start(QAbstractAnimation::DeleteWhenStopped);
+    if (*completionCount == 0) {
+        finalizeDismissal();
+        return;
+    }
+
+    if (moveAnimation_) {
+        moveAnimation_->start(QAbstractAnimation::DeleteWhenStopped);
+    }
     if (fadeAnimation_) {
         fadeAnimation_->start(QAbstractAnimation::DeleteWhenStopped);
     }
@@ -1177,6 +1327,11 @@ void NotificationPopup::buildUi()
     bodyLabel_->setTextInteractionFlags(Qt::NoTextInteraction);
     textBlockLayout_->addWidget(bodyLabel_);
 
+    timeoutProgressRing_ = new TimeoutProgressRing(card_);
+    timeoutProgressRing_->hide();
+    cardLayout->addWidget(timeoutProgressRing_, 0, Qt::AlignTop | Qt::AlignRight);
+    updateTimeoutProgressStyle();
+
     opacityEffect_ = new QGraphicsOpacityEffect(card_);
     opacityEffect_->setOpacity(1.0);
     card_->setGraphicsEffect(opacityEffect_);
@@ -1208,6 +1363,15 @@ void NotificationPopup::applyWindowBlurStyle()
         popupWindow,
         blurEnabled,
         blurEnabled ? roundedRectRegion(card_->geometry(), borderRadius) : QRegion());
+#endif
+}
+
+void NotificationPopup::clearWindowBlurStyle()
+{
+#if WARD_HAS_KWINDOWSYSTEM
+    if (QWindow *popupWindow = windowHandle()) {
+        KWindowEffects::enableBlurBehind(popupWindow, false, QRegion());
+    }
 #endif
 }
 
@@ -1262,6 +1426,10 @@ void NotificationPopup::refreshContent()
 
 void NotificationPopup::refreshGeometry()
 {
+    if (timeoutProgressRing_) {
+        timeoutProgressRing_->setVisible(effectiveTimeoutMs() > 0);
+    }
+
     invalidateLayout();
     syncTextWidths();
     const QSize popupSize = contentSize();
@@ -1321,10 +1489,74 @@ void NotificationPopup::syncTextWidths()
         textWidth -= currentIconSize_.width();
         textWidth -= layout->spacing();
     }
+    if (timeoutProgressRing_ && timeoutProgressRing_->isVisible()) {
+        textWidth -= timeoutProgressRing_->width();
+        textWidth -= layout->spacing();
+    }
 
     textWidth = qMax(textWidth, 1);
     summaryLabel_->setFixedWidth(textWidth);
     bodyLabel_->setFixedWidth(textWidth);
+}
+
+void NotificationPopup::updateTimeoutProgressStyle()
+{
+    if (!timeoutProgressRing_) {
+        return;
+    }
+
+    const QColor activeColor = styleColorValue(styleVariables_,
+                                               QStringLiteral("--notification-progress-active-color"),
+                                               QStringLiteral("--border-color"),
+                                               QColor(Qt::white));
+    const QColor troughColor = styleColorValue(styleVariables_,
+                                               QStringLiteral("--notification-progress-trough-color"),
+                                               QStringLiteral("--background"),
+                                               QColor(255, 255, 255, 42));
+    timeoutProgressRing_->setColors(activeColor, troughColor);
+    timeoutProgressRing_->setRingSize(styleLengthValue(styleVariables_,
+                                                       QStringLiteral("--notification-progress-size"),
+                                                       18));
+    timeoutProgressRing_->setStrokeWidth(styleLengthValue(styleVariables_,
+                                                          QStringLiteral("--notification-progress-thickness"),
+                                                          2));
+}
+
+void NotificationPopup::restartTimeoutProgress(int timeoutMs)
+{
+    stopTimeoutProgress();
+
+    if (!timeoutProgressRing_) {
+        return;
+    }
+
+    if (timeoutMs <= 0) {
+        timeoutProgressRing_->hide();
+        return;
+    }
+
+    timeoutProgressRing_->show();
+    timeoutProgressRing_->setProgress(1.0);
+    timeoutProgressAnimation_ = new QVariantAnimation(this);
+    timeoutProgressAnimation_->setDuration(timeoutMs);
+    timeoutProgressAnimation_->setStartValue(1.0);
+    timeoutProgressAnimation_->setEndValue(0.0);
+    timeoutProgressAnimation_->setEasingCurve(QEasingCurve::Linear);
+    connect(timeoutProgressAnimation_, &QVariantAnimation::valueChanged, this, [this](const QVariant &value) {
+        if (timeoutProgressRing_) {
+            timeoutProgressRing_->setProgress(value.toReal());
+        }
+    });
+    timeoutProgressAnimation_->start(QAbstractAnimation::DeleteWhenStopped);
+}
+
+void NotificationPopup::stopTimeoutProgress()
+{
+    if (timeoutProgressAnimation_) {
+        timeoutProgressAnimation_->stop();
+        timeoutProgressAnimation_->deleteLater();
+        timeoutProgressAnimation_ = nullptr;
+    }
 }
 
 QSize NotificationPopup::contentSize() const
@@ -1342,6 +1574,10 @@ QSize NotificationPopup::contentSize() const
             }
             if (iconLabel_ && iconLabel_->isVisible()) {
                 textWidth -= currentIconSize_.width();
+                textWidth -= layout->spacing();
+            }
+            if (timeoutProgressRing_ && timeoutProgressRing_->isVisible()) {
+                textWidth -= timeoutProgressRing_->width();
                 textWidth -= layout->spacing();
             }
             textWidth = qMax(textWidth, 1);
@@ -1405,10 +1641,12 @@ void NotificationPopup::restartTimeout()
 
     const int timeoutMs = effectiveTimeoutMs();
     if (timeoutMs <= 0) {
+        restartTimeoutProgress(timeoutMs);
         return;
     }
 
     timeoutTimer_.start(timeoutMs);
+    restartTimeoutProgress(timeoutMs);
 }
 
 int NotificationPopup::effectiveTimeoutMs() const
@@ -1573,8 +1811,17 @@ void NotificationPopup::setContentOpacity(qreal opacity)
 
 void NotificationPopup::resetContentState()
 {
+    if (fadeSnapshotLabel_) {
+        fadeSnapshotLabel_->deleteLater();
+        fadeSnapshotLabel_ = nullptr;
+    }
+    if (card_) {
+        card_->show();
+    }
     setContentOffset(QPoint());
     setContentOpacity(1.0);
+    syncWindowShape();
+    applyWindowBlurStyle();
 }
 
 void NotificationPopup::startContentAnimation(const QPoint &endOffset,
@@ -1623,6 +1870,63 @@ void NotificationPopup::startContentAnimation(const QPoint &endOffset,
     if (*completionCount == 0 && onFinished) {
         onFinished();
     }
+}
+
+void NotificationPopup::startContentFadeOutAnimation(const std::function<void()> &onFinished)
+{
+    clearWindowBlurStyle();
+    clearMask();
+
+    if (!card_ || config_.animation.fadeDurationMs <= 0) {
+        setContentOpacity(0.0);
+        if (onFinished) {
+            onFinished();
+        }
+        return;
+    }
+
+    const qreal devicePixelRatio = devicePixelRatioF();
+    QPixmap snapshot(card_->size() * devicePixelRatio);
+    snapshot.setDevicePixelRatio(devicePixelRatio);
+    snapshot.fill(Qt::transparent);
+    card_->render(&snapshot);
+
+    card_->hide();
+    repaint(card_->geometry());
+
+    auto *snapshotLabel = new QLabel(this);
+    snapshotLabel->setAttribute(Qt::WA_TransparentForMouseEvents);
+    snapshotLabel->setAttribute(Qt::WA_TranslucentBackground);
+    snapshotLabel->setAutoFillBackground(false);
+    snapshotLabel->setGeometry(card_->geometry());
+    snapshotLabel->setPixmap(snapshot);
+    snapshotLabel->show();
+    snapshotLabel->raise();
+    fadeSnapshotLabel_ = snapshotLabel;
+
+    auto *snapshotOpacityEffect = new QGraphicsOpacityEffect(snapshotLabel);
+    snapshotOpacityEffect->setOpacity(1.0);
+    snapshotLabel->setGraphicsEffect(snapshotOpacityEffect);
+
+    fadeAnimation_ = new QPropertyAnimation(snapshotOpacityEffect, "opacity", this);
+    fadeAnimation_->setDuration(config_.animation.fadeDurationMs);
+    fadeAnimation_->setStartValue(1.0);
+    fadeAnimation_->setEndValue(0.0);
+    fadeAnimation_->setEasingCurve(animationEasing());
+    connect(fadeAnimation_, &QPropertyAnimation::finished, this, [this, snapshotLabel, onFinished]() {
+        if (fadeSnapshotLabel_ == snapshotLabel) {
+            fadeSnapshotLabel_ = nullptr;
+        }
+        snapshotLabel->deleteLater();
+        if (card_) {
+            card_->show();
+        }
+        setContentOpacity(0.0);
+        if (onFinished) {
+            onFinished();
+        }
+    });
+    fadeAnimation_->start(QAbstractAnimation::DeleteWhenStopped);
 }
 
 bool NotificationPopup::supportsOpacityAnimation() const
@@ -1779,6 +2083,15 @@ void NotificationPopup::stopAnimations()
         fadeAnimation_->stop();
         fadeAnimation_->deleteLater();
         fadeAnimation_ = nullptr;
+    }
+
+    if (fadeSnapshotLabel_) {
+        fadeSnapshotLabel_->deleteLater();
+        fadeSnapshotLabel_ = nullptr;
+    }
+
+    if (card_) {
+        card_->show();
     }
 }
 

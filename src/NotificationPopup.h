@@ -20,6 +20,8 @@
 #include "NotificationTypes.h"
 #include "WardConfig.h"
 
+class TimeoutProgressRing;
+
 #if WARD_HAS_LAYERSHELLQT
 namespace LayerShellQt
 {
@@ -58,12 +60,16 @@ private:
     void buildUi();
     void applyCardLayoutStyle();
     void applyWindowBlurStyle();
+    void clearWindowBlurStyle();
     void syncWindowShape();
     void refreshContent();
     void refreshGeometry();
     void syncCardGeometry();
     void invalidateLayout();
     void syncTextWidths();
+    void updateTimeoutProgressStyle();
+    void restartTimeoutProgress(int timeoutMs);
+    void stopTimeoutProgress();
     int effectiveTextGap() const;
     QSize contentSize() const;
     QSize surfaceSize() const;
@@ -86,6 +92,7 @@ private:
                                qreal endOpacity,
                                int fadeDurationMs,
                                const std::function<void()> &onFinished = {});
+    void startContentFadeOutAnimation(const std::function<void()> &onFinished = {});
     bool usesLayerShellPlacement() const;
     bool supportsOpacityAnimation() const;
     void configureLayerShell(QScreen *screen);
@@ -107,10 +114,13 @@ private:
     QLabel *iconLabel_ = nullptr;
     QLabel *summaryLabel_ = nullptr;
     QLabel *bodyLabel_ = nullptr;
+    TimeoutProgressRing *timeoutProgressRing_ = nullptr;
     QGraphicsOpacityEffect *opacityEffect_ = nullptr;
     QTimer timeoutTimer_;
     QPointer<QVariantAnimation> moveAnimation_;
     QPointer<QVariantAnimation> fadeAnimation_;
+    QPointer<QVariantAnimation> timeoutProgressAnimation_;
+    QPointer<QLabel> fadeSnapshotLabel_;
     QString appliedStyleSheet_;
     QHash<QString, QString> styleVariables_;
     uint pendingCloseReason_ = 0;

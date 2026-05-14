@@ -67,6 +67,8 @@ QString defaultConfigContents()
         "\n"
         "[animation]\n"
         "enabled = true\n"
+        "slide_in = true\n"
+        "slide_out = true\n"
         "enter_duration_ms = 180\n"
         "exit_duration_ms = 140\n"
         "move_duration_ms = 140\n"
@@ -84,6 +86,10 @@ QString defaultStyleContents()
         "    --notification-card-padding: 14px 16px 16px 16px;\n"
         "    --notification-card-gap: 12px;\n"
         "    --notification-card-blur-radius: 12px;\n"
+        "    --notification-progress-active-color: rgba(255, 255, 255, 0.82);\n"
+        "    --notification-progress-trough-color: rgba(255, 255, 255, 0.18);\n"
+        "    --notification-progress-size: 18px;\n"
+        "    --notification-progress-thickness: 2px;\n"
         "    background: transparent;\n"
         "}\n"
         "\n"
@@ -314,6 +320,18 @@ bool applyAnimationEntry(const QString &key, const QString &value, WardConfig *c
         return parseBoolValue(value, &config->animation.enabled)
             ? true
             : ((*error = QStringLiteral("invalid boolean for animation.enabled")), false);
+    }
+
+    if (key == "slide_in") {
+        return parseBoolValue(value, &config->animation.slideIn)
+            ? true
+            : ((*error = QStringLiteral("invalid boolean for animation.slide_in")), false);
+    }
+
+    if (key == "slide_out") {
+        return parseBoolValue(value, &config->animation.slideOut)
+            ? true
+            : ((*error = QStringLiteral("invalid boolean for animation.slide_out")), false);
     }
 
     if (key == "enter_duration_ms") {
