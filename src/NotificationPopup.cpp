@@ -1874,9 +1874,6 @@ void NotificationPopup::startContentAnimation(const QPoint &endOffset,
 
 void NotificationPopup::startContentFadeOutAnimation(const std::function<void()> &onFinished)
 {
-    clearWindowBlurStyle();
-    clearMask();
-
     if (!card_ || config_.animation.fadeDurationMs <= 0) {
         setContentOpacity(0.0);
         if (onFinished) {
@@ -1884,6 +1881,9 @@ void NotificationPopup::startContentFadeOutAnimation(const std::function<void()>
         }
         return;
     }
+
+    syncWindowShape();
+    applyWindowBlurStyle();
 
     const qreal devicePixelRatio = devicePixelRatioF();
     QPixmap snapshot(card_->size() * devicePixelRatio);
@@ -1899,6 +1899,7 @@ void NotificationPopup::startContentFadeOutAnimation(const std::function<void()>
     snapshotLabel->setAttribute(Qt::WA_TranslucentBackground);
     snapshotLabel->setAutoFillBackground(false);
     snapshotLabel->setGeometry(card_->geometry());
+    snapshotLabel->setMask(roundedRectRegion(snapshotLabel->rect(), effectiveCardBorderRadius()));
     snapshotLabel->setPixmap(snapshot);
     snapshotLabel->show();
     snapshotLabel->raise();
